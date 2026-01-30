@@ -1,0 +1,27 @@
+---
+description: Project stack and structure (Next.js, TypeScript, Tailwind)
+alwaysApply: true
+---
+
+# Affiliate Flywheel – Project Context
+
+Affiliate tool review site with comparisons, quizzes, and personalized recommendations.
+
+## Stack
+
+Next.js 15 (App Router), React 19, TypeScript (strict), Tailwind CSS, Vitest.
+
+## Structure
+
+- `app/` – routes/layouts. Dynamic: `[category]/`, `reviews/[slug]/`
+- `components/` – shared UI (server-first, `"use client"` only when needed)
+- `lib/` – data (`data.ts`), types (`schema.ts`), utils, analytics
+- `lib/hooks/` – client hooks (`useABTest`, `useUserType`)
+
+## Conventions
+
+- **Imports**: `@/` alias (e.g. `@/components/Header`, `@/lib/schema`)
+- **Styling**: Tailwind utilities; `clsx()` for conditional classes
+- **Data**: Server components fetch from `lib/data.ts`; types in `lib/schema.ts`
+- **Tables**: Use `@tanstack/react-table` for sortable comparisons
+- **Testing**: Vitest + React Testing Library; files as `*.test.tsx`

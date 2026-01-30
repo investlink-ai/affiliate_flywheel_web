@@ -1,0 +1,66 @@
+---
+description: API route patterns for Next.js App Router
+globs: "app/api/**/*.ts"
+---
+
+# API Routes
+
+Next.js App Router route handlers in `app/api/`. Use `NextRequest`/`NextResponse` from `next/server`.
+
+## Structure
+```
+app/api/
+  newsletter/route.ts   → POST /api/newsletter
+  [resource]/route.ts   → /api/:resource
+```
+
+## Patterns
+
+```typescript
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+// ✅ Define request types
+interface CreateRequest {
+  email: string;
+  name?: string;
+}
+
+// ✅ POST handler with validation
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  try {
+    const body: CreateRequest = await request.json();
+    
+    if (!body.email) {
+      return NextResponse.json(
+        { success: false, error: 'Email required' },
+        { status: 400 }
+      );
+    }
+
+    // Process request...
+    
+    return NextResponse.json({ success: true, data: result });
+  } catch (error) {
+    console.error('[API] Error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// ✅ GET with query params
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const { searchParams } = new URL(request.url);
+  const limit = searchParams.get('limit') ?? '10';
+  // ...
+}
+```
+
+## Conventions
+- Always type request/response bodies
+- Return `{ success: boolean, data?, error? }` shape
+- Log errors with `[Context]` prefix
+- Handle JSON parse errors (SyntaxError)
+- Use middleware for rate limiting (see `middleware.ts`)

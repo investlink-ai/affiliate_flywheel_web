@@ -1,0 +1,48 @@
+---
+description: Testing patterns with Vitest and React Testing Library
+globs: "**/*.test.{ts,tsx}"
+---
+
+# Testing
+
+Vitest + React Testing Library with jsdom. Globals enabled (`describe`, `it`, `expect`, `vi` available without imports).
+
+## Setup
+- `vitest.setup.tsx` mocks `next/navigation` and `next/link`
+- Use `@/` alias for imports (same as app code)
+
+## Patterns
+
+```tsx
+// ✅ Component test
+import { render, screen } from '@testing-library/react';
+import { ToolCard } from '@/components/ToolCard';
+
+describe('ToolCard', () => {
+  it('renders tool name and rating', () => {
+    render(<ToolCard tool={mockTool} />);
+    expect(screen.getByText('Tool Name')).toBeInTheDocument();
+  });
+});
+
+// ✅ User interaction
+import { fireEvent } from '@testing-library/react';
+
+it('calls onClick when clicked', () => {
+  const handleClick = vi.fn();
+  render(<Button onClick={handleClick}>Click</Button>);
+  fireEvent.click(screen.getByRole('button'));
+  expect(handleClick).toHaveBeenCalledOnce();
+});
+
+// ✅ Async/data fetching
+it('loads data', async () => {
+  render(<ReviewsList />);
+  expect(await screen.findByText('Review Title')).toBeInTheDocument();
+});
+```
+
+## Commands
+- `npm test` – watch mode
+- `npm run test:run` – single run
+- `npm run test:coverage` – with coverage report

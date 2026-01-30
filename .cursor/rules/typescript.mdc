@@ -1,0 +1,23 @@
+---
+description: TypeScript conventions (strict, imports, errors)
+globs: "**/*.ts"
+alwaysApply: false
+---
+
+# TypeScript
+
+- **Strict**: Project uses strict TS; no `any`, no unchecked indexed access. Prefer explicit return types on exported functions.
+- **Imports**: Use `@/` for in-project imports. Prefer non-relative specifiers for app code.
+- **Errors**: Handle errors explicitly; avoid empty `catch`. Use typed errors or rethrow with context.
+
+```typescript
+// ✅ GOOD
+export function getToolBySlug(slug: string): Tool | undefined {
+  return tools.find((t) => t.slug === slug);
+}
+
+// ❌ BAD
+try {
+  await fetchData();
+} catch {}
+```

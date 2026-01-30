@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Inter font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 15 23 42;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
+    --border: 226 232 240;
+    --ring: 13 148 136;
+  }
+
+  .dark {
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+    --muted: 30 41 59;
+    --muted-foreground: 148 163 184;
+    --border: 51 65 85;
+    --ring: 20 184 166;
+  }
+
+  * {
+    @apply border-slate-200 dark:border-slate-700;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  /* Improve text rendering */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-balance;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  /* Focus visible styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+
+  /* Remove default focus ring, use focus-visible instead */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Skip to content link - visible on focus */
+  .skip-to-content {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* CTA Button styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+  }
+
+  /* Card styles */
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800;
+  }
+
+  /* Link styles */
+  .link {
+    @apply text-primary-600 underline-offset-4 hover:underline dark:text-primary-400;
+  }
+
+  /* Prose adjustments for content */
+  .prose-custom {
+    @apply prose prose-slate max-w-none dark:prose-invert prose-headings:font-semibold prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-primary-400;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text gradient utility */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent;
+  }
+}
