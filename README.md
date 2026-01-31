@@ -18,29 +18,35 @@ A high-performance, SEO-optimized affiliate review site for AI productivity and 
 
 ### Prerequisites
 
-- Node.js 18.17 or later
-- npm, yarn, or pnpm
+- **Node.js 20** (same as CI; see `.nvmrc`). Use `nvm use` or `fnm use` if you use a version manager.
+- npm 9+
 
 ### Installation
 
+Use the same install as CI so dev and CI stay in sync:
+
 ```bash
-# Install dependencies
-npm install
+# Use Node 20 (from .nvmrc)
+nvm use   # or: fnm use
+
+# Install dependencies (same as CI — reproducible)
+npm ci
 
 # Start development server
 npm run dev
 ```
 
+For a one-off setup you can use `npm install`; for consistency with CI use `npm ci`.
+
 Open [http://localhost:3000](http://localhost:3000) to see the site.
 
 ### Git hooks (Husky)
 
-- **Pre-commit:** runs `lint` and `type-check` only (fast, on every commit).
-- **Pre-push:** runs `test:run` and `build` (matches CI; catches failures before push).
+- **Pre-commit:** `lint` + `type-check` (fast).
+- **Pre-push:** `npm run ci` (same pipeline as CI: lint → type-check → test → build).
 
-**Enable:** Run `npm install` so the `prepare` script sets Git’s hook path to `.husky`. If you see `could not lock config file .git/config`, run `npx husky` (needs write access to `.git`).
 
-**Check:** `git config core.hooksPath` should show `.husky` (not `.husky/_`). If it’s empty, run `npx husky`. If it shows `.husky/_`, run `git config core.hooksPath .husky`. Then `git commit` runs pre-commit; `git push` runs pre-push.
+**Enable:** Run `npm install` or `npm ci` so the `prepare` script sets Git's hook path to `.husky`. If `git config core.hooksPath` shows `.husky/_`, run `git config core.hooksPath .husky`. **Reproducing CI:** Node 20 (`.nvmrc`), `npm ci`, then `npm run ci`.
 
 **Skip once:** `git commit --no-verify` or `git push --no-verify`
 
