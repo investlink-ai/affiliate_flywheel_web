@@ -3,4 +3,5 @@
 HUSKY_SH="$(dirname -- "$0")/_/husky.sh"
 [ -f "$HUSKY_SH" ] && . "$HUSKY_SH"
 
-npm run lint && npm run type-check
+# Match CI: lint, type-check, test, build (so pre-push catches what CI would fail on)
+npm run lint && npm run type-check && npm run test:run && npm run build
