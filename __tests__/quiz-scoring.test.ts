@@ -140,7 +140,7 @@ describe('Quiz Scoring Algorithm', () => {
       const { score } = calculateToolScore(jasper, tags);
       
       // Category bonus (5) + AI Writing score (3) = 8
-      expect(score).toBe(CATEGORY_MATCH_BONUS + toolScoring['jasper-ai']['AI Writing']);
+      expect(score).toBe(CATEGORY_MATCH_BONUS + toolScoring['jasper-ai']!['AI Writing']!);
     });
 
     it('should accumulate scores from multiple matching tags', () => {
@@ -152,9 +152,9 @@ describe('Quiz Scoring Algorithm', () => {
       // Category bonus (5) + AI Writing (3) + marketing (3) + copy (3) = 14
       const expected = 
         CATEGORY_MATCH_BONUS + 
-        toolScoring['jasper-ai']['AI Writing'] +
-        toolScoring['jasper-ai']['marketing'] +
-        toolScoring['jasper-ai']['copy'];
+        toolScoring['jasper-ai']!['AI Writing']! +
+        toolScoring['jasper-ai']!['marketing']! +
+        toolScoring['jasper-ai']!['copy']!;
       expect(score).toBe(expected);
     });
 
@@ -184,7 +184,7 @@ describe('Quiz Scoring Algorithm', () => {
 
   describe('generateMatchReasons', () => {
     it('should include category match reason', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['AI Writing'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -193,7 +193,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include free tier reason when applicable', () => {
-      const scoring = toolScoring['copy-ai'];
+      const scoring = toolScoring['copy-ai']!;
       const tags = ['free-tier'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -202,7 +202,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include team collaboration reason', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['team'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -211,7 +211,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include brand voice reason', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['brand-voice'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -220,7 +220,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include video reason for video tools', () => {
-      const scoring = toolScoring['murf-ai'];
+      const scoring = toolScoring['murf-ai']!;
       const tags = ['video'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Voice');
@@ -229,7 +229,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should limit reasons to 3', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['AI Writing', 'team', 'brand-voice', 'video'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -250,7 +250,7 @@ describe('Quiz Scoring Algorithm', () => {
       
       // Verify sorted order
       for (let i = 0; i < results.length - 1; i++) {
-        expect(results[i].score).toBeGreaterThanOrEqual(results[i + 1].score);
+        expect(results[i]!.score).toBeGreaterThanOrEqual(results[i + 1]!.score);
       }
     });
 
@@ -262,7 +262,7 @@ describe('Quiz Scoring Algorithm', () => {
       };
       
       const results = calculateQuizResults(tools, answers, testQuestions);
-      const topResult = results[0];
+      const topResult = results[0]!;
       
       // Copy.ai should rank highly for free tier + solo + AI Writing
       expect(topResult.tool.slug).toBe('copy-ai');
@@ -276,7 +276,7 @@ describe('Quiz Scoring Algorithm', () => {
       };
       
       const results = calculateQuizResults(tools, answers, testQuestions);
-      const topResult = results[0];
+      const topResult = results[0]!;
       
       // Jasper should rank highest for agency + enterprise + brand-voice + premium
       expect(topResult.tool.slug).toBe('jasper-ai');
@@ -290,7 +290,7 @@ describe('Quiz Scoring Algorithm', () => {
       };
       
       const results = calculateQuizResults(tools, answers, testQuestions);
-      const topResult = results[0];
+      const topResult = results[0]!;
       
       // Murf AI, Runway ML, or Descript should rank high for video content
       expect(['murf-ai', 'runway-ml', 'descript']).toContain(topResult.tool.slug);
@@ -306,7 +306,7 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       
       // At least the top result should have match reasons
-      expect(results[0].matchReasons.length).toBeGreaterThan(0);
+      expect(results[0]!.matchReasons.length).toBeGreaterThan(0);
     });
 
     it('should return all tools in results', () => {
@@ -365,13 +365,13 @@ describe('Quiz Scoring Algorithm', () => {
       
       expectedTools.forEach((slug) => {
         expect(toolScoring[slug]).toBeDefined();
-        expect(Object.keys(toolScoring[slug]).length).toBeGreaterThan(0);
+        expect(Object.keys(toolScoring[slug]!).length).toBeGreaterThan(0);
       });
     });
 
     it('should have weights between 1 and 3', () => {
       Object.values(toolScoring).forEach((weights) => {
-        Object.values(weights).forEach((weight) => {
+        Object.values(weights!).forEach((weight) => {
           expect(weight).toBeGreaterThanOrEqual(1);
           expect(weight).toBeLessThanOrEqual(3);
         });
@@ -383,8 +383,8 @@ describe('Quiz Scoring Algorithm', () => {
       
       // Jasper should score high on writing tags
       writingTags.forEach((tag) => {
-        if (toolScoring['jasper-ai'][tag]) {
-          expect(toolScoring['jasper-ai'][tag]).toBeGreaterThanOrEqual(2);
+        if (toolScoring['jasper-ai']![tag]) {
+          expect(toolScoring['jasper-ai']![tag]).toBeGreaterThanOrEqual(2);
         }
       });
     });
@@ -394,8 +394,8 @@ describe('Quiz Scoring Algorithm', () => {
       
       // Murf should score high on audio tags
       audioTags.forEach((tag) => {
-        if (toolScoring['murf-ai'][tag]) {
-          expect(toolScoring['murf-ai'][tag]).toBeGreaterThanOrEqual(2);
+        if (toolScoring['murf-ai']![tag]) {
+          expect(toolScoring['murf-ai']![tag]).toBeGreaterThanOrEqual(2);
         }
       });
     });
@@ -435,7 +435,7 @@ describe('Quiz Scoring Algorithm', () => {
       const enterpriseResults = calculateQuizResults(tools, enterpriseAnswers, testQuestions);
       
       // Top recommendations should differ
-      expect(soloResults[0].tool.slug).not.toBe(enterpriseResults[0].tool.slug);
+      expect(soloResults[0]!.tool.slug).not.toBe(enterpriseResults[0]!.tool.slug);
     });
   });
 
@@ -514,7 +514,7 @@ describe('Quiz Scoring Algorithm', () => {
       const { score } = calculateToolScore(jasper, tags);
       
       // Should count each occurrence (3 * 3 = 9)
-      expect(score).toBe(toolScoring['jasper-ai']['marketing'] * 3);
+      expect(score).toBe(toolScoring['jasper-ai']!['marketing']! * 3);
     });
 
     it('should handle tool with empty slug', () => {
@@ -548,8 +548,8 @@ describe('Quiz Scoring Algorithm', () => {
       
       // Category bonus + AI Writing + marketing
       const expected = CATEGORY_MATCH_BONUS + 
-        toolScoring['jasper-ai']['AI Writing'] + 
-        toolScoring['jasper-ai']['marketing'];
+        toolScoring['jasper-ai']!['AI Writing']! + 
+        toolScoring['jasper-ai']!['marketing']!;
       expect(score).toBe(expected);
     });
   });
@@ -561,7 +561,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should handle agency tag triggering team collaboration reason', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['agency']; // agency without 'team'
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -571,7 +571,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include audio reason when applicable', () => {
-      const scoring = toolScoring['descript'];
+      const scoring = toolScoring['descript']!;
       const tags = ['audio'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Video');
@@ -580,7 +580,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include budget-friendly reason', () => {
-      const scoring = toolScoring['copy-ai'];
+      const scoring = toolScoring['copy-ai']!;
       const tags = ['budget-friendly'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -589,7 +589,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should not include reason when tool does not have matching scoring', () => {
-      const scoring = toolScoring['midjourney']; // No free-tier scoring
+      const scoring = toolScoring['midjourney']!; // No free-tier scoring
       const tags = ['free-tier'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Images');
@@ -598,7 +598,7 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should prioritize reasons in order (category first)', () => {
-      const scoring = toolScoring['jasper-ai'];
+      const scoring = toolScoring['jasper-ai']!;
       const tags = ['AI Writing', 'team', 'brand-voice', 'free-tier'];
       
       const reasons = generateMatchReasons(scoring, tags, 'AI Writing');
@@ -646,7 +646,7 @@ describe('Quiz Scoring Algorithm', () => {
       
       // Order should be consistent
       results1.forEach((result, index) => {
-        expect(result.tool.slug).toBe(results2[index].tool.slug);
+        expect(result.tool.slug).toBe(results2[index]!.tool.slug);
       });
     });
 
@@ -774,7 +774,7 @@ describe('Quiz Scoring Algorithm', () => {
       const scores: number[] = [];
       for (let i = 0; i < 10; i++) {
         const results = calculateQuizResults(tools, answers, testQuestions);
-        scores.push(results[0].score);
+        scores.push(results[0]!.score);
       }
       
       // All scores should be identical

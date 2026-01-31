@@ -211,7 +211,7 @@ describe('Decision Log Utility', () => {
     it('should filter by type', async () => {
       const experiments = await getDecisions({ type: 'experiment' });
       expect(experiments).toHaveLength(1);
-      expect(experiments[0].type).toBe('experiment');
+      expect(experiments[0]!.type).toBe('experiment');
     });
 
     it('should filter by status', async () => {
@@ -222,19 +222,19 @@ describe('Decision Log Utility', () => {
     it('should filter by core value', async () => {
       const reusability = await getDecisions({ coreValue: 'reusability' });
       expect(reusability).toHaveLength(1);
-      expect(reusability[0].philosophy.coreValue).toBe('reusability');
+      expect(reusability[0]!.philosophy.coreValue).toBe('reusability');
     });
 
     it('should filter by principle', async () => {
       const automationFirst = await getDecisions({ principle: 'automation-first' });
       expect(automationFirst).toHaveLength(1);
-      expect(automationFirst[0].philosophy.principle).toBe('automation-first');
+      expect(automationFirst[0]!.philosophy.principle).toBe('automation-first');
     });
 
     it('should filter by tags', async () => {
       const abTests = await getDecisions({ tags: ['a/b-test'] });
       expect(abTests).toHaveLength(1);
-      expect(abTests[0].tags).toContain('a/b-test');
+      expect(abTests[0]!.tags).toContain('a/b-test');
     });
 
     it('should handle multiple filters', async () => {
@@ -330,7 +330,7 @@ describe('Decision Log Utility', () => {
       // Create decisions with different types and outcomes
       const d1 = await createDecision({ ...sampleInput, type: 'experiment' });
       const d2 = await createDecision({ ...sampleInput, type: 'feature' });
-      const d3 = await createDecision({ ...sampleInput, type: 'experiment' });
+      await createDecision({ ...sampleInput, type: 'experiment' });
       
       // Record outcomes
       await recordOutcome(d1.id, {
@@ -389,11 +389,11 @@ describe('Decision Log Utility', () => {
       const learnings = await getLearnings();
       
       expect(learnings.successes).toHaveLength(1);
-      expect(learnings.successes[0].title).toBe('Success Test');
-      expect(learnings.successes[0].learnings).toContain('This worked great');
+      expect(learnings.successes[0]!.title).toBe('Success Test');
+      expect(learnings.successes[0]!.learnings).toContain('This worked great');
       
       expect(learnings.failures).toHaveLength(1);
-      expect(learnings.failures[0].title).toBe('Failure Test');
+      expect(learnings.failures[0]!.title).toBe('Failure Test');
     });
   });
 
