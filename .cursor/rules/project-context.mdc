@@ -1,27 +1,130 @@
 ---
-description: Project stack and structure (Next.js, TypeScript, Tailwind)
+description: Project stack, philosophy, and architecture (Next.js, TypeScript, Tailwind)
 alwaysApply: true
 ---
 
 # Affiliate Flywheel – Project Context
 
-Affiliate tool review site with comparisons, quizzes, and personalized recommendations.
+AI tool review site with comparisons, quizzes, and personalized recommendations. Built on the **EvoLink Architect** philosophy for scalable, self-adapting affiliate systems.
+
+## Philosophy (Decision Framework)
+
+> Reference: `docs/EvoLink.md`, `docs/philosophy_framework.md`
+
+When making decisions, apply these principles:
+
+1. **Automation Feasibility First** — "Can this be automated or enhanced by intelligent systems?"
+2. **Reusability & Leverage** — Build modular, composable assets that compound value
+3. **Value-Centric Growth** — Prioritize genuine user value over short-term gains
+4. **Progressive Autonomy** — Validate manually first, then automate selectively
 
 ## Stack
 
-Next.js 15 (App Router), React 19, TypeScript (strict), Tailwind CSS, Vitest.
+- **Framework**: Next.js 15 (App Router), React 19
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS, `clsx()` for conditionals
+- **Tables**: `@tanstack/react-table` for sortable comparisons
+- **Testing**: Vitest + React Testing Library
+- **Analytics**: GA4 via `lib/analytics.ts`
+- **PWA**: next-pwa with offline caching
 
-## Structure
+## Project Structure
 
-- `app/` – routes/layouts. Dynamic: `[category]/`, `reviews/[slug]/`
-- `components/` – shared UI (server-first, `"use client"` only when needed)
-- `lib/` – data (`data.ts`), types (`schema.ts`), utils, analytics
-- `lib/hooks/` – client hooks (`useABTest`, `useUserType`)
+```
+app/                      # Next.js App Router
+├── [category]/           # Dynamic category pages (ai-writing, ai-voice, etc.)
+├── reviews/[slug]/       # Dynamic review pages with ISR (24h)
+├── comparisons/          # Tool comparison with quiz
+├── api/newsletter/       # Newsletter API with rate limiting
+└── sitemap.ts            # Dynamic sitemap generation
+
+components/               # Shared UI (29 exports via index.ts)
+├── Server Components     # ReviewHero, ToolCard, ProsCons, AuthorByline
+└── Client Components     # QuizComponent, SearchFilter, StickyCTA ('use client')
+
+lib/                      # Core utilities
+├── data.ts               # Tool data + query functions (getToolBySlug, filterTools)
+├── schema.ts             # JSON-LD schema generation (SEO)
+├── analytics.ts          # GA4 tracking (trackAffiliateClick, trackNewsletterSignup)
+├── quiz-scoring.ts       # Quiz algorithm (extracted for testability)
+├── cms-adapter.ts        # CMS abstraction (future Contentful/Sanity)
+└── hooks/                # Client hooks (useABTest, useUserType)
+
+docs/                     # Project documentation
+├── prd.md                # Product requirements (features, phases)
+├── system_design.md      # Technical architecture
+├── Audit_Report.md       # Current assessment & gaps
+└── EvoLink.md            # Philosophy framework
+```
+
+## Key Data Types
+
+```typescript
+// Tool entity (lib/data.ts)
+interface Tool {
+  slug: string;           // URL-friendly ID
+  name: string;           // Display name
+  rating: number;         // 1-5 score
+  category: Category;     // AI Writing | AI Voice | AI Images | AI Video | AI Productivity
+  pricing: string;        // "From $49/mo"
+  affiliateUrl: string;   // Partner link
+  features: string[];     // Feature list
+  pros: string[];         // Advantages
+  cons: string[];         // Disadvantages
+  recommendations?: Partial<Record<UserType, string>>;  // Personalization
+}
+
+type UserType = 'marketer' | 'creator' | 'solopreneur' | 'agency' | 'developer';
+```
 
 ## Conventions
 
-- **Imports**: `@/` alias (e.g. `@/components/Header`, `@/lib/schema`)
-- **Styling**: Tailwind utilities; `clsx()` for conditional classes
-- **Data**: Server components fetch from `lib/data.ts`; types in `lib/schema.ts`
-- **Tables**: Use `@tanstack/react-table` for sortable comparisons
-- **Testing**: Vitest + React Testing Library; files as `*.test.tsx`
+### Imports
+- Use `@/` alias: `@/components/Header`, `@/lib/data`
+- Barrel exports: `import { ToolCard, StarRating } from '@/components'`
+
+### Components
+- **Server-first**: Default to server components
+- **Client only when needed**: Add `'use client'` for hooks, events, browser APIs
+- **Props interfaces**: Define above component, named `{Component}Props`
+- **Exports**: Named exports; register in `components/index.ts`
+
+### Affiliate Links
+- Always use `AffiliateLink` component (auto-adds `?ref=feynmanxu`)
+- Include `rel="sponsored noopener"` (handled by component)
+- Track with `trackAffiliateClick()` from `lib/analytics.ts`
+
+### A/B Testing
+- Use `useABTest` hook for variant assignment
+- Define variants with weights: `{ id: 'control', value: '...', weight: 50 }`
+- Track conversions: `trackConversion('click')`
+
+### SEO
+- Generate metadata via `generateMetadata()` in page files
+- Add JSON-LD with `generateReviewSchema()` from `lib/schema.ts`
+- Include breadcrumbs with `Breadcrumb` component
+
+### FTC Compliance
+- Add `DisclosureNote` near affiliate CTAs
+- Use `variant="inline"` for compact disclosure
+- Include disclosure in Footer (always visible)
+
+## Current Phase: Validation
+
+> Reference: `docs/prd.md` Section 6
+
+**Goal**: Establish proof of concept with measurable conversions
+
+- ✅ 8 tools across 5 categories
+- ✅ Quiz, A/B testing, analytics infrastructure
+- ⏳ Launch & gather baseline data (100+ conversions target)
+- ⏳ Validate EPC baseline ($1.00+ per click)
+
+## Quick Commands
+
+```bash
+npm run dev          # Development server
+npm run build        # Production build (outputs to .next/)
+npm run test         # Run Vitest tests
+npm run lint         # ESLint check
+```

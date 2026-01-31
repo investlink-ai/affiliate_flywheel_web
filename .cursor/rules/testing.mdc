@@ -5,44 +5,110 @@ globs: "**/*.test.{ts,tsx}"
 
 # Testing
 
-Vitest + React Testing Library with jsdom. Globals enabled (`describe`, `it`, `expect`, `vi` available without imports).
+Vitest + React Testing Library. Globals enabled (`describe`, `it`, `expect`, `vi`).
 
 ## Setup
-- `vitest.setup.tsx` mocks `next/navigation` and `next/link`
-- Use `@/` alias for imports (same as app code)
+
+`vitest.setup.tsx` provides:
+- Next.js mocks (`next/navigation`, `next/link`, `next/image`)
+- Browser API mocks (`localStorage`, `matchMedia`, `IntersectionObserver`)
+- Analytics mock (`window.gtag`)
+- `createMockTool()` factory for test data
+
+## Testing Priority
+
+1. **Pure functions** — Highest value, easiest to test
+2. **Custom hooks** — Test state and side effects
+3. **Interactive components** — User flows and events
+4. **Display components** — Lower priority, test critical rendering
 
 ## Patterns
 
-```tsx
-// ✅ Component test
-import { render, screen } from '@testing-library/react';
-import { ToolCard } from '@/components/ToolCard';
+### Pure Functions
 
-describe('ToolCard', () => {
-  it('renders tool name and rating', () => {
-    render(<ToolCard tool={mockTool} />);
-    expect(screen.getByText('Tool Name')).toBeInTheDocument();
+```typescript
+describe('functionName', () => {
+  it('describes expected behavior', () => {
+    const result = functionName(input);
+    expect(result).toEqual(expectedOutput);
   });
-});
-
-// ✅ User interaction
-import { fireEvent } from '@testing-library/react';
-
-it('calls onClick when clicked', () => {
-  const handleClick = vi.fn();
-  render(<Button onClick={handleClick}>Click</Button>);
-  fireEvent.click(screen.getByRole('button'));
-  expect(handleClick).toHaveBeenCalledOnce();
-});
-
-// ✅ Async/data fetching
-it('loads data', async () => {
-  render(<ReviewsList />);
-  expect(await screen.findByText('Review Title')).toBeInTheDocument();
 });
 ```
 
+### Components
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+describe('ComponentName', () => {
+  it('renders expected content', () => {
+    render(<Component prop={value} />);
+    expect(screen.getByText('expected')).toBeInTheDocument();
+  });
+
+  it('handles user interaction', async () => {
+    const user = userEvent.setup();
+    const handleClick = vi.fn();
+    render(<Component onClick={handleClick} />);
+    
+    await user.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalled();
+  });
+});
+```
+
+### Hooks
+
+```typescript
+import { renderHook, act } from '@testing-library/react';
+
+describe('useHookName', () => {
+  it('returns expected initial state', () => {
+    const { result } = renderHook(() => useHookName());
+    expect(result.current.value).toBe(expected);
+  });
+
+  it('updates state correctly', () => {
+    const { result } = renderHook(() => useHookName());
+    act(() => result.current.update(newValue));
+    expect(result.current.value).toBe(newValue);
+  });
+});
+```
+
+### Analytics/Side Effects
+
+```typescript
+it('tracks event with correct params', () => {
+  functionThatTracksEvent({ param: 'value' });
+  
+  expect(window.gtag).toHaveBeenCalledWith(
+    'event',
+    'event_name',
+    expect.objectContaining({ param: 'value' })
+  );
+});
+```
+
+## Mock Data
+
+```typescript
+import { createMockTool } from '../vitest.setup';
+
+const tool = createMockTool();                    // Default
+const custom = createMockTool({ rating: 5.0 });   // Override fields
+```
+
+## File Placement
+
+- `lib/foo.test.ts` — alongside source, or
+- `__tests__/foo.test.ts` — grouped in folder
+
 ## Commands
-- `npm test` – watch mode
-- `npm run test:run` – single run
-- `npm run test:coverage` – with coverage report
+
+```bash
+npm test              # Watch mode
+npm run test:run      # Single run (CI)
+npm run test:coverage # Coverage report
+```
