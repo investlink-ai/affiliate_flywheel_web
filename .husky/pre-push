@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+# Optional: source husky.sh if present (created by `npm install` / prepare)
+HUSKY_SH="$(dirname -- "$0")/_/husky.sh"
+[ -f "$HUSKY_SH" ] && . "$HUSKY_SH"
+
+npm run lint && npm run type-check
