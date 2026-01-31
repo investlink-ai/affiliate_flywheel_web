@@ -114,12 +114,13 @@ colors: {
 Update the ref parameter in `components/AffiliateLink.tsx`:
 
 ```typescript
-const AFFILIATE_REF = '?ref=your-ref-id';
+const AFFILIATE_REF = "?ref=your-ref-id";
 ```
 
 ### Disclosure Text
 
 Edit disclosure text in:
+
 - `components/DisclosureNote.tsx`
 - `components/Footer.tsx`
 - `app/privacy/page.tsx`
@@ -141,6 +142,7 @@ Or connect your GitHub repo to Vercel for automatic deployments.
 ### Other Platforms
 
 The site can be deployed to any platform that supports Next.js:
+
 - AWS Amplify
 - Netlify
 - Railway
@@ -165,21 +167,43 @@ This template is optimized for Core Web Vitals:
 
 ## Analytics Integration
 
-### Google Analytics 4 (Built-in)
+### Set up Google tag (GA4)
 
-The site includes GA4 integration with affiliate click tracking:
+The site uses **Google tag (gtag.js)** for GA4. The tag is loaded in `app/layout.tsx` via the `GoogleAnalytics` component and only runs when a valid Measurement ID is set.
 
-1. Copy `.env.example` to `.env.local`
-2. Add your GA4 Measurement ID:
+**1. Get your Measurement ID**
+
+- Go to [Google Analytics](https://analytics.google.com/) → **Admin** → **Data streams**
+- Create or select a **Web** stream
+- Copy the **Measurement ID** (format `G-XXXXXXXXXX`)
+
+**2. Set the environment variable**
+
+- **Local:** Copy `.env.example` to `.env.local` and set:
+  ```bash
+  NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # your real ID
+  ```
+- **Production (e.g. Vercel):** In your host’s dashboard, add `NEXT_PUBLIC_GA_MEASUREMENT_ID` with your Measurement ID, then redeploy.
+
+**3. (Optional) Enable in development**
+
+GA is off in dev by default. To test locally, add to `.env.local`:
+
 ```bash
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_FORCE_ENABLE=true
 ```
 
-3. Track affiliate clicks automatically via `trackAffiliateClick()` in `lib/analytics.ts`
+**4. Verify**
+
+- After deploy, open your site and check the Network tab for requests to `googletagmanager.com/gtag/js?id=G-...`
+- In GA4, open **Reports → Realtime** and confirm your visit appears.
+
+Once the ID is set, affiliate clicks, page views, and other events from `lib/analytics.ts` are sent automatically.
 
 ### EPC (Earnings Per Click) Tracking
 
 The analytics module tracks:
+
 - **Affiliate clicks** with tool name, position, and A/B test variants
 - **Newsletter signups** with location tracking
 - **A/B test conversions** for CTA optimization
@@ -188,20 +212,20 @@ The analytics module tracks:
 ### Custom Events
 
 ```typescript
-import { trackAffiliateClick, trackNewsletterSignup } from '@/lib/analytics';
+import { trackAffiliateClick, trackNewsletterSignup } from "@/lib/analytics";
 
 // Track affiliate click
 trackAffiliateClick({
-  toolName: 'Jasper AI',
-  toolSlug: 'jasper-ai',
-  affiliateUrl: 'https://jasper.ai?ref=you',
-  position: 'hero',
-  ctaVariant: 'gradient',
+  toolName: "Jasper AI",
+  toolSlug: "jasper-ai",
+  affiliateUrl: "https://jasper.ai?ref=you",
+  position: "hero",
+  ctaVariant: "gradient",
 });
 
 // Track newsletter signup
 trackNewsletterSignup({
-  location: 'homepage',
+  location: "homepage",
 });
 ```
 

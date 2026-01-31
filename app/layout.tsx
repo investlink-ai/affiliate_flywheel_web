@@ -6,7 +6,7 @@ import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aitoolreviews.com'),
+  metadataBase: new URL('https://affievo.com'),
   title: {
     default: 'AI Tool Reviews | Best AI Tools for Productivity & Content Creation 2026',
     template: '%s | AI Tool Reviews',

@@ -229,6 +229,24 @@ Tool:
 - [ ] Schema.org Person markup
 - [ ] Social proof links (Twitter, GitHub)
 
+#### 3.3.3 Cookie Consent & GA4 Consent Mode
+
+**Objective:** Respect user privacy (especially EEA/UK), build trust, and enable GA4 conversion modelling when consent is denied.
+
+**Rationale:** Consent mode sends user consent state to Google so tags adapt (cookies only when consented); Google can use conversion modelling when observable data is unavailable. Aligns with trust/E-E-A-T and future-proofs for global traffic.
+
+**Implementation context:** This site uses **Google tag (gtag.js)** directly, not Google Tag Manager (GTM). Consent code must be added manually in the app (e.g. root layout / GoogleAnalytics component) as direct gtag commands in the first script block — not via GTM templates.
+
+**Requirements:**
+- [ ] **Region-scoped default consent** — Apply default consent (e.g. `analytics_storage: 'denied'`) only in regions where we surface the consent banner (e.g. EEA/UK). In regions where no banner is required, do not default to denied so measurement is preserved. (Reduces loss of measurement where consent banners don’t apply.)
+- [ ] **Consent before gtag loads** — Set default consent in the **first** script block (same block that defines `dataLayer` and `gtag` stub), before loading the gtag.js script. Do not rely on callbacks or later triggers for initial consent state, so consent is available as soon as the tag runs.
+- [ ] Consent banner component (inform users about cookies/analytics, accept/decline or equivalent), shown only where required (e.g. EEA) or site-wide if preferred.
+- [ ] GA4 Consent Mode: `gtag('consent', 'default', { ... })` per region; on accept, `gtag('consent', 'update', { analytics_storage: 'granted' })` and load/config GA4 as needed.
+- [ ] Persist consent choice (e.g. localStorage) so banner does not re-show on every visit.
+- [ ] Document behaviour in Privacy Policy (what we track, how consent affects it).
+
+**References:** [Google Consent Mode](https://support.google.com/analytics/answer/9976101) · [Consent mode developer guide (gtag.js)](https://developers.google.com/tag-platform/security/guides/consent) — use gtag.js instructions (direct commands or custom HTML), not GTM template.
+
 ---
 
 ## 4. User Journeys

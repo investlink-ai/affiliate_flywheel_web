@@ -542,7 +542,35 @@ window.gtag('event', 'click', {          │
 });
 ```
 
-### 6.3 EPC Calculation
+### 6.3 Consent Mode (GA4)
+
+**Status:** Planned — not yet implemented.
+
+**Tagging platform:** This project uses **Google tag (gtag.js)** directly, not Google Tag Manager (GTM). Consent must be implemented with direct gtag commands in the app (e.g. in the same inline script as the gtag stub in `GoogleAnalytics.tsx` or layout). Do not assume GTM or Tag Manager consent APIs; with gtag.js, consent code is manual per page (here: once in root layout).
+
+**Best practices to implement:**
+
+1. **Region-scoped default consent**  
+   Scope default consent to the regions where the consent banner is shown. Where the banner is required (e.g. EEA/UK), set default to denied. Where the banner is not shown or not required, do not default to denied so measurement is preserved. Prevents unnecessary loss of measurement in regions where consent banners don’t apply.
+
+2. **Set consent before gtag.js loads**  
+   With gtag.js, commands in callbacks or that use `gtag()` are not guaranteed to run before the next trigger. Set consent state as early as possible: in the **first** script block that defines `window.dataLayer` and the `gtag` stub, run `gtag('consent', 'default', { ... })` immediately, **before** the script that loads `gtag/js?id=...`. That way consent is available when the tag runs.
+
+3. **Default consent state (where banner applies)**  
+   In regions where we show the banner: `gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' })` (or equivalent) so GA4 does not use cookies until the user consents.
+
+4. **Consent banner**  
+   UI component (e.g. banner or modal) informing users and offering Accept / Decline (or Manage preferences), shown in relevant regions.
+
+5. **Consent update**  
+   On accept: `gtag('consent', 'update', { analytics_storage: 'granted' })`; then load or run GA4 config. Persist choice (e.g. localStorage) to avoid re-prompting every visit.
+
+6. **Conversion modelling**  
+   With Consent Mode, GA4 can use conversion modelling when consent is denied, so aggregate insights remain available.
+
+**Reference:** [Consent mode (GA4) — gtag.js](https://developers.google.com/tag-platform/security/guides/consent). Use the developer guide for **Google tag (gtag.js)**; if using GTM instead in future, use Tag Manager consent APIs/templates.
+
+### 6.4 EPC Calculation
 
 ```
 EPC (Earnings Per Click) = Total Revenue / Total Clicks
@@ -584,7 +612,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       card: 'summary_large_image',
     },
     alternates: {
-      canonical: `https://aitoolreviews.com/reviews/${tool.slug}`,
+      canonical: `https://affievo.com/reviews/${tool.slug}`,
     },
   };
 }
@@ -615,11 +643,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tools = getAllToolSlugs();
   
   return [
-    { url: 'https://aitoolreviews.com', changeFrequency: 'weekly', priority: 1 },
-    { url: 'https://aitoolreviews.com/reviews', changeFrequency: 'daily', priority: 0.9 },
-    { url: 'https://aitoolreviews.com/comparisons', changeFrequency: 'weekly', priority: 0.8 },
+    { url: 'https://affievo.com', changeFrequency: 'weekly', priority: 1 },
+    { url: 'https://affievo.com/reviews', changeFrequency: 'daily', priority: 0.9 },
+    { url: 'https://affievo.com/comparisons', changeFrequency: 'weekly', priority: 0.8 },
     ...tools.map(slug => ({
-      url: `https://aitoolreviews.com/reviews/${slug}`,
+      url: `https://affievo.com/reviews/${slug}`,
       changeFrequency: 'weekly',
       priority: 0.8,
     })),
@@ -799,7 +827,7 @@ MAILCHIMP_API_KEY=
 MAILCHIMP_LIST_ID=
 
 # Site URL (for OG images, sitemap)
-NEXT_PUBLIC_SITE_URL=https://aitoolreviews.com
+NEXT_PUBLIC_SITE_URL=https://affievo.com
 ```
 
 ### 10.3 Branch Strategy

@@ -92,7 +92,7 @@ export const organizationSchema = {
  * @see {@link https://developers.google.com/search/docs/appearance/structured-data/review-snippet} Google Review Snippets
  */
 export function generateReviewSchema(tool: Tool) {
-  const siteUrl = 'https://aitoolreviews.com';
+  const siteUrl = 'https://affievo.com';
   const reviewUrl = `${siteUrl}/reviews/${tool.slug}`;
   const authorSchema = getAuthorSchema();
 
