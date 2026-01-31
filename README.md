@@ -46,7 +46,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the site.
 - **Pre-push:** `npm run ci` (same pipeline as CI: lint → type-check → test → build).
 
 
-**Enable:** Run `npm install` or `npm ci` so the `prepare` script sets Git's hook path to `.husky`. If `git config core.hooksPath` shows `.husky/_`, run `git config core.hooksPath .husky`. **Reproducing CI:** Node 20 (`.nvmrc`), `npm ci`, then `npm run ci`.
+**Enable:** Run `npm install` or `npm ci` so the `prepare` script sets Git's hook path to `.husky`. If `git config core.hooksPath` shows `.husky/_`, run `git config core.hooksPath .husky`.
+
+**Why did CI fail but not locally?** (1) Pre-push didn't run — you used `git push --no-verify` or hooks path is wrong. (2) Different install — you used `npm install`; CI uses `npm ci` (strict lockfile). (3) Different Node — CI uses Node 20; local might be older. **Reproduce CI exactly:** `nvm use` (or Node 20), then `npm ci && npm run ci`. If that passes locally, CI should pass.
 
 **Skip once:** `git commit --no-verify` or `git push --no-verify`
 
