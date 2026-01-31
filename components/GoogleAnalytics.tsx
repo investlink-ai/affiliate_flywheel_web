@@ -39,7 +39,31 @@ export function GoogleAnalytics() {
 
   return (
     <>
-      {/* Google Analytics Script */}
+      {/* Consent default MUST run before gtag.js loads (gtag.js, not GTM) */}
+      <Script
+        id="google-analytics-consent"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            (function() {
+              var region = 'EEA';
+              try {
+                var match = document.cookie.match(/ga_consent_region=([^;]+)/);
+                if (match) region = match[1].trim();
+              } catch (e) {}
+              if (region === 'EEA') {
+                gtag('consent', 'default', {
+                  analytics_storage: 'denied',
+                  ad_storage: 'denied',
+                  wait_for_update: 500,
+                });
+              }
+            })();
+          `,
+        }}
+      />
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
         strategy="afterInteractive"
@@ -49,8 +73,6 @@ export function GoogleAnalytics() {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             
             gtag('config', '${GA_MEASUREMENT_ID}', {

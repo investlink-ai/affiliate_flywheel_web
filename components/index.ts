@@ -39,6 +39,7 @@ export { VideoEmbed, VideoReviewSection } from './VideoEmbed';
 // Newsletter and analytics
 export { SignupForm } from './SignupForm';
 export { GoogleAnalytics } from './GoogleAnalytics';
+export { ConsentBanner } from './ConsentBanner';
 
 // Filter and search components
 export { SearchFilter } from './SearchFilter';
