@@ -33,6 +33,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the site.
 
+### Pre-push hook (lint, type-check, test, build)
+
+A pre-push hook runs the same checks as CI (lint, type-check, tests, build) so you don’t push if CI would fail.
+
+**Enable it:** Run `npm install` so the `prepare` script can set Git’s hook path to `.husky`. If you see `could not lock config file .git/config`, run `npx husky` in your terminal (needs write access to `.git`).
+
+**Check:** `git config core.hooksPath` should show `.husky`. If it’s empty, run `npx husky` and try pushing again.
+
+**Skip once:** `git push --no-verify`
+
 ### Build for Production
 
 ```bash
