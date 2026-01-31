@@ -1,7 +1,3 @@
 #!/usr/bin/env sh
-# Optional: source husky.sh if present (created by `npm install` / prepare)
-HUSKY_SH="$(dirname -- "$0")/_/husky.sh"
-[ -f "$HUSKY_SH" ] && . "$HUSKY_SH"
-
-# Match CI: lint, type-check, test, build (so pre-push catches what CI would fail on)
-npm run lint && npm run type-check && npm run test:run && npm run build
+# Heavier checks before push (matches CI)
+npm run test:run && npm run build

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Fast checks on every commit
+npm run lint && npm run type-check
