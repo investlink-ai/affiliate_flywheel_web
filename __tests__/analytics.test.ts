@@ -335,15 +335,15 @@ describe('analytics', () => {
     });
 
     it('calls gtag with comparison_view and tools', () => {
-      trackComparisonView(['Jasper AI', 'Copy.ai', 'Claude']);
+      trackComparisonView(['Jasper AI', 'Copy.ai']);
       expect(window.gtag).toHaveBeenCalledWith(
         'event',
         'comparison_view',
         expect.objectContaining({
           event_category: 'Engagement',
-          event_label: 'Jasper AI vs Copy.ai vs Claude',
-          tools_compared: ['Jasper AI', 'Copy.ai', 'Claude'],
-          tool_count: 3,
+          event_label: 'Jasper AI vs Copy.ai',
+          tools_compared: ['Jasper AI', 'Copy.ai'],
+          tool_count: 2,
         })
       );
     });

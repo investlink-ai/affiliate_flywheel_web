@@ -68,10 +68,10 @@ Every product decision is evaluated against these judgment guidelines:
 | User Type | Description | Primary Needs | Key Tools |
 |-----------|-------------|---------------|-----------|
 | **Marketers** | Marketing professionals & teams | Marketing copy, SEO content, brand voice | Jasper AI, Copy.ai |
-| **Creators** | Content creators & influencers | Video, audio, visual content | Midjourney, Runway ML, Descript |
-| **Solopreneurs** | Solo business owners | All-in-one, budget-friendly solutions | Copy.ai, Claude, Notion AI |
-| **Agencies** | Marketing/creative agencies | Team collaboration, enterprise features | Jasper AI, Midjourney |
-| **Developers** | Technical professionals | Code assistance, documentation | Claude, Notion AI |
+| **Creators** | Content creators & influencers | Video, audio, visual content | Runway ML, Descript |
+| **Solopreneurs** | Solo business owners | All-in-one, budget-friendly solutions | Copy.ai, Notion AI |
+| **Agencies** | Marketing/creative agencies | Team collaboration, enterprise features | Jasper AI, Runway ML |
+| **Developers** | Technical professionals | Code assistance, documentation | Notion AI |
 
 ### 2.4 Revenue Model
 
@@ -489,9 +489,8 @@ Convert via Affiliate Link
 
 ### 10.1 Tool Categories
 
-- **AI Writing:** Jasper AI, Copy.ai, Claude
+- **AI Writing:** Jasper AI, Copy.ai
 - **AI Voice:** Murf AI
-- **AI Images:** Midjourney
 - **AI Video:** Runway ML, Descript
 - **AI Productivity:** Notion AI
 
@@ -505,8 +504,6 @@ Convert via Affiliate Link
 | Murf AI | 25% | 30 days | Medium |
 | Runway ML | 20% | 30 days | Medium |
 | Notion AI | 20% | 90 days | Medium |
-| Claude | 0% | - | Low (No program) |
-| Midjourney | 0% | - | Low (No program) |
 
 ### 10.3 Content Guidelines
 

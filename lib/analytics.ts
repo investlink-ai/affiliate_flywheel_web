@@ -358,7 +358,7 @@ export function trackABTestConversion(params: ABTestConversionParams): void {
  * 
  * @example
  * ```typescript
- * trackComparisonView(['Jasper AI', 'Copy.ai', 'Claude']);
+ * trackComparisonView(['Jasper AI', 'Copy.ai']);
  * ```
  */
 export function trackComparisonView(tools: string[]): void {

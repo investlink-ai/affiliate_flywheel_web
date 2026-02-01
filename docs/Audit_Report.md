@@ -549,13 +549,12 @@ Middleware: 34.5 kB
 
 | Category        | Tools                      | Coverage |
 | --------------- | -------------------------- | -------- |
-| AI Writing      | Jasper AI, Copy.ai, Claude | 3        |
+| AI Writing      | Jasper AI, Copy.ai         | 2        |
 | AI Voice        | Murf AI                    | 1        |
-| AI Images       | Midjourney                 | 1        |
 | AI Video        | Runway ML, Descript        | 2        |
 | AI Productivity | Notion AI                  | 1        |
 
-**Total: 8 tools across 5 categories**
+**Total: 7 tools across 4 categories**
 
 ### 10.4 Audit History
 

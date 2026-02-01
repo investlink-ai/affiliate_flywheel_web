@@ -357,8 +357,6 @@ describe('Quiz Scoring Algorithm', () => {
         'copy-ai',
         'murf-ai',
         'notion-ai',
-        'claude-ai',
-        'midjourney',
         'runway-ml',
         'descript',
       ];
@@ -413,7 +411,7 @@ describe('Quiz Scoring Algorithm', () => {
       const topThree = results.slice(0, 3).map((r) => r.tool.slug);
       
       // Should include AI writing tools
-      const writingTools = ['jasper-ai', 'copy-ai', 'claude-ai', 'notion-ai'];
+      const writingTools = ['jasper-ai', 'copy-ai', 'notion-ai'];
       const hasWritingTool = topThree.some((slug) => writingTools.includes(slug));
       expect(hasWritingTool).toBe(true);
     });
@@ -589,10 +587,10 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should not include reason when tool does not have matching scoring', () => {
-      const scoring = toolScoring['midjourney']!; // No free-tier scoring
+      const scoring = toolScoring['runway-ml']!; // No free-tier scoring
       const tags = ['free-tier'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'AI Images');
+      const reasons = generateMatchReasons(scoring, tags, 'AI Video');
       
       expect(reasons).not.toContain('Offers a free tier');
     });
@@ -698,7 +696,7 @@ describe('Quiz Scoring Algorithm', () => {
   });
 
   describe('category-specific scenarios', () => {
-    it('should recommend AI Images tools for visual content needs', () => {
+    it('should recommend AI Video tools for agency + moderate budget', () => {
       // Simulate a user wanting images (no direct option, but closest is versatile)
       const answers = {
         'use-case': 'all', // versatile
@@ -708,10 +706,10 @@ describe('Quiz Scoring Algorithm', () => {
       
       const results = calculateQuizResults(tools, answers, testQuestions);
       
-      // Midjourney should be in results with positive score due to agency tag
-      const midjourneyResult = results.find((r) => r.tool.slug === 'midjourney');
-      expect(midjourneyResult).toBeDefined();
-      expect(midjourneyResult!.score).toBeGreaterThan(0);
+      // Runway ML should be in results with positive score due to agency/moderate-budget tags
+      const runwayResult = results.find((r) => r.tool.slug === 'runway-ml');
+      expect(runwayResult).toBeDefined();
+      expect(runwayResult!.score).toBeGreaterThan(0);
     });
 
     it('should recommend AI Productivity tools for versatile users', () => {
@@ -782,7 +780,7 @@ describe('Quiz Scoring Algorithm', () => {
       expect(scores.every((s) => s === firstScore)).toBe(true);
     });
 
-    it('should rank Claude highly for versatile solo users', () => {
+    it('should rank Notion AI highly for versatile solo users', () => {
       const answers = {
         'use-case': 'all', // versatile
         'team-size': 'solo',
@@ -790,11 +788,11 @@ describe('Quiz Scoring Algorithm', () => {
       };
       
       const results = calculateQuizResults(tools, answers, testQuestions);
-      const claudeResult = results.find((r) => r.tool.slug === 'claude-ai');
+      const notionResult = results.find((r) => r.tool.slug === 'notion-ai');
       
-      expect(claudeResult).toBeDefined();
-      // Claude should have good score for versatile + solo + budget-friendly
-      expect(claudeResult!.score).toBeGreaterThan(5);
+      expect(notionResult).toBeDefined();
+      // Notion AI should have good score for versatile + solo + budget-friendly
+      expect(notionResult!.score).toBeGreaterThan(5);
     });
   });
 
