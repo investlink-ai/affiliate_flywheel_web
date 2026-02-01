@@ -1,3 +1,4 @@
+/// <reference types="vitest/globals" />
 import React from 'react';
 import '@testing-library/jest-dom/vitest';
 

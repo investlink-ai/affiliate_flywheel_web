@@ -782,6 +782,19 @@ describe('calculateToolScore', () => {
 });
 ```
 
+### 9.4 Component Tests (Critical Paths)
+
+Component tests live in `__tests__/components/` and cover critical user flows:
+
+| Component | Test File | Coverage |
+|-----------|-----------|----------|
+| QuizComponent | QuizComponent.test.tsx | Quiz flow (questions → answers → results), progress, back, restart, review links |
+| AffiliateLink | AffiliateLink.test.tsx | Affiliate ref in href, click tracking (trackAffiliateClick), position/tool analytics |
+| SignupForm | SignupForm.test.tsx | Variants (card/inline/banner), validation, submit + fetch, honeypot, trackNewsletterSignup |
+| ComparisonTableSortable | ComparisonTableSortable.test.tsx | Table render, sort headers, Try Now affiliate links, winner badge |
+
+Unit tests: `quiz-scoring.ts` (63), `analytics.ts` (34), `decision-log.ts` (30). **Total: 161 tests.**
+
 ---
 
 ## 10. Deployment Architecture

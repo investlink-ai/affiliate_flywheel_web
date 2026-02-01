@@ -104,6 +104,7 @@ const custom = createMockTool({ rating: 5.0 });   // Override fields
 
 - `lib/foo.test.ts` — alongside source, or
 - `__tests__/foo.test.ts` — grouped in folder
+- `__tests__/components/*.test.tsx` — component tests for critical paths (QuizComponent, AffiliateLink, SignupForm, ComparisonTableSortable)
 
 ## Commands
 
