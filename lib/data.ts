@@ -98,11 +98,6 @@ export const tools: Tool[] = [
     cookieDuration: 30,
     commissionRate: 30,
     hasExclusiveDeal: false,
-    screenshots: [
-      '/images/screenshots/jasper-dashboard.png',
-      '/images/screenshots/jasper-editor.png',
-      '/images/screenshots/jasper-templates.png',
-    ],
     videoReviewUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Placeholder - replace with actual review
   },
   {
@@ -153,10 +148,6 @@ export const tools: Tool[] = [
     cookieDuration: 60,
     commissionRate: 45,
     hasExclusiveDeal: true,
-    screenshots: [
-      '/images/screenshots/copyai-dashboard.png',
-      '/images/screenshots/copyai-workflows.png',
-    ],
   },
   {
     slug: 'murf-ai',
