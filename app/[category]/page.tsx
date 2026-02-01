@@ -181,7 +181,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.description,
     },
     alternates: {
-      canonical: `https://aitoolreviews.com/${config.slug}`,
+      canonical: `https://affievo.com/${config.slug}`,
     },
   };
 }

@@ -1,0 +1,67 @@
+---
+description: Local development workflow aligned with CI pipeline
+globs: "*"
+---
+
+# Development Workflow
+
+Local commands mirror CI pipeline. Always run `make check` before pushing.
+
+## Quick Reference
+
+```bash
+make check    # Run before pushing (lint + type-check + test)
+make ci       # Full CI simulation including build
+make dev      # Start dev server
+```
+
+## CI Pipeline Stages
+
+CI runs these stages in order. PRs to `main` must pass all stages.
+
+| Stage | Local Command | CI Job |
+|-------|--------------|--------|
+| Lint | `make lint` or `npm run lint` | `lint` |
+| Type Check | `make type-check` or `npm run type-check` | `type-check` |
+| Test | `make test` or `npm run test:run` | `test` |
+| Build | `make build` or `npm run build` | `build` |
+
+## Pre-Push Checklist
+
+1. `make check` passes
+2. No TypeScript errors (`npm run type-check`)
+3. Tests pass (`npm run test:run`)
+4. Lint clean (`npm run lint`)
+
+## Branch Strategy
+
+- `dev` — Active development
+- `main` — Production-ready code (protected, requires CI pass)
+- Feature branches → PR to `dev` → PR to `main`
+
+## Common Workflows
+
+### Adding a feature
+```bash
+git checkout -b feature/name
+# ... make changes ...
+make check           # Verify locally
+git add . && git commit -m "feat: description"
+git push -u origin HEAD
+# Create PR to dev
+```
+
+### Fixing lint/type errors
+```bash
+make lint            # See lint errors
+make type-check      # See type errors
+# Fix issues, then verify
+make check
+```
+
+### Running tests during development
+```bash
+make test-watch      # Interactive watch mode
+make test            # Single run
+make test-coverage   # With coverage report
+```

@@ -11,7 +11,7 @@ const categorySlugs = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://aitoolreviews.com';
+  const baseUrl = 'https://affievo.com';
   const toolSlugs = getAllToolSlugs();
 
   // Static pages

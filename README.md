@@ -18,20 +18,39 @@ A high-performance, SEO-optimized affiliate review site for AI productivity and 
 
 ### Prerequisites
 
-- Node.js 18.17 or later
-- npm, yarn, or pnpm
+- **Node.js 20** (same as CI; see `.nvmrc`). Use `nvm use` or `fnm use` if you use a version manager.
+- npm 9+
 
 ### Installation
 
+Use the same install as CI so dev and CI stay in sync:
+
 ```bash
-# Install dependencies
-npm install
+# Use Node 20 (from .nvmrc)
+nvm use   # or: fnm use
+
+# Install dependencies (same as CI — reproducible)
+npm ci
 
 # Start development server
 npm run dev
 ```
 
+For a one-off setup you can use `npm install`; for consistency with CI use `npm ci`.
+
 Open [http://localhost:3000](http://localhost:3000) to see the site.
+
+### Git hooks (Husky)
+
+- **Pre-commit:** `lint` + `type-check` (fast).
+- **Pre-push:** `npm run ci` (same pipeline as CI: lint → type-check → test → build).
+
+
+**Enable:** Run `npm install` or `npm ci` so the `prepare` script sets Git's hook path to `.husky`. If `git config core.hooksPath` shows `.husky/_`, run `git config core.hooksPath .husky`.
+
+**Why did CI fail but not locally?** (1) Pre-push didn't run — you used `git push --no-verify` or hooks path is wrong. (2) Different install — you used `npm install`; CI uses `npm ci` (strict lockfile). (3) Different Node — CI uses Node 20; local might be older. **Reproduce CI exactly:** `nvm use` (or Node 20), then `npm ci && npm run ci`. If that passes locally, CI should pass.
+
+**Skip once:** `git commit --no-verify` or `git push --no-verify`
 
 ### Build for Production
 
@@ -114,33 +133,42 @@ colors: {
 Update the ref parameter in `components/AffiliateLink.tsx`:
 
 ```typescript
-const AFFILIATE_REF = '?ref=your-ref-id';
+const AFFILIATE_REF = "?ref=your-ref-id";
 ```
 
 ### Disclosure Text
 
 Edit disclosure text in:
+
 - `components/DisclosureNote.tsx`
 - `components/Footer.tsx`
 - `app/privacy/page.tsx`
 
 ## Deployment
 
+**Full checklist:** See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for step-by-step Vercel deployment, environment variables, GA4 setup, and verification.
+
 ### Vercel (Recommended)
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
+1. **Import** your GitHub repo at [vercel.com/new](https://vercel.com/new).
+2. **Environment variables** (Settings → Environment Variables):
+   - `NEXT_PUBLIC_SITE_URL` — your production URL (e.g. `https://affievo.com`)
+   - `NEXT_PUBLIC_GA_MEASUREMENT_ID` — your GA4 Measurement ID (`G-...`)
+3. **Deploy** — Vercel runs `npm run build`; first deploy runs after you add env vars and save.
 
-# Deploy
+Or use the Vercel CLI:
+
+```bash
+npm i -g vercel
 vercel
 ```
 
-Or connect your GitHub repo to Vercel for automatic deployments.
+Set env vars in the Vercel dashboard (or `vercel env add`) then redeploy.
 
 ### Other Platforms
 
 The site can be deployed to any platform that supports Next.js:
+
 - AWS Amplify
 - Netlify
 - Railway
@@ -165,21 +193,43 @@ This template is optimized for Core Web Vitals:
 
 ## Analytics Integration
 
-### Google Analytics 4 (Built-in)
+### Set up Google tag (GA4)
 
-The site includes GA4 integration with affiliate click tracking:
+The site uses **Google tag (gtag.js)** for GA4. The tag is loaded in `app/layout.tsx` via the `GoogleAnalytics` component and only runs when a valid Measurement ID is set.
 
-1. Copy `.env.example` to `.env.local`
-2. Add your GA4 Measurement ID:
+**1. Get your Measurement ID**
+
+- Go to [Google Analytics](https://analytics.google.com/) → **Admin** → **Data streams**
+- Create or select a **Web** stream
+- Copy the **Measurement ID** (format `G-XXXXXXXXXX`)
+
+**2. Set the environment variable**
+
+- **Local:** Copy `.env.example` to `.env.local` and set:
+  ```bash
+  NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # your real ID
+  ```
+- **Production (e.g. Vercel):** In your host’s dashboard, add `NEXT_PUBLIC_GA_MEASUREMENT_ID` with your Measurement ID, then redeploy.
+
+**3. (Optional) Enable in development**
+
+GA is off in dev by default. To test locally, add to `.env.local`:
+
 ```bash
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_FORCE_ENABLE=true
 ```
 
-3. Track affiliate clicks automatically via `trackAffiliateClick()` in `lib/analytics.ts`
+**4. Verify**
+
+- After deploy, open your site and check the Network tab for requests to `googletagmanager.com/gtag/js?id=G-...`
+- In GA4, open **Reports → Realtime** and confirm your visit appears.
+
+Once the ID is set, affiliate clicks, page views, and other events from `lib/analytics.ts` are sent automatically.
 
 ### EPC (Earnings Per Click) Tracking
 
 The analytics module tracks:
+
 - **Affiliate clicks** with tool name, position, and A/B test variants
 - **Newsletter signups** with location tracking
 - **A/B test conversions** for CTA optimization
@@ -188,20 +238,20 @@ The analytics module tracks:
 ### Custom Events
 
 ```typescript
-import { trackAffiliateClick, trackNewsletterSignup } from '@/lib/analytics';
+import { trackAffiliateClick, trackNewsletterSignup } from "@/lib/analytics";
 
 // Track affiliate click
 trackAffiliateClick({
-  toolName: 'Jasper AI',
-  toolSlug: 'jasper-ai',
-  affiliateUrl: 'https://jasper.ai?ref=you',
-  position: 'hero',
-  ctaVariant: 'gradient',
+  toolName: "Jasper AI",
+  toolSlug: "jasper-ai",
+  affiliateUrl: "https://jasper.ai?ref=you",
+  position: "hero",
+  ctaVariant: "gradient",
 });
 
 // Track newsletter signup
 trackNewsletterSignup({
-  location: 'homepage',
+  location: "homepage",
 });
 ```
 

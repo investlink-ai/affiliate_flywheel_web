@@ -358,7 +358,7 @@ export function trackABTestConversion(params: ABTestConversionParams): void {
  * 
  * @example
  * ```typescript
- * trackComparisonView(['Jasper AI', 'Copy.ai', 'Claude']);
+ * trackComparisonView(['Jasper AI', 'Copy.ai']);
  * ```
  */
 export function trackComparisonView(tools: string[]): void {
@@ -483,12 +483,12 @@ declare global {
   interface Window {
     /**
      * Google Analytics gtag function
-     * @param command - The gtag command ('config', 'event', 'js', or 'set')
-     * @param targetId - The target (measurement ID or event name)
+     * @param command - The gtag command ('config', 'event', 'js', 'set', or 'consent' for Consent Mode)
+     * @param targetId - The target (measurement ID, event name, or 'default'/'update' for consent)
      * @param config - Optional configuration object
      */
     gtag: (
-      command: 'config' | 'event' | 'js' | 'set',
+      command: 'config' | 'event' | 'js' | 'set' | 'consent',
       targetId: string,
       config?: Record<string, unknown>
     ) => void;

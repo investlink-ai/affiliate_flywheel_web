@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface VideoEmbedProps {
   /** YouTube video URL or video ID */
@@ -180,9 +181,9 @@ export function VideoReviewSection({
       </div>
       <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
         Video loads from YouTube when you click play. See our{' '}
-        <a href="/privacy" className="underline hover:text-primary-600 dark:hover:text-primary-400">
+        <Link href="/privacy" className="underline hover:text-primary-600 dark:hover:text-primary-400">
           privacy policy
-        </a>{' '}
+        </Link>{' '}
         for details.
       </p>
     </section>

@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+/** EEA country codes (EU 27 + IS, LI, NO + GB) for consent region scoping */
+const EEA_COUNTRY_CODES = new Set([
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU',
+  'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES',
+  'SE', 'IS', 'LI', 'NO', 'GB', 'UK',
+]);
+
+const CONSENT_REGION_COOKIE = 'ga_consent_region';
+
 /**
  * Rate Limiting Middleware for Vercel Edge Runtime
  * 
@@ -156,15 +165,32 @@ function createRateLimitResponse(retryAfter: number): NextResponse {
 }
 
 /**
+ * Set consent region cookie for GA4 Consent Mode (EEA = show banner, deny by default)
+ * Uses Vercel geo header when available; defaults to EEA when unknown (conservative)
+ */
+function setConsentRegionCookie(response: NextResponse, request: NextRequest): void {
+  const countryCode = request.headers.get('x-vercel-ip-country') ?? '';
+  const region = countryCode && EEA_COUNTRY_CODES.has(countryCode.toUpperCase())
+    ? 'EEA'
+    : countryCode
+      ? 'OTHER'
+      : 'EEA'; // unknown = EEA to be conservative
+  response.cookies.set(CONSENT_REGION_COOKIE, region, {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
+}
+
+/**
  * Middleware function
- * Applies rate limiting to newsletter signup endpoints
+ * Rate limits newsletter endpoints; sets consent region cookie for page requests
  */
 export function middleware(request: NextRequest): NextResponse | undefined {
   const { pathname } = request.nextUrl;
   const method = request.method;
 
-  // Only rate limit POST requests to newsletter-related endpoints
-  // Adjust these paths based on your actual API routes
   const rateLimitedPaths = [
     '/api/newsletter',
     '/api/subscribe',
@@ -175,24 +201,27 @@ export function middleware(request: NextRequest): NextResponse | undefined {
     method === 'POST' &&
     rateLimitedPaths.some((path) => pathname.startsWith(path));
 
-  if (!shouldRateLimit) {
-    return NextResponse.next();
+  if (shouldRateLimit) {
+    const ip = getClientIP(request);
+    const { allowed, remaining, resetTime, retryAfter } = checkRateLimit(ip);
+
+    if (!allowed) {
+      console.warn(`[Rate Limit] Blocked IP: ${ip}, Path: ${pathname}`);
+      return createRateLimitResponse(retryAfter);
+    }
+
+    const response = NextResponse.next();
+    response.headers.set('X-RateLimit-Limit', MAX_REQUESTS_PER_WINDOW.toString());
+    response.headers.set('X-RateLimit-Remaining', remaining.toString());
+    response.headers.set('X-RateLimit-Reset', resetTime.toString());
+    return response;
   }
 
-  const ip = getClientIP(request);
-  const { allowed, remaining, resetTime, retryAfter } = checkRateLimit(ip);
-
-  if (!allowed) {
-    console.warn(`[Rate Limit] Blocked IP: ${ip}, Path: ${pathname}`);
-    return createRateLimitResponse(retryAfter);
-  }
-
-  // Add rate limit headers to successful requests
+  // Page/document request: set consent region cookie for GA4 Consent Mode
   const response = NextResponse.next();
-  response.headers.set('X-RateLimit-Limit', MAX_REQUESTS_PER_WINDOW.toString());
-  response.headers.set('X-RateLimit-Remaining', remaining.toString());
-  response.headers.set('X-RateLimit-Reset', resetTime.toString());
-
+  if (!pathname.startsWith('/api') && !pathname.startsWith('/_next')) {
+    setConsentRegionCookie(response, request);
+  }
   return response;
 }
 
@@ -204,9 +233,11 @@ export function middleware(request: NextRequest): NextResponse | undefined {
  */
 export const config = {
   matcher: [
-    // Match API routes that need rate limiting
+    // API routes for rate limiting
     '/api/newsletter/:path*',
     '/api/subscribe/:path*',
     '/api/signup/:path*',
+    // Page requests for consent region cookie (exclude _next, static assets)
+    '/((?!_next/|favicon|icon|apple|manifest|.*\\.).*)',
   ],
 };

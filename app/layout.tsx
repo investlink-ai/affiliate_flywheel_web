@@ -2,11 +2,12 @@ import type { Metadata, Viewport } from 'next';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
+import { ConsentBanner } from '@/components/ConsentBanner';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aitoolreviews.com'),
+  metadataBase: new URL('https://affievo.com'),
   title: {
     default: 'AI Tool Reviews | Best AI Tools for Productivity & Content Creation 2026',
     template: '%s | AI Tool Reviews',
@@ -105,7 +106,10 @@ export default function RootLayout({
         <Header />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
-        
+
+        {/* Cookie consent (EEA); GA4 Consent Mode */}
+        <ConsentBanner />
+
         {/* Exit Intent Popup - Newsletter capture */}
         <ExitIntentPopup />
       </body>

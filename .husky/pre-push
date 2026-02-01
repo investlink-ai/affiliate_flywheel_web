@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Same pipeline as CI (lint → type-check → test → build)
+npm run ci
