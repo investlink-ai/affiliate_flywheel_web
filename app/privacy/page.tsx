@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             Privacy Policy & Disclosures
           </h1>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
-            Last updated: January 30, 2026
+            Last updated: January 31, 2026
           </p>
         </div>
       </section>
@@ -74,21 +74,65 @@ export default function PrivacyPage() {
             </p>
             <ul>
               <li>
-                <strong>Analytics:</strong> We may use privacy-respecting analytics to understand
-                how visitors interact with our content. This data is anonymized and aggregated.
+                <strong>Analytics (Google Analytics 4):</strong> We use Google Analytics 4 (GA4) to
+                understand how visitors use our site—for example, which pages are viewed, how long
+                visitors stay, and whether they click affiliate links or sign up for our newsletter.
+                This helps us improve our content and recommendations. GA4 collects anonymized,
+                aggregated data; we do not collect or store your email or other personal identifiers
+                in our analytics.
               </li>
               <li>
                 <strong>Affiliate Links:</strong> When you click an affiliate link, the destination
                 site may use cookies to track that you came from this website. This is how they
-                attribute sales to us for commission purposes.
+                attribute sales to us for commission purposes. We have no control over their cookies
+                or privacy practices.
               </li>
             </ul>
 
             <h3>Cookies</h3>
             <p>
-              This website may use cookies for basic functionality (like dark mode preferences).
-              Third-party services linked from this site may set their own cookies when you visit
-              their sites.
+              We use the following cookies and local storage on this site:
+            </p>
+            <ul>
+              <li>
+                <strong>ga_consent_region:</strong> A cookie that indicates whether you are in the
+                EEA (European Economic Area) or UK. We use this to determine whether to show our
+                cookie consent banner. This cookie does not identify you personally.
+              </li>
+              <li>
+                <strong>Analytics cookies (Google):</strong> When you accept analytics cookies, Google
+                Analytics may set cookies to measure traffic and engagement. These are only set after
+                you choose &quot;Accept&quot; in our consent banner (see below).
+              </li>
+              <li>
+                <strong>Local storage:</strong> We store your consent choice (Accept or Decline) in
+                your browser&apos;s local storage so we remember your preference on future visits.
+              </li>
+            </ul>
+            <p>
+              Third-party sites you reach via affiliate links may set their own cookies when you
+              visit them.
+            </p>
+
+            <h3>Consent & Your Choices</h3>
+            <p>
+              If you are in the EEA or UK (or if we cannot determine your region), you will see a
+              cookie consent banner when you first visit. You can:
+            </p>
+            <ul>
+              <li>
+                <strong>Accept:</strong> We enable analytics cookies (Google Analytics). Your choice
+                is saved so you won&apos;t see the banner again unless you clear your browser data.
+              </li>
+              <li>
+                <strong>Decline:</strong> We do not set analytics cookies. Google may still receive
+                limited, cookieless data for measurement purposes (e.g., conversion modelling) in
+                accordance with their policies, but no personal data is stored in cookies.
+              </li>
+            </ul>
+            <p>
+              Outside the EEA/UK, we may load analytics by default. You can still control cookies
+              via your browser settings or use a browser extension to block tracking.
             </p>
 
             <h3>Your Rights</h3>
