@@ -16,22 +16,6 @@
     }
   ],
   "categories": ["productivity", "utilities", "education"],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "AI Tool Reviews Homepage"
-    },
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "AI Tool Reviews Mobile View"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Browse Reviews",

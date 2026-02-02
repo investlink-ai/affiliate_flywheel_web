@@ -49,7 +49,7 @@ The platform embodies the four foundational beliefs of the EvoLink philosophy:
 | **AI Empowerment & Human Augmentation** | AI handles 80%+ of routine tasks (personalization, A/B testing, analytics) while humans provide strategic direction, content quality oversight, and ethical review |
 | **Reusability & Leverage** | Modular components (review templates, quiz scoring, schema generators) scale across tools and categories with minimal additional effort |
 | **Self-Adaptation & Continuous Improvement** | Embedded feedback loops via analytics, A/B testing infrastructure, and performance monitoring enable automatic refinement |
-| **Value-Centric & Sustainable Growth** | Transparent FTC disclosures, hands-on testing methodology, and trust-building content prioritize genuine user value over manipulation |
+| **Value-Centric & Sustainable Growth** | Transparent FTC disclosures, LLM deep research with cited sources, and trust-building content prioritize genuine user value over manipulation |
 
 ### 2.2 Decision Principles in Practice
 
@@ -98,6 +98,8 @@ Every product decision is evaluated against these judgment guidelines:
 #### 3.1.1 Tool Reviews System
 
 **Objective:** Provide comprehensive, trustworthy AI tool reviews
+
+**Data Collection:** Tool data is populated via LLM deep research (web search + cited sources), not manual hands-on testing. This scales across many tools. See [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md) for the research prompt and workflow. Human spot-checks verify critical fields before publish.
 
 **Requirements:**
 - [ ] Individual review pages with structured content (description, features, pros/cons, verdict)
@@ -405,8 +407,8 @@ Convert via Affiliate Link
 
 | Stage | Approach | Threshold |
 |-------|----------|-----------|
-| **Manual Validation** | Human-reviewed content, manual A/B analysis | Current |
-| **Selective Automation** | Automated personalization, assisted content updates | 80%+ accuracy |
+| **LLM Research + Spot-Check** | LLM deep research populates data; human spot-checks critical fields (rating, pricing, pros/cons) | Current |
+| **Selective Automation** | Automated personalization, assisted content updates, scheduled research runs | 80%+ accuracy |
 | **Full Autonomy** | Self-optimizing systems, minimal oversight | 95%+ accuracy |
 
 ### 7.3 Risk & Ethical Integrity
@@ -479,7 +481,7 @@ Convert via Affiliate Link
 | Affiliate program changes | High | Medium | Diversify partnerships, multiple programs per category | *Dynamic Adaptation* |
 | SEO algorithm updates | High | Medium | Focus on E-E-A-T, user value, technical excellence | *Enduring Practice Alignment* |
 | AI tool market consolidation | Medium | Medium | Cover emerging tools, maintain broad category coverage | *Opportunity Alignment* |
-| User trust erosion | High | Low | Transparent disclosures, honest reviews, hands-on testing | *Risk & Ethical Integrity* |
+| User trust erosion | High | Low | Transparent disclosures, honest reviews, LLM-researched content with cited sources | *Risk & Ethical Integrity* |
 | Technical performance issues | Medium | Low | Core Web Vitals monitoring, performance budgets | *Efficiency Discipline* |
 | Over-automation failures | Medium | Medium | Progressive autonomy stages, human oversight thresholds | *Progressive Autonomy* |
 
@@ -507,9 +509,9 @@ Convert via Affiliate Link
 
 ### 10.3 Content Guidelines
 
-1. **Hands-on Testing:** Every tool must be personally tested
-2. **Honest Assessment:** Include genuine cons, not just marketing
-3. **Regular Updates:** Refresh reviews when tools change significantly
+1. **LLM Deep Research:** Tool data is collected via LLM with web search (e.g., Grok, Perplexity) — not fabricated. Every claim must be traceable to cited sources (official sites, G2, Capterra, Trustpilot, Reddit). See [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md).
+2. **Honest Assessment:** Include genuine cons from real user reviews, not just marketing copy
+3. **Regular Updates:** Refresh reviews when tools change significantly; re-run research or use freshness checks
 4. **Transparent Disclosures:** Always disclose affiliate relationships
 5. **User Value First:** Prioritize helpfulness over commission optimization
 
@@ -521,6 +523,7 @@ Convert via Affiliate Link
 | [philosophy_framework.md](./philosophy_framework.md) | Timeless judgment philosophy framework |
 | [business_context.md](./business_context.md) | Business strategy and market context |
 | [system_design.md](./system_design.md) | Technical architecture implementation |
+| [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md) | LLM deep research prompt for tool data collection |
 
 ### 10.5 Decision Reference Template
 

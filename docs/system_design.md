@@ -167,9 +167,13 @@ affiliate_flywheel_web/
 │   └── images/
 │       └── tools/               # Tool logos
 │
+├── data/                         # LLM research output (gitignored)
+│   └── static.json              # Grok research output → merged into lib/data.ts
+│
 ├── docs/                         # Documentation
 │   ├── prd.md                   # Product requirements
 │   ├── system_design.md         # This document
+│   ├── GROK_DEEP_RESEARCH_PROMPT.md  # LLM research prompt for tool data
 │   ├── business_context.md      # Business strategy
 │   └── AB_TESTING.md            # A/B test documentation
 │
@@ -240,7 +244,19 @@ type Category = 'AI Writing' | 'AI Voice' | 'AI Images' | 'AI Video' | 'AI Produ
 type UserType = 'marketer' | 'creator' | 'solopreneur' | 'agency' | 'developer';
 ```
 
-### 3.2 Data Flow
+### 3.2 Data Collection & Population
+
+Tool data in `lib/data.ts` is populated via **LLM deep research** (e.g., Grok, Perplexity with web search), not manual hands-on testing. This scales across many tools.
+
+**Workflow:**
+1. Run research prompt (see `docs/GROK_DEEP_RESEARCH_PROMPT.md`) per tool
+2. LLM outputs structured JSON with cited sources (G2, Capterra, official sites)
+3. Human spot-checks critical fields (rating, pricing, pros/cons)
+4. Merge into `lib/data.ts`; add affiliate data (commission, cookie) from dashboard
+
+**Source requirements:** Rating from G2/Capterra/Trustpilot; pros/cons from real user reviews; pricing from official pages. No fabricated data.
+
+### 3.3 Data Flow
 
 ```
 ┌─────────────┐    Build Time    ┌─────────────┐
@@ -262,7 +278,7 @@ type UserType = 'marketer' | 'creator' | 'solopreneur' | 'agency' | 'developer';
 └─────────────┘
 ```
 
-### 3.3 Data Access Patterns
+### 3.4 Data Access Patterns
 
 ```typescript
 // lib/data.ts - Query Functions
@@ -911,7 +927,13 @@ interface AdaptiveSubSystem {
 //    - Optimize: Show personalized badges/content
 //    - Learn: Track conversion by user type
 
-// 3. Content Freshness System (future)
+// 3. Tool Data Collection (LLM deep research)
+//    - Sense: New tools, pricing/feature changes
+//    - Interpret: Run Grok/Perplexity research prompt per tool
+//    - Optimize: Merge researched JSON into lib/data.ts; human spot-check
+//    - Learn: Source quality (G2, Capterra, official sites)
+
+// 4. Content Freshness System (future)
 //    - Sense: Tool API changes, pricing updates
 //    - Interpret: Significance of changes
 //    - Optimize: Trigger content refresh
@@ -1042,8 +1064,11 @@ interface CMSAdapter {
   flagForReview(slug: string, reason: string): Promise<void>;
 }
 
+// Data source: LLM deep research (Grok/Perplexity) → JSON → lib/data.ts or CMS
+// See docs/GROK_DEEP_RESEARCH_PROMPT.md for research workflow
+
 // Planned implementations:
-// Phase 2: NotionAdapter (editorial workflow)
+// Phase 2: NotionAdapter (editorial workflow; LLM output → Notion → sync)
 // Phase 3: Custom headless CMS with automation hooks
 ```
 
@@ -1077,10 +1102,10 @@ Per *Progressive Autonomy* constraint — each system advances through stages:
 
 | System | Current | Target | Automation Path |
 |--------|---------|--------|-----------------|
-| **Content Updates** | Manual | 95% Auto | Price APIs → AI verification → Human spot-check |
+| **Content Updates** | LLM deep research + spot-check | 95% Auto | LLM research → Price APIs → AI verification → Human spot-check |
 | **A/B Testing** | Manual analysis | Self-optimizing | Statistical engine → Auto-promote → Continuous testing |
 | **Personalization** | Rule-based | ML-powered | Behavior tracking → Model training → Real-time inference |
-| **New Tool Discovery** | Manual | AI-assisted | Market monitoring → AI triage → Human final review |
+| **New Tool Discovery** | LLM deep research | AI-assisted | LLM research (Grok/Perplexity) → Market monitoring → AI triage → Human final review |
 
 ### 12.4 ML-Powered Features (Autonomy Phase)
 
@@ -1198,6 +1223,7 @@ import { ToolCard } from '@/components/ToolCard';
 | **philosophy_framework.md** | Timeless judgment philosophy — abstract principles | [View](./philosophy_framework.md) |
 | **business_context.md** | Business strategy and 2026 market alignment | [View](./business_context.md) |
 | **prd.md** | Product requirements and business features | [View](./prd.md) |
+| **GROK_DEEP_RESEARCH_PROMPT.md** | LLM deep research prompt for tool data collection | [View](./GROK_DEEP_RESEARCH_PROMPT.md) |
 
 ### 13.5 Architecture Decision Record (ADR) Template
 
@@ -1239,7 +1265,7 @@ Key architectural choices and their philosophy alignment:
 | Framework | Next.js 15 App Router | *Automation Feasibility* — RSC reduces client JS; ISR enables auto-updates |
 | Rendering | Server Components default | *Efficiency Discipline* — optimal performance with minimal resources |
 | State | localStorage for personalization | *Progressive Autonomy* — simple first, database later |
-| Data | Static JSON in lib/data.ts | *Validation Phase* — minimal viable, upgrade to CMS in Amplification |
+| Data | Static JSON in lib/data.ts, populated via LLM deep research | *Validation Phase* — minimal viable, upgrade to CMS in Amplification |
 | Testing | Vitest + RTL | *Excellence Benchmarking* — maintain quality standards |
 | Analytics | GA4 with custom events | *Reflection Cycle* — enable measurement and learning |
 | A/B Testing | Custom hook | *Self-Adaptation* — built-in optimization capability |
