@@ -51,3 +51,6 @@ public/workbox-*.js.map
 
 # Decision logs (local development data)
 /logs/
+
+# Data (imported/generated tool data)
+/data/
