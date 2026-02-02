@@ -1,8 +1,8 @@
 # AI Tool Reviews - Comprehensive Audit Report
 
 **Project:** AI-Powered Affiliate Flywheel Web Platform  
-**Audit Date:** January 31, 2026  
-**Version:** 2.7  
+**Audit Date:** February 2, 2026  
+**Version:** 2.10  
 **Auditor Framework:** EvoLink Architect Philosophy  
 **Benchmark Documents:** [prd.md](./prd.md) | [system_design.md](./system_design.md)
 
@@ -122,7 +122,8 @@ This audit evaluates the AI Tool Reviews platform against the Product Requiremen
 
 | Feature                        | Implemented | Score |
 | ------------------------------ | ----------- | ----- |
-| Newsletter Signup (3 variants) | ✅          | 100%  |
+| Newsletter Signup (3 variants) | ✅ | Kit API v4; KIT_* configured dev+prod; subscription tested |
+| Social Proof (socialProof)     | ✅          | SocialProof component on review pages; research-driven, FTC-safe |
 | Exit Intent Popup              | ✅          | 100%  |
 | Sticky CTA (mobile + desktop)  | ✅          | 100%  |
 
@@ -140,7 +141,8 @@ This audit evaluates the AI Tool Reviews platform against the Product Requiremen
 | Missing/Incomplete Feature            | PRD Section         | Priority | Effort |
 | ------------------------------------- | ------------------- | -------- | ------ |
 | ~~Cookie consent banner + GA4 Consent Mode~~ | ~~3.3.3 Trust & Compliance~~ | ~~Medium~~ | ~~Medium~~ |
-| User testimonials section             | 3.2 Trust           | Medium   | Low    |
+| ~~Newsletter: actually collect emails~~ | ~~3.2.1 Newsletter~~ | ~~High~~ | ~~Medium~~ | ✅ Done: Kit API v4; env vars in dev+prod; sub tested |
+| ~~User testimonials section~~ | ~~3.2 Trust~~ | ~~Medium~~ | ~~Low~~ | ✅ Done: SocialProof (tool.socialProof) on review pages; UserTestimonials for real data only |
 | Recently viewed tools tracking        | 3.2 Personalization | Low      | Low    |
 | Dynamic urgency with expiration dates | 3.1.5 A/B Testing   | Medium   | Medium |
 | Coupon code display integration       | 3.1.1 Reviews       | Low      | Low    |
@@ -380,7 +382,7 @@ This audit evaluates the AI Tool Reviews platform against the Product Requiremen
 | ~~No decision logging system~~       | ~~Medium — Learning loops~~   | ~~Medium~~ | ~~**P1**~~ | ✅ Done (`lib/decision-log.ts`) |
 | ~~No cookie consent banner / GA4 Consent Mode~~ | ~~Medium — EU trust & compliance~~ | ~~Medium~~ | ~~**P1**~~ | ✅ Done (ConsentBanner, middleware region cookie, gtag consent default) |
 | No automated content freshness       | Medium — Maintenance overhead | Medium     | **P1**     | ⏳ Pending                      |
-| User testimonials missing            | Medium — Social proof         | Low        | **P2**     | ⏳ Pending                      |
+| ~~User testimonials missing~~        | ~~Medium — Social proof~~     | ~~Low~~    | ~~**P2**~~ | ✅ Done: SocialProof on review pages |
 
 ### 7.3 Minor Gaps (Nice to Have)
 
@@ -435,10 +437,10 @@ This audit evaluates the AI Tool Reviews platform against the Product Requiremen
    - ✅ GA4 Consent Mode: region-scoped default (EEA = denied via middleware cookie); consent default in first script block before gtag.js; `gtag('consent', 'update')` on accept
    - ✅ Privacy Policy updated (cookies, GA4, consent behaviour)
 
-3. **Add User Testimonials**
+3. **UserTestimonials (when real data available)**
 
-   - Create `UserTestimonials.tsx` component
-   - Add placeholder data structure
+   - `UserTestimonials.tsx` exists; use only when real curated testimonials from outreach (FTC-safe)
+   - SocialProof (tool.socialProof) is the primary format on review pages
 
 4. **Recently Updated Section**
    - Add to homepage using `getRecentlyUpdatedTools()`
@@ -452,7 +454,7 @@ This audit evaluates the AI Tool Reviews platform against the Product Requiremen
 
 2. **Content Automation**
 
-   - Create tool import scripts
+   - Grok deep research → `data/static.json` → manual merge into `lib/data.ts` (see GROK_DEEP_RESEARCH_PROMPT.md)
    - Add pricing monitoring hooks
 
 3. **Expand Tool Coverage**
@@ -485,8 +487,8 @@ updated tools using getRecentlyUpdatedTools() helper with "Updated X days ago" b
 ```
 
 ```
-Create UserTestimonials.tsx component with placeholder data structure supporting
-name, role, company, quote, toolSlug, and rating fields
+UserTestimonials.tsx exists. Use only when real curated testimonials from outreach
+are available (FTC-safe). SocialProof (tool.socialProof) is primary on review pages.
 ```
 
 ### 9.3 Medium Priority (P2)
@@ -567,6 +569,9 @@ Middleware: 34.5 kB
 | Jan 31, 2026 | 2.5     | 9.1/10 | Component tests for critical paths (QuizComponent, AffiliateLink, SignupForm, ComparisonTableSortable); 161 tests total |
 | Jan 31, 2026 | 2.6     | 9.1/10 | Launch complete: Vercel deployed, GA4 + Web Data Stream, custom domain affievo.com; 7 tools, 4 categories; Phase 88% |
 | Jan 31, 2026 | 2.7     | 9.1/10 | Privacy Policy (cookies, GA4, consent); ESLint CLI migration (next lint → eslint .) |
+| Feb 2, 2026  | 2.8     | 9.1/10 | UserTestimonials/SocialProof clarification; Content Automation (Grok → static.json workflow); data.ts synced from static.json |
+| Feb 2, 2026  | 2.9     | 9.1/10 | Kit (ConvertKit) newsletter integration; KIT_API_KEY + KIT_FORM_ID for email collection |
+| Feb 2, 2026  | 2.10    | 9.1/10 | Kit API v4; KIT_* configured dev+prod; newsletter subscription tested |
 
 ### 10.5 Reference Documents
 
@@ -577,6 +582,7 @@ Middleware: 34.5 kB
 | EvoLink          | Persona framework      | [EvoLink.md](./EvoLink.md)                           |
 | Philosophy       | Judgment framework     | [philosophy_framework.md](./philosophy_framework.md) |
 | Business Context | Strategy context       | [business_context.md](./business_context.md)         |
+| Grok Research    | Tool data collection   | [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md) |
 
 ---
 

@@ -37,8 +37,8 @@ This technical architecture implements the **EvoLink Architect** philosophy. Eve
 ├─────────────────────────────────────────────────────────────────────┤
 │                        External Services                            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                 │
-│  │  Google     │  │  Mailchimp/ │  │  Affiliate  │                 │
-│  │  Analytics  │  │  ConvertKit │  │  Networks   │                 │
+│  │  Google     │  │  Kit        │  │  Affiliate  │                 │
+│  │  Analytics  │  │  (ConvertKit)│  │  Networks   │                 │
 │  └─────────────┘  └─────────────┘  └─────────────┘                 │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -114,6 +114,7 @@ affiliate_flywheel_web/
 │   ├── ReviewPageClient.tsx     # Full review page client wrapper
 │   ├── ReviewsContent.tsx       # Reviews listing with filters
 │   ├── ProsCons.tsx             # Pros/cons comparison
+│   ├── SocialProof.tsx           # User quotes from public reviews (research-driven)
 │   ├── ScreenshotGallery.tsx    # Screenshot carousel
 │   ├── VideoEmbed.tsx           # YouTube embed
 │   │
@@ -238,6 +239,7 @@ interface Tool {
   // Media
   screenshots?: string[];
   videoReviewUrl?: string;
+  socialProof?: string[];  // User quotes from public reviews; format: "quote – attribution"
 }
 
 type Category = 'AI Writing' | 'AI Voice' | 'AI Images' | 'AI Video' | 'AI Productivity';
@@ -851,9 +853,9 @@ GitHub Repository
 # Analytics
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 
-# Newsletter (future)
-MAILCHIMP_API_KEY=
-MAILCHIMP_LIST_ID=
+# Newsletter (required for email collection) — Kit (ConvertKit)
+KIT_API_KEY=
+KIT_FORM_ID=
 
 # Site URL (for OG images, sitemap)
 NEXT_PUBLIC_SITE_URL=https://affievo.com

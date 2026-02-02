@@ -18,7 +18,7 @@ interface SignupFormProps {
   ctaText?: string;
   /** Custom success message */
   successMessage?: string;
-  /** Form action URL (Mailchimp/ConvertKit) */
+  /** Form action URL (optional; defaults to /api/newsletter which uses Kit) */
   formAction?: string;
   /** Additional class names */
   className?: string;
@@ -30,7 +30,7 @@ type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 /**
  * Email signup form component
- * Supports Mailchimp, ConvertKit, or custom endpoints
+ * Posts to /api/newsletter (Kit/ConvertKit) or custom formAction
  */
 export function SignupForm({
   location,

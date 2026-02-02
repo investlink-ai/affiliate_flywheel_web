@@ -34,8 +34,10 @@ In the Vercel project **Settings → Environment Variables**, add:
 | `NEXT_PUBLIC_SITE_URL`           | Yes      | Canonical site URL (sitemap, schema)            | `https://affievo.com` |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID`  | Yes      | GA4 Measurement ID                              | `G-XXXXXXXXXX`        |
 | `NEXT_PUBLIC_GA_FORCE_ENABLE`    | No       | Set `true` to enable GA in dev                  | (leave unset in prod) |
-| `NEXT_PUBLIC_MAILCHIMP_ACTION`   | No       | Mailchimp form action URL (if using SignupForm) | (optional)            |
-| `NEXT_PUBLIC_CONVERTKIT_FORM_ID` | No       | ConvertKit form ID (if using ConvertKit)        | (optional)            |
+| `KIT_API_KEY`                   | Yes*     | Kit API v4 key for newsletter signups           | Kit > Account Settings > Developer > Add new key |
+| `KIT_FORM_ID`                   | Yes*     | Kit form ID to subscribe new signups            | From form URL (e.g. /forms/123456/edit → 123456) |
+
+*Required for newsletter to actually collect emails. Without these, signups are logged only and not stored.
 
 - Apply to **Production** (and Preview if you want GA in preview deployments).
 - Get **GA4 Measurement ID**: [Google Analytics](https://analytics.google.com/) → Admin → Data Streams → your Web stream → Measurement ID (`G-...`).
@@ -75,7 +77,7 @@ In the Vercel project **Settings → Environment Variables**, add:
 - [x] Production URL loads and navigation works.
 - [x] GA4 Realtime shows your visit.
 - [x] Affiliate link click sends `affiliate_click` (or equivalent) in GA4.
-- [ ] Newsletter signup (if used) is wired and tracked.
+- [x] Newsletter signup: Kit (ConvertKit) integrated — set `KIT_API_KEY` and `KIT_FORM_ID` in Vercel env vars.
 - [x] Sitemap: `https://your-domain.com/sitemap.xml` returns the expected URLs.
 - [x] Optional: Connect a custom domain and set `NEXT_PUBLIC_SITE_URL`.
 

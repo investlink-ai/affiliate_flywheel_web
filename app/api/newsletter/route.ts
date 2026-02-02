@@ -62,22 +62,76 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Normalize email
     const normalizedEmail = email.toLowerCase().trim();
 
-    // TODO: Integrate with your email service provider
-    // Examples:
-    // - Mailchimp: await mailchimp.lists.addListMember(...)
-    // - ConvertKit: await fetch('https://api.convertkit.com/v3/forms/...')
-    // - Resend: await resend.emails.send(...)
-    
-    // For now, log the subscription (replace with actual integration)
-    console.log('[Newsletter] New subscription:', {
-      email: normalizedEmail,
-      toolPreference: toolPreference || 'none',
-      timestamp: new Date().toISOString(),
-      ip: request.headers.get('x-forwarded-for') || 'unknown',
-    });
+    // Kit API v4 integration — create subscriber, then add to form
+    const apiKey = process.env.KIT_API_KEY;
+    const formId = process.env.KIT_FORM_ID;
+    const kitBase = 'https://api.kit.com/v4';
 
-    // Simulate async operation
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    if (apiKey && formId) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Kit-Api-Key': apiKey,
+      };
+      try {
+        // Step 1: Create or update subscriber (upsert)
+        const createRes = await fetch(`${kitBase}/subscribers`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            email_address: normalizedEmail,
+            state: 'active',
+            ...(toolPreference && {
+              fields: { tool_preference: toolPreference },
+            }),
+          }),
+        });
+
+        if (!createRes.ok) {
+          const errBody = await createRes.text();
+          console.error('[Newsletter] Kit create subscriber error:', createRes.status, errBody);
+          return NextResponse.json(
+            { success: false, error: 'Subscription failed. Please try again.' },
+            { status: 502 }
+          );
+        }
+
+        // Step 2: Add subscriber to form
+        const referrer =
+          request.headers.get('referer') ??
+          process.env.NEXT_PUBLIC_SITE_URL ??
+          'https://affievo.com';
+        const addRes = await fetch(`${kitBase}/forms/${formId}/subscribers`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            email_address: normalizedEmail,
+            referrer,
+          }),
+        });
+
+        if (!addRes.ok) {
+          const errBody = await addRes.text();
+          console.error('[Newsletter] Kit add to form error:', addRes.status, errBody);
+          return NextResponse.json(
+            { success: false, error: 'Subscription failed. Please try again.' },
+            { status: 502 }
+          );
+        }
+      } catch (err) {
+        console.error('[Newsletter] Kit request failed:', err);
+        return NextResponse.json(
+          { success: false, error: 'An error occurred. Please try again.' },
+          { status: 502 }
+        );
+      }
+    } else {
+      // Log only when Kit is not configured (development)
+      console.log('[Newsletter] New subscription (Kit not configured):', {
+        email: normalizedEmail,
+        toolPreference: toolPreference || 'none',
+        timestamp: new Date().toISOString(),
+      });
+    }
 
     return NextResponse.json(
       {
