@@ -233,6 +233,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* UserTestimonials: Add when we have real curated testimonials (outreach, permission). Use SocialProof on review pages for research-driven quotes. */}
+
       {/* Newsletter Signup Section */}
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">

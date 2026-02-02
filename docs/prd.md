@@ -120,6 +120,7 @@ Tool:
   - Metadata: lastUpdated, lastVerified, isNew
   - Personalization: recommendations[UserType]
   - Media: screenshots[], videoReviewUrl
+  - Social proof: socialProof[] (user quotes from public reviews)
 ```
 
 #### 3.1.2 Personalized Recommendations Quiz
@@ -187,9 +188,17 @@ Tool:
 - [ ] Location tracking (homepage, review footer, exit popup)
 - [ ] Tool preference collection
 - [ ] Trust signals (subscriber count, privacy assurance)
-- [ ] Mailchimp/ConvertKit integration ready
+- [x] **Actually collect emails** — Kit (ConvertKit) integrated in `/api/newsletter`; set `KIT_API_KEY` and `KIT_FORM_ID` for production
 
-#### 3.2.2 Exit Intent Popup
+#### 3.2.2 Social Proof
+
+**Objective:** Build trust with user quotes and testimonials
+
+**Primary format — socialProof (Tool.socialProof):** User quotes from public reviews (G2, Reddit, reports). Format: `"quote – attribution"`. Research-driven via LLM; scales with Grok research; FTC-safe (quoting public sources). Display on review pages via `SocialProof` component.
+
+**Secondary format — UserTestimonials:** Curated testimonials with name, role, company, quote, rating. Use **only when we have real data** from outreach with permission. Do NOT use placeholder/fake testimonials in production (FTC risk). Display on homepage when available.
+
+#### 3.2.3 Exit Intent Popup
 
 **Objective:** Capture leaving visitors
 
@@ -199,7 +208,7 @@ Tool:
 - [ ] Dismissible with "X" button
 - [ ] Newsletter signup or featured tool promotion
 
-#### 3.2.3 Sticky CTA
+#### 3.2.4 Sticky CTA
 
 **Objective:** Maintain conversion opportunity during scroll
 

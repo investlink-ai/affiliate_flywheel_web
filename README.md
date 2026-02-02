@@ -257,9 +257,11 @@ trackNewsletterSignup({
 
 ## Newsletter Integration
 
+**Kit (ConvertKit)** is used for email collection. Set `KIT_API_KEY` and `KIT_FORM_ID` in your environment (see `.env.example`). Without these, signups are logged only.
+
 ### SignupForm Component
 
-The `SignupForm` component supports Mailchimp, ConvertKit, or custom endpoints:
+The `SignupForm` component posts to `/api/newsletter`, which subscribes users to your Kit form when configured.
 
 ```tsx
 <SignupForm
@@ -267,7 +269,6 @@ The `SignupForm` component supports Mailchimp, ConvertKit, or custom endpoints:
   variant="card" // 'card' | 'banner' | 'inline'
   headline="Get Weekly AI Insights"
   description="Join 5,000+ creators..."
-  formAction="https://your-mailchimp-url" // Optional
 />
 ```
 

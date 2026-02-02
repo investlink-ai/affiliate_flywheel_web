@@ -61,6 +61,7 @@ interface Tool {
   isNew?: boolean;          // true if launched/relaunched in last ~12 months
   screenshots?: string[];   // Optional: public screenshot URLs
   videoReviewUrl?: string;  // Optional: YouTube review URL if you find a credible one
+  socialProof?: string[];  // User quotes from public reviews; format: "quote – attribution" (e.g. "'Saves hours weekly' – Marketer, G2, Jan 2026")
 }
 ```
 
@@ -81,6 +82,7 @@ For each tool, you MUST search and cite:
 | **features** | Official website, product page, docs | — |
 | **pros** | User reviews (G2, Capterra, Reddit) | — |
 | **cons** | User reviews (G2, Capterra, Reddit) | — |
+| **socialProof** | User reviews (G2, Capterra, Reddit) — 4-6 quotes with attribution | — |
 | **tagline, description** | Official website | — |
 | **bestFor** | Marketing copy + user review themes | — |
 | **verdict** | Synthesize from all above; cite key sources | — |
