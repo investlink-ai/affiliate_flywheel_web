@@ -7,12 +7,12 @@ import { filterTools, type Category } from '@/lib/data';
 import { getUserTypeFromParams } from '@/lib/user-type';
 
 export const metadata: Metadata = {
-  title: 'AI Tool Reviews',
+  title: 'AI Investment Tool Reviews',
   description:
-    'Comprehensive reviews of the best AI tools for content creation, productivity, and marketing. Honest assessments based on real testing.',
+    'Comprehensive reviews of the best AI investment tools for traders and investors. Honest assessments based on real testing.',
   openGraph: {
-    title: 'AI Tool Reviews | Best AI Tools 2026',
-    description: 'Comprehensive reviews of the best AI tools for content creation and productivity.',
+    title: 'AI Investment Tool Reviews | LinkInvest',
+    description: 'Comprehensive reviews of the best AI investment tools for traders and investors.',
   },
 };
 
@@ -46,10 +46,10 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
       <section className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            AI Tool Reviews
+            AI Investment Tool Reviews
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
-            Honest, in-depth reviews of the best AI tools for productivity and content creation. Every
+            Honest, in-depth reviews of the best AI investment tools for traders and investors. Every
             tool has been personally tested.
           </p>
         </div>

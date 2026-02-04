@@ -43,10 +43,10 @@ import { primaryAuthor, getAuthorSchema } from './author';
  */
 export const organizationSchema = {
   '@type': 'Organization',
-  name: 'AI Investment Tools Reviews',
-  url: 'https://affievo.com',
-  logo: 'https://affievo.com/icon.svg',
-  description: 'Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
+  name: 'LinkInvest',
+  url: 'https://linkinvest.com',
+  logo: 'https://linkinvest.com/icon.svg',
+  description: 'AI Investment Tool Reviews - Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
   sameAs: [
     'https://twitter.com/FeynmanXu',
     'https://github.com/feynmanxu',
@@ -92,7 +92,8 @@ export const organizationSchema = {
  * @see {@link https://developers.google.com/search/docs/appearance/structured-data/review-snippet} Google Review Snippets
  */
 export function generateReviewSchema(tool: Tool) {
-  const siteUrl = 'https://affievo.com';
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://linkinvest.com';
   const reviewUrl = `${siteUrl}/reviews/${tool.slug}`;
   const authorSchema = getAuthorSchema();
 
@@ -388,8 +389,8 @@ interface ArticleSchemaParams {
  * const articleSchema = generateArticleSchema({
  *   title: 'Best AI Writing Tools for 2026',
  *   description: 'A comprehensive guide to the top AI investment tools...',
- *   url: 'https://aitoolreviews.com/blog/best-ai-writing-tools',
- *   image: 'https://aitoolreviews.com/images/blog/ai-writing-guide.jpg',
+ *   url: 'https://linkinvest.com/blog/best-ai-investment-tools',
+ *   image: 'https://linkinvest.com/images/blog/ai-investment-guide.jpg',
  *   datePublished: '2026-01-15',
  *   dateModified: '2026-01-20',
  * });

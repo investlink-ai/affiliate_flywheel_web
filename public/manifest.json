@@ -1,7 +1,7 @@
 {
-  "name": "AI Tool Reviews",
-  "short_name": "AI Reviews",
-  "description": "Honest, in-depth reviews of the best AI tools for productivity and content creation",
+  "name": "LinkInvest",
+  "short_name": "LinkInvest",
+  "description": "AI Investment Tool Reviews - Honest, in-depth reviews of the best AI investment tools",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -20,14 +20,14 @@
     {
       "name": "Browse Reviews",
       "short_name": "Reviews",
-      "description": "Browse all AI tool reviews",
+      "description": "Browse all AI investment tool reviews",
       "url": "/reviews",
       "icons": [{ "src": "/icon.svg", "sizes": "any" }]
     },
     {
       "name": "Compare Tools",
       "short_name": "Compare",
-      "description": "Compare AI tools side by side",
+      "description": "Compare AI investment tools side by side",
       "url": "/comparisons",
       "icons": [{ "src": "/icon.svg", "sizes": "any" }]
     }

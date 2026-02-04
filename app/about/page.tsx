@@ -4,7 +4,7 @@ import { DisclosureNote } from '@/components/DisclosureNote';
 import { primaryAuthor } from '@/lib/author';
 
 export const metadata: Metadata = {
-  title: `About ${primaryAuthor.name} | AI Tool Reviews`,
+  title: `About ${primaryAuthor.name} | LinkInvest`,
   description: `Meet ${primaryAuthor.name}, ${primaryAuthor.title}. ${primaryAuthor.bio.slice(0, 150)}...`,
   openGraph: {
     title: `About ${primaryAuthor.name} - ${primaryAuthor.title}`,
@@ -104,14 +104,14 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">The Story</h2>
           <div className="mt-4 space-y-4 text-slate-600 dark:text-slate-400">
             <p>
-              I started AI Tool Reviews in 2024 after spending countless hours (and dollars) testing
-              AI tools for my own content business. I was frustrated by reviews that were either
+              I started LinkInvest in 2024 after spending countless hours (and dollars) testing
+              AI investment tools for my own trading and research. I was frustrated by reviews that were either
               thinly-veiled ads or written by people who clearly hadn&apos;t used the product beyond
               a free trial.
             </p>
             <p>
-              With {primaryAuthor.experience} in digital marketing and AI, I knew I could do better.
-              The AI tool landscape is noisy — new products launch daily, each claiming to
+              With {primaryAuthor.experience} in fintech and AI, I knew I could do better.
+              The AI investment tool landscape is noisy — new products launch daily, each claiming to
               revolutionize your workflow. But which ones actually deliver? That&apos;s what I set
               out to answer.
             </p>
@@ -159,7 +159,7 @@ export default function AboutPage() {
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Regular Updates</h3>
                 <p className="mt-1 text-slate-600 dark:text-slate-400">
-                  AI tools change fast. I revisit reviews when products have significant updates and
+                  AI investment tools change fast. I revisit reviews when products have significant updates and
                   note the last update date on every review so you know the information is current.
                 </p>
               </div>
@@ -225,7 +225,7 @@ export default function AboutPage() {
                   LinkedIn
                 </a>
               )}
-              <a href="mailto:hello@aitoolreviews.com" className="btn-secondary">
+              <a href="mailto:hello@linkinvest.com" className="btn-secondary">
                 <svg
                   className="h-5 w-5"
                   fill="none"

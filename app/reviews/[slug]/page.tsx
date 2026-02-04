@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     authors: [{ name: primaryAuthor.name, url: primaryAuthor.socialProfiles.website }],
     creator: primaryAuthor.name,
-    publisher: 'AI Tool Reviews',
+    publisher: 'LinkInvest',
     openGraph: {
       title: `${tool.name} Review ${currentYear} | Expert Analysis`,
       description: `${authorByline}. ${tool.verdict.slice(0, 150)}...`,
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: tool.lastUpdated,
       modifiedTime: tool.lastUpdated,
       authors: [primaryAuthor.name],
-      tags: [tool.category, 'AI Tools', 'Review', tool.name, ...tool.features.slice(0, 3)],
+      tags: [tool.category, 'AI Investment Tools', 'Review', tool.name, ...tool.features.slice(0, 3)],
       images: [
         {
           url: `/og/reviews/${tool.slug}.png`,
@@ -309,7 +309,7 @@ export default async function ReviewPage({ params }: PageProps) {
           <SignupForm
             location={`review-${tool.slug}`}
             variant="banner"
-            headline="Get More AI Tool Insights"
+            headline="Get More AI Investment Tool Insights"
             description={`Enjoyed this ${tool.name} review? Get weekly recommendations, exclusive deals, and tips.`}
             ctaText="Join Free"
           />

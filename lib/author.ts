@@ -44,7 +44,7 @@ export const primaryAuthor: Author = {
     twitter: 'https://twitter.com/FeynmanXu',
     linkedin: 'https://www.linkedin.com/in/xiaobin-xu-0a7065b4/',
     github: 'https://github.com/feynmanxu',
-    website: 'https://aitoolreviews.com/about',
+    website: 'https://linkinvest.com/about',
   },
   image: '/images/authors/sam-xu.jpg',
 };

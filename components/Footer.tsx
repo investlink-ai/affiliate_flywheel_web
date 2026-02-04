@@ -46,7 +46,7 @@ export function Footer() {
                   />
                 </svg>
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">AI Tool Reviews</span>
+              <span className="font-bold text-slate-900 dark:text-white">LinkInvest</span>
             </Link>
             <p className="mt-4 max-w-md text-sm text-slate-600 dark:text-slate-400">
               Honest, in-depth reviews of AI investment tools and fintech platforms. Helping
@@ -121,7 +121,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
           <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-            &copy; {currentYear} AI Tool Reviews. All rights reserved.
+            &copy; {currentYear} LinkInvest. All rights reserved.
           </p>
         </div>
       </div>

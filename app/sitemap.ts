@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { getAllToolSlugs } from '@/lib/data';
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://linkinvest.com';
+
 /** Category page slugs */
 const categorySlugs = [
   'ai-investment-signals',
@@ -11,7 +14,6 @@ const categorySlugs = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://affievo.com';
   const toolSlugs = getAllToolSlugs();
 
   // Static pages

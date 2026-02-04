@@ -170,10 +170,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: config.title,
     description: config.description,
     openGraph: {
-      title: `${config.title} | AI Tool Reviews`,
+      title: `${config.title} | LinkInvest`,
       description: config.description,
       type: 'website',
-      url: `https://aitoolreviews.com/${config.slug}`,
+      url: `https://linkinvest.com/${config.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -181,7 +181,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.description,
     },
     alternates: {
-      canonical: `https://affievo.com/${config.slug}`,
+      canonical: `https://linkinvest.com/${config.slug}`,
     },
   };
 }
@@ -214,7 +214,7 @@ export default async function CategoryPage({ params }: PageProps) {
     '@type': 'CollectionPage',
     name: config.title,
     description: config.description,
-    url: `https://aitoolreviews.com/${config.slug}`,
+    url: `https://linkinvest.com/${config.slug}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: categoryTools.length,
@@ -225,7 +225,7 @@ export default async function CategoryPage({ params }: PageProps) {
           '@type': 'SoftwareApplication',
           name: tool.name,
           description: tool.tagline,
-          url: `https://aitoolreviews.com/reviews/${tool.slug}`,
+          url: `https://linkinvest.com/reviews/${tool.slug}`,
           aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: tool.rating,
@@ -469,7 +469,7 @@ export default async function CategoryPage({ params }: PageProps) {
             Explore More Categories
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-400">
-            Discover other AI tools to supercharge your workflow
+            Discover investment tools to supercharge your workflow
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             {categoryConfigs
