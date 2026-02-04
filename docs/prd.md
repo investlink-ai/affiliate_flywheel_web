@@ -1,8 +1,9 @@
 # Product Requirements Document (PRD)
-## AI Tool Reviews - Affiliate Flywheel
 
-**Version:** 1.1  
-**Last Updated:** January 2026  
+## AI Investment Tools Reviews - Affiliate Flywheel
+
+**Version:** 1.6  
+**Last Updated:** February 2026  
 **Status:** Active Development
 
 ---
@@ -11,83 +12,83 @@
 
 ### 1.1 Vision
 
-AI Tool Reviews is an AI-powered affiliate review platform designed to help creators, marketers, solopreneurs, and agencies discover the best AI productivity and content creation tools. The platform is built upon the **EvoLink Architect** persona and guided by the **AI-Powered Affiliate Flywheel Philosophy Framework**—a timeless, principle-based system for building self-evolving, value-creating affiliate ecosystems.
+AI Investment Tools Reviews is an AI-powered affiliate review platform designed to empower investors, traders, fintech professionals, and financial strategists in discovering the best AI-driven investment tools, fintech platforms, and quantitative strategies. The platform is built upon the **InvestLink Architect** persona and guided by the **AI Investment Affiliate Flywheel Philosophy Framework**—a timeless, principle-based system for building self-evolving, value-creating affiliate ecosystems focused on quantifiable efficiency, risk-adjusted returns, and scalable revenue progression.
 
 ### 1.2 Mission
 
-Deliver honest, in-depth, and personalized AI tool recommendations that build user trust, drive high conversion rates, and create sustainable affiliate revenue through a self-optimizing flywheel model.
+Deliver data-backed, in-depth, and personalized investment tool recommendations that bridge information asymmetries, enhance decision efficiency, and generate sustainable affiliate revenue through a self-optimizing, quantitative flywheel model.
 
 ### 1.3 Core Value Proposition
 
-- **For Users:** Unbiased, expert-tested reviews with personalized recommendations based on user type and needs
-- **For Business:** Scalable affiliate revenue through high-converting content, A/B testing, and data-driven optimization
+- **For Users:** Data-backed, quantitatively informed reviews with personalized recommendations that address investment efficiency, cognitive gaps, and information asymmetry, enabling streamlined decision-making in global markets.
+- **For Business:** Scalable affiliate revenue through high-converting content, A/B testing, and data-driven optimization, with a focus on metrics like ROI, CPA, and conversion rates.
 
 ### 1.4 Guiding Philosophy
 
-> Reference: [EvoLink.md](./EvoLink.md) | [philosophy_framework.md](./philosophy_framework.md)
+> Reference: [InvestLink.md](./InvestLink.md) | [philosophy_framework.md](./philosophy_framework.md)
 
-This product is designed and evolved through the lens of the **EvoLink Architect** persona—a virtual mastermind that blends strategic foresight, technical prowess, and adaptive intelligence. All decisions reference the five interconnected modules of the philosophy framework:
+This product is designed and evolved through the lens of the **InvestLink Architect** persona—a data-driven mastermind that integrates quantitative analysis, automation, and ethical growth for investment-focused affiliate systems. All decisions reference the five interconnected modules of the philosophy framework:
 
-1. **Core Values** — Foundational beliefs that anchor the system
-2. **Decision Principles** — Judgment guidelines for evaluating opportunities
-3. **Objective Orientation** — Phased directional goals
-4. **Boundary Constraints** — Non-negotiable guardrails
-5. **Evolution Mechanisms** — Self-improvement loops
+1. **Core Values** — Foundational beliefs that anchor the system in quantitative empowerment and scalability.
+2. **Decision Principles** — Judgment guidelines for evaluating opportunities with a quant-first mindset.
+3. **Objective Orientation** — Phased directional goals aligned with affiliate-to-services progression.
+4. **Boundary Constraints** — Non-negotiable guardrails for ethical and efficient operations.
+5. **Evolution Mechanisms** — Self-improvement loops via data processes and ML optimization.
 
 ---
 
 ## 2. Business Context & Strategy
 
-> Reference: [business_context.md](./business_context.md)
-
 ### 2.1 Core Values Alignment
 
-The platform embodies the four foundational beliefs of the EvoLink philosophy:
+The platform embodies the four foundational beliefs of the InvestLink philosophy:
 
-| Core Value | Platform Implementation |
-|------------|------------------------|
-| **AI Empowerment & Human Augmentation** | AI handles 80%+ of routine tasks (personalization, A/B testing, analytics) while humans provide strategic direction, content quality oversight, and ethical review |
-| **Reusability & Leverage** | Modular components (review templates, quiz scoring, schema generators) scale across tools and categories with minimal additional effort |
-| **Self-Adaptation & Continuous Improvement** | Embedded feedback loops via analytics, A/B testing infrastructure, and performance monitoring enable automatic refinement |
-| **Value-Centric & Sustainable Growth** | Transparent FTC disclosures, LLM deep research with cited sources, and trust-building content prioritize genuine user value over manipulation |
+| Core Value                                                                | Platform Implementation                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **AI Investment Empowerment & Human Augmentation with Efficiency Focus**  | AI automates 80%+ of internal processes (e.g., sentiment analysis, affiliate research), while quantitative insights provide strategic oversight and refinement. The aim is to bridge user cognitive gaps and information disparities globally, enabling streamlined decision-making without conflating internal AI tools with user-facing solutions.         |
+| **Reusability & Leverage with Data-Driven Modularity**                    | Build modular, composable assets (e.g., reusable research pipelines, affiliate comparison templates) that compound business value through data optimization and workflow automation. Prioritize elements reusable across global markets, maximizing affiliate impact and operational scalability with minimal effort.                                        |
+| **Self-Adaptation & Continuous Improvement Aligned with Market Dynamics** | The system functions as an intelligent, ML-enabled agent, reflecting on global trends (e.g., sentiment shifts in investment tools), data feedback, and evolving quantitative techniques. Success derives from adaptive, data-optimized intelligence, ensuring the flywheel aligns with worldwide market signals through iterative automation and validation. |
+| **Value-Centric & Sustainable Growth via Ethical, Quantifiable Insights** | Growth is rooted in genuine, data-backed value for users, addressing efficiency in investment processes, fintech, and emerging technologies. Pursue scalable income—starting with affiliate commissions and progressing to customized services—transparently, avoiding unvalidated risks, to build enduring trust and business sustainability.               |
 
 ### 2.2 Decision Principles in Practice
 
 Every product decision is evaluated against these judgment guidelines:
 
-| Decision Principle | Application |
-|--------------------|-------------|
-| **Automation Feasibility First** | "Can this be automated?" — Quiz scoring, personalization, tracking are automated; human review reserved for content quality |
-| **Impact & Leverage Prioritization** | Focus on high-ROI levers: evergreen review content, reusable quiz algorithms, compounding SEO assets |
-| **Dynamic Adaptation & Opportunity Alignment** | Monitor market signals (new AI tools, algorithm changes) and pivot strategy accordingly |
-| **Excellence Benchmarking** | Target 5-10% conversion rates vs. 2% industry average; measure against top affiliate performers |
-| **Enduring Practice Alignment** | Ground tactics in timeless truths: customer empathy, trust-building, measurable value exchange |
+| Decision Principle                                                   | Application                                                                                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Automation Feasibility First, Integrated with Quant Mindset**      | For every internal task, ask: “Can this be automated while incorporating quantitative models and data insights?” Favor approaches that reduce operational dependency, preserving quality through data-driven refinement (e.g., AI-automated affiliate comparisons or user interest detection).                              |
+| **Impact & Leverage Prioritization on Financial Goals**              | Evaluate based on quantifiable contribution to business finances (e.g., high-CPA commissions or ROI from customized services). Focus on high-leverage elements like automated workflows, over low-impact tasks, ensuring single-mainline efficiency through metrics like operational savings or affiliate conversion rates. |
+| **Dynamic Adaptation & Opportunity Alignment with Global Focus**     | Decisions account for data signals like worldwide trends, global investment shifts, or probabilistic market forecasts. Favor actions capturing asymmetric upside (e.g., timely promotions of fintech or AI tools) while maintaining flexibility to pivot without parallel operations, validated by data backtesting.        |
+| **Excellence Benchmarking via Quant Expertise**                      | Measure against elite, data-defined standards: outperform typical affiliate results using quantitative techniques (e.g., benchmarks like efficiency gains or information asymmetry reduction). Shortfalls signal refinement, leveraging a global, metric-based validation approach.                                         |
+| **Enduring Practice Alignment with Ethical, Data-Driven Operations** | Ground decisions in proven truths (user empathy, trust-building, measurable ROI) amplified by quantitative intelligence. Prioritize ethical exchanges, disclosing affiliations and noting "not financial advice," with data integrity to align with international regulatory realities.                                     |
 
 ### 2.3 Target Audience Segmentation
 
-| User Type | Description | Primary Needs | Key Tools |
-|-----------|-------------|---------------|-----------|
-| **Marketers** | Marketing professionals & teams | Marketing copy, SEO content, brand voice | Jasper AI, Copy.ai |
-| **Creators** | Content creators & influencers | Video, audio, visual content | Runway ML, Descript |
-| **Solopreneurs** | Solo business owners | All-in-one, budget-friendly solutions | Copy.ai, Notion AI |
-| **Agencies** | Marketing/creative agencies | Team collaboration, enterprise features | Jasper AI, Runway ML |
-| **Developers** | Technical professionals | Code assistance, documentation | Notion AI |
+| User Type                 | Description                                   | Primary Needs                               | Key Tools               |
+| ------------------------- | --------------------------------------------- | ------------------------------------------- | ----------------------- |
+| **Individual Investors**  | Retail investors managing personal portfolios | Low-cost platforms, AI signals, risk tools  | Robinhood, QuantConnect |
+| **Traders**               | Active day/swing traders                      | Real-time analytics, algorithmic trading    | TradingView, Alpaca     |
+| **Fintech Professionals** | Developers/builders in fintech                | Integration tools, API platforms            | Plaid, Stripe Treasury  |
+| **Financial Advisors**    | Advisors & wealth managers                    | Client portfolio tools, compliance features | Wealthfront, Betterment |
+| **Quantitative Analysts** | Quant-focused users                           | Advanced modeling, backtesting              | QuantConnect            |
 
 ### 2.4 Revenue Model
 
-**Primary Revenue:** Affiliate commissions from tool signups
+**Primary Revenue:** Affiliate commissions from investment tool signups and subscriptions
 
-| Revenue Stream | Mechanism | Priority |
-|----------------|-----------|----------|
-| Affiliate Clicks | Per-click/per-conversion commissions | High |
-| Newsletter Leads | Email list monetization, exclusive deals | Medium |
-| Exclusive Deals | Higher commission partnerships | High |
+| Revenue Stream   | Mechanism                                 | Priority                  |
+| ---------------- | ----------------------------------------- | ------------------------- |
+| Affiliate Clicks | Per-click/per-conversion commissions      | High                      |
+| Newsletter Leads | Email list monetization, exclusive deals  | Medium                    |
+| Exclusive Deals  | Higher commission partnerships            | High                      |
+| Future Services  | Customized quant strategies or consulting | Low (Amplification Phase) |
 
 **Key Metrics (KPIs):**
-- **EPC (Earnings Per Click):** Target $1.50-$3.00
-- **Conversion Rate:** Target 5-10% (click to signup)
-- **Average Commission Rate:** 25-45%
-- **Cookie Duration Optimization:** Prioritize 30-90 day cookies
+
+- **EPC (Earnings Per Click):** Target $2.00-$4.00
+- **Conversion Rate:** Target 6-12% (click to signup)
+- **Average Commission Rate:** 30-50%
+- **Cookie Duration Optimization:** Prioritize 60-90 day cookies for long-tail conversions
 
 ---
 
@@ -97,19 +98,22 @@ Every product decision is evaluated against these judgment guidelines:
 
 #### 3.1.1 Tool Reviews System
 
-**Objective:** Provide comprehensive, trustworthy AI tool reviews
+**Objective:** Provide comprehensive, LLM-researched investment tool reviews with social proof emphasis
 
-**Data Collection:** Tool data is populated via LLM deep research (web search + cited sources), not manual hands-on testing. This scales across many tools. See [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md) for the research prompt and workflow. Human spot-checks verify critical fields before publish.
+**Data Collection:** Tool data is populated via reusable LLM deep research (web search + cited sources), not manual hands-on testing. This scales across many tools and reuses existing research prompts/workflows. Human spot-checks verify critical fields before publish. Focus on specific AI investment tools (e.g., AI signals in fintech platforms), avoiding generic concepts or deep dives into quant-like platforms/trading strategies.
 
 **Requirements:**
-- [ ] Individual review pages with structured content (description, features, pros/cons, verdict)
-- [ ] Star ratings with aggregate rating counts
-- [ ] Pricing information with tier details
-- [ ] "Last Updated" and "Last Verified" timestamps for freshness signals
-- [ ] Screenshots and video embeds for visual demonstration
-- [ ] Category-based organization (AI Writing, AI Voice, AI Images, AI Video, AI Productivity)
+
+- [ ] Individual review pages with structured content (description, features, pros/cons, verdict, social proof from user reviews)
+- [ ] Star ratings with aggregate rating counts and comparable metrics where applicable (e.g., user satisfaction scores, not assuming uniform metrics like Sharpe Ratio across all tools)
+- [ ] Pricing information with tier details and cost-efficiency analysis
+- [ ] "Last Updated" and "Last Verified" timestamps for data freshness
+- [ ] Screenshots, charts (e.g., user interface demos), and video embeds for visual demonstration
+- [ ] Category-based organization (AI Investment Signals, Quantitative Platforms, Fintech Infrastructure, Crypto Tools, Portfolio Management)
+- [ ] Social proof integration (e.g., quotes from G2, Reddit, Trustpilot) as primary trust builder, with quant data (e.g., performance indicators) as ideal enhancement where relevant and comparable
 
 **Review Data Model:**
+
 ```
 Tool:
   - Basic: slug, name, tagline, description, logoUrl
@@ -120,60 +124,67 @@ Tool:
   - Metadata: lastUpdated, lastVerified, isNew
   - Personalization: recommendations[UserType]
   - Media: screenshots[], videoReviewUrl
-  - Social proof: socialProof[] (user quotes from public reviews)
+  - Social Proof: socialProof[] (user quotes from public reviews)
+  - Quant Data: optionalMetrics[] (e.g., user-reported efficiency gains, where comparable)
 ```
 
 #### 3.1.2 Personalized Recommendations Quiz
 
-**Objective:** Match users with ideal tools based on their needs
+**Objective:** Match users with ideal tools based on tag-based profiles
 
 **Requirements:**
-- [ ] Multi-step quiz flow (3 questions minimum)
-- [ ] Questions covering: use case, team size, budget
-- [ ] Tag-based scoring algorithm for recommendations
-- [ ] Match reasons displayed with results
+
+- [ ] Multi-step quiz flow (4 questions minimum)
+- [ ] Questions covering: investment style (e.g., passive/active), risk tolerance, asset focus, budget, **investment workflow stage (e.g., idea generation & research, data & fundamentals, technical & quantitative analysis, execution & trading, AI-powered tools, portfolio & risk management)**
+- [ ] Tag-based scoring algorithm for recommendations (reusable from prior implementations), **extended to cover full investment process stages + weighted toward high-priority affiliate partners (e.g. QuantConnect for data & quantitative analysis, TradeStation/Polymarket for execution & trading platforms, Notion for AI-powered tools & automation)**
+- [ ] Match reasons displayed with tag alignments **and partner highlights**
 - [ ] Top 3 recommendations with "Best Match" highlight
 - [ ] Restart capability
 
 **Quiz Scoring Logic:**
+
 - Category match bonus: +5 points
 - Tag match scoring: 1-3 points per tag
-- Score meanings: 3=Excellent, 2=Good, 1=Partial match
+- Score meanings: 3=High Potential Match, 2=Balanced Match, 1=Partial Fit
 
 #### 3.1.3 Comparison Tables
 
-**Objective:** Enable side-by-side tool comparisons
+**Objective:** Enable side-by-side tool comparisons with flexible metrics
 
 **Requirements:**
+
 - [ ] Sortable comparison table with TanStack Table
-- [ ] Features compared: Rating, Pricing, Category, Key Features
-- [ ] Filter by category
+- [ ] Features compared: Rating, Pricing, Category, Key Metrics (flexible per tool, e.g., user satisfaction or efficiency scores; not assuming uniform quant metrics like Drawdown across all), **optionally filter/sort by investment workflow stage and preferred affiliate partner strength**
+- [ ] Filter by category or user needs
 - [ ] Mobile-responsive design
 - [ ] Direct links to individual reviews
 
 #### 3.1.4 User Type Personalization
 
-**Objective:** Customize experience based on user segment
+**Objective:** Customize experience based on user segment and tags
 
 **Requirements:**
+
 - [ ] User type selection (persistent in localStorage)
-- [ ] Personalized badges on tool cards (e.g., "Best for Marketers")
-- [ ] Filtered recommendations based on user type
+- [ ] Personalized badges on tool cards (e.g., "Best for Quant Analysts")
+- [ ] Filtered recommendations based on user type and tags
 - [ ] Personalization indicator in header
 
 #### 3.1.5 A/B Testing Framework
 
-**Objective:** Continuously optimize conversion rates
+**Objective:** Continuously optimize conversion rates with data analysis
 
 **Requirements:**
-- [ ] Weighted variant selection
+
+- [ ] Weighted variant selection with probabilistic assignment
 - [ ] Persistent variant assignment (localStorage)
-- [ ] Conversion tracking per variant
-- [ ] Integration with analytics
+- [ ] Conversion tracking per variant with ROI metrics
+- [ ] Integration with analytics for validation
 
 **Active Test Areas:**
+
 - CTA button styling (colors, gradients)
-- Urgency messaging variants
+- Urgency messaging variants (e.g., market volatility alerts)
 - Review hero layouts
 - Sticky CTA behavior
 
@@ -181,38 +192,33 @@ Tool:
 
 #### 3.2.1 Newsletter Signup
 
-**Objective:** Build email list for ongoing monetization
+**Objective:** Build email list for ongoing monetization and market insights
 
 **Requirements:**
+
 - [ ] Multiple form variants (card, banner, inline)
 - [ ] Location tracking (homepage, review footer, exit popup)
-- [ ] Tool preference collection
+- [ ] Tool preference and risk profile collection
 - [ ] Trust signals (subscriber count, privacy assurance)
-- [x] **Actually collect emails** — Kit (ConvertKit) integrated in `/api/newsletter`; set `KIT_API_KEY` and `KIT_FORM_ID` for production
+- [ ] Mailchimp/ConvertKit integration ready
 
-#### 3.2.2 Social Proof
+#### 3.2.2 Exit Intent Popup
 
-**Objective:** Build trust with user quotes and testimonials
-
-**Primary format — socialProof (Tool.socialProof):** User quotes from public reviews (G2, Reddit, reports). Format: `"quote – attribution"`. Research-driven via LLM; scales with Grok research; FTC-safe (quoting public sources). Display on review pages via `SocialProof` component.
-
-**Secondary format — UserTestimonials:** Curated testimonials with name, role, company, quote, rating. Use **only when we have real data** from outreach with permission. Do NOT use placeholder/fake testimonials in production (FTC risk). Display on homepage when available.
-
-#### 3.2.3 Exit Intent Popup
-
-**Objective:** Capture leaving visitors
+**Objective:** Capture leaving visitors with data-backed offers
 
 **Requirements:**
+
 - [ ] Trigger on mouse exit intent
 - [ ] One-time display per session
 - [ ] Dismissible with "X" button
-- [ ] Newsletter signup or featured tool promotion
+- [ ] Newsletter signup or featured tool promotion with highlights
 
-#### 3.2.4 Sticky CTA
+#### 3.2.3 Sticky CTA
 
 **Objective:** Maintain conversion opportunity during scroll
 
 **Requirements:**
+
 - [ ] Appears after scrolling past hero section
 - [ ] Shows tool name, rating, and CTA button
 - [ ] Mobile-optimized (bottom bar)
@@ -225,7 +231,8 @@ Tool:
 **Objective:** Maintain legal compliance and user trust
 
 **Requirements:**
-- [ ] Disclosure note on all affiliate content
+
+- [ ] Disclosure note on all affiliate content (e.g., "not financial advice")
 - [ ] Clear "Affiliate link" indicators
 - [ ] Dedicated privacy/disclosure page
 - [ ] Footer disclosure statement
@@ -235,8 +242,9 @@ Tool:
 **Objective:** Establish expertise and authority for SEO
 
 **Requirements:**
+
 - [ ] Author byline on reviews
-- [ ] Author credentials (title, expertise)
+- [ ] Author credentials (quant expertise, certifications)
 - [ ] Schema.org Person markup
 - [ ] Social proof links (Twitter, GitHub)
 
@@ -249,6 +257,7 @@ Tool:
 **Implementation context:** This site uses **Google tag (gtag.js)** directly, not Google Tag Manager (GTM). Consent code must be added manually in the app (e.g. root layout / GoogleAnalytics component) as direct gtag commands in the first script block — not via GTM templates.
 
 **Requirements:**
+
 - [ ] **Region-scoped default consent** — Apply default consent (e.g. `analytics_storage: 'denied'`) only in regions where we surface the consent banner (e.g. EEA/UK). In regions where no banner is required, do not default to denied so measurement is preserved. (Reduces loss of measurement where consent banners don’t apply.)
 - [ ] **Consent before gtag loads** — Set default consent in the **first** script block (same block that defines `dataLayer` and `gtag` stub), before loading the gtag.js script. Do not rely on callbacks or later triggers for initial consent state, so consent is available as soon as the tag runs.
 - [ ] Consent banner component (inform users about cookies/analytics, accept/decline or equivalent), shown only where required (e.g. EEA) or site-wide if preferred.
@@ -287,7 +296,7 @@ User Needs to Compare Tools
     ↓
 Navigate to Comparisons Page
     ↓
-Sort/Filter by Category or Rating
+Sort/Filter by Category or Metrics
     ↓
 Compare 2-3 Tools Side by Side
     ↓
@@ -318,31 +327,31 @@ Convert via Affiliate Link
 
 ### 5.1 Business Metrics
 
-| Metric | Current | Target | Measurement |
-|--------|---------|--------|-------------|
-| Monthly Affiliate Clicks | - | 10,000+ | GA4 `affiliate_click` events |
-| Click-Through Rate (CTR) | - | 8-12% | Clicks / Page Views |
-| Conversion Rate | - | 5-10% | Signups / Clicks |
-| EPC (Earnings Per Click) | - | $1.50-$3.00 | Revenue / Clicks |
-| Newsletter Subscribers | - | 5,000+ | Signup form submissions |
+| Metric                   | Current | Target      | Measurement                  |
+| ------------------------ | ------- | ----------- | ---------------------------- |
+| Monthly Affiliate Clicks | -       | 8,000+      | GA4 `affiliate_click` events |
+| Click-Through Rate (CTR) | -       | 7-11%       | Clicks / Page Views          |
+| Conversion Rate          | -       | 6-12%       | Signups / Clicks             |
+| EPC (Earnings Per Click) | -       | $2.00-$4.00 | Revenue / Clicks             |
+| Newsletter Subscribers   | -       | 4,000+      | Signup form submissions      |
 
 ### 5.2 Engagement Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Average Time on Review Page | >3 minutes | GA4 engagement |
-| Scroll Depth (Reviews) | >75% | `review_engagement` event |
-| Quiz Completion Rate | >60% | Quiz starts vs. completions |
-| Return Visitor Rate | >30% | GA4 user retention |
+| Metric                      | Target     | Measurement                 |
+| --------------------------- | ---------- | --------------------------- |
+| Average Time on Review Page | >4 minutes | GA4 engagement              |
+| Scroll Depth (Reviews)      | >80%       | `review_engagement` event   |
+| Quiz Completion Rate        | >65%       | Quiz starts vs. completions |
+| Return Visitor Rate         | >35%       | GA4 user retention          |
 
 ### 5.3 SEO Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Organic Traffic | 50,000+ monthly | GA4 / Search Console |
-| Keyword Rankings (Top 10) | 50+ keywords | Rank tracking |
-| Core Web Vitals | All "Good" | PageSpeed Insights |
-| Rich Results | Reviews, FAQs, Breadcrumbs | Search Console |
+| Metric                    | Target                     | Measurement          |
+| ------------------------- | -------------------------- | -------------------- |
+| Organic Traffic           | 40,000+ monthly            | GA4 / Search Console |
+| Keyword Rankings (Top 10) | 40+ keywords               | Rank tracking        |
+| Core Web Vitals           | All "Good"                 | PageSpeed Insights   |
+| Rich Results              | Reviews, FAQs, Breadcrumbs | Search Console       |
 
 ---
 
@@ -352,27 +361,29 @@ Convert via Affiliate Link
 
 ### Phase 1: Validation (Current)
 
-**Goal:** Establish proof of concept—create a minimal, functional flywheel that demonstrates value generation and confirms core mechanics produce measurable positive outcomes.
+**Goal:** Establish proof: Build a minimal flywheel demonstrating value via efficiency-focused insights (e.g., 10 tool promotions with affiliate links). Confirm mechanics yield measurable outcomes like initial commissions, validating business efficiency in affiliate revenue.
 
 **Milestones:**
+
 - [x] Core review pages with 8 tools (minimal viable content)
 - [x] Quiz recommendation system (personalization proof)
 - [x] A/B testing infrastructure (optimization foundation)
 - [x] Analytics tracking (GA4) (measurement capability)
 - [x] SEO foundations (Schema, metadata) (discovery mechanics)
 - [x] Newsletter signup forms (list building initiation)
-- [ ] Launch & gather initial data (100+ conversions target)
-- [ ] Validate EPC baseline (target $1.00+ per click)
+- [ ] Launch & gather initial data (80+ conversions target)
+- [ ] Validate EPC baseline (target $1.50+ per click)
 
 **Success Criteria:** Demonstrate flywheel mechanics with measurable conversions
 
 ### Phase 2: Amplification
 
-**Goal:** Scale intelligently—expand reach, automate high-value components, and compound results while building reusable foundations for 5-10x growth.
+**Goal:** Scale intelligently: Expand content/reach, automate internal components with ML (e.g., sentiment tracking), and compound affiliate results while introducing initial customized elements. Goal: Achieve mid-range revenue (primarily affiliate + early insights sales), building reusable foundations like automated research pipelines for global audiences.
 
 **Milestones:**
+
 - [ ] Expand to 25+ tool reviews (coverage expansion)
-- [ ] Blog/guide content section (SEO compounding)
+- [ ] **Blog/guide content section (SEO compounding; tutorials, training, resources focused on investment workflow stages and tool usage – deferred to mid-phase after core flywheel validation)**
 - [ ] Advanced comparison features (user value enhancement)
 - [ ] AI-assisted content refresh (automation scaling)
 - [ ] Social sharing optimization (viral loops)
@@ -384,9 +395,10 @@ Convert via Affiliate Link
 
 ### Phase 3: Autonomy
 
-**Goal:** Transition to self-sustaining operation—enable independent sensing, decision-making, optimization, and expansion with minimal human oversight.
+**Goal:** Transition to self-sustaining: Enable independent market sensing, optimization, and expansion with minimal oversight, fully integrating customized solutions/services (e.g., bespoke efficiency tools or consulting). Goal: Reach high recurring revenue (affiliate base + services), creating a resilient system for passive business growth.
 
 **Milestones:**
+
 - [ ] Automated content updates (pricing, features monitoring)
 - [ ] ML-powered personalization (behavioral adaptation)
 - [ ] Predictive EPC optimization (revenue maximization)
@@ -406,36 +418,36 @@ Convert via Affiliate Link
 
 ### 7.1 Efficiency & Resource Discipline
 
-| Constraint | Implementation |
-|------------|----------------|
-| 80/20 Focus | Allocate 90% effort to high-ROI activities (content quality, conversion optimization) |
-| Lean Operation | Automate low-value tasks; avoid tool/process bloat |
-| Resource Optimization | Measure cost-per-acquisition; optimize toward automation |
+| Constraint            | Implementation                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------- |
+| 80/20 Focus           | Allocate 90% effort to high-ROI activities (quant models, conversion optimization) |
+| Lean Operation        | Automate low-value tasks; avoid tool/process bloat                                 |
+| Resource Optimization | Measure cost-per-acquisition; optimize toward automation                           |
 
 ### 7.2 Progressive Autonomy
 
-| Stage | Approach | Threshold |
-|-------|----------|-----------|
-| **LLM Research + Spot-Check** | LLM deep research populates data; human spot-checks critical fields (rating, pricing, pros/cons) | Current |
-| **Selective Automation** | Automated personalization, assisted content updates, scheduled research runs | 80%+ accuracy |
-| **Full Autonomy** | Self-optimizing systems, minimal oversight | 95%+ accuracy |
+| Stage                    | Approach                                            | Threshold       |
+| ------------------------ | --------------------------------------------------- | --------------- |
+| **Manual Validation**    | Human-reviewed content, manual A/B analysis         | Current         |
+| **Selective Automation** | Automated personalization, assisted content updates | 80%+ confidence |
+| **Full Autonomy**        | Self-optimizing systems, minimal oversight          | 95%+ confidence |
 
 ### 7.3 Risk & Ethical Integrity
 
-| Guardrail | Implementation |
-|-----------|----------------|
-| FTC Compliance | Mandatory disclosures on all affiliate content |
-| Honest Reviews | Include genuine cons; no misleading claims |
-| Platform Compliance | Adhere to Google, affiliate network policies |
-| Trust Preservation | Prioritize long-term trust over short-term gains |
+| Guardrail           | Implementation                                                                    |
+| ------------------- | --------------------------------------------------------------------------------- |
+| FTC Compliance      | Mandatory disclosures on all affiliate content; "not financial advice" everywhere |
+| Honest Reviews      | Include genuine risks; no misleading claims                                       |
+| Platform Compliance | Adhere to SEC, affiliate network policies                                         |
+| Trust Preservation  | Prioritize long-term trust over short-term gains                                  |
 
 ### 7.4 Modular Integrity
 
-| Principle | Implementation |
-|-----------|----------------|
-| Composable Components | All new features build on existing modules |
-| No Siloed Efforts | Extensions integrate with existing data flows |
-| Coherence Maintenance | Review architecture before adding complexity |
+| Principle             | Implementation                                  |
+| --------------------- | ----------------------------------------------- |
+| Composable Components | All new features build on existing quant models |
+| No Siloed Efforts     | Extensions integrate with existing data flows   |
+| Coherence Maintenance | Review architecture before adding complexity    |
 
 ---
 
@@ -445,54 +457,54 @@ Convert via Affiliate Link
 
 ### 8.1 Reflection Cycle
 
-| Frequency | Activity | Output |
-|-----------|----------|--------|
-| Daily | Automated analytics dashboard review | Anomaly alerts |
-| Weekly | A/B test performance analysis | Variant decisions |
-| Monthly | EPC and conversion rate deep dive | Strategy refinements |
-| Quarterly | Full system audit against philosophy | Roadmap adjustments |
+| Frequency | Activity                             | Output               |
+| --------- | ------------------------------------ | -------------------- |
+| Daily     | Automated analytics dashboard review | Anomaly alerts       |
+| Weekly    | A/B test performance analysis        | Variant decisions    |
+| Monthly   | EPC and conversion rate deep dive    | Strategy refinements |
+| Quarterly | Full system audit against philosophy | Roadmap adjustments  |
 
 ### 8.2 Adaptive Sub-Systems
 
-| Sub-System | Sensing Capability | Optimization Action |
-|------------|-------------------|---------------------|
-| A/B Testing | Conversion rate changes | Auto-promote winning variants |
-| Personalization | User type selection patterns | Refine recommendation weights |
-| Content Freshness | Tool pricing/feature changes | Trigger review updates |
-| Market Sensing | New AI tool launches | Alert for new review opportunities |
+| Sub-System        | Sensing Capability           | Optimization Action                           |
+| ----------------- | ---------------------------- | --------------------------------------------- |
+| A/B Testing       | Conversion rate changes      | Auto-promote winning variants via backtesting |
+| Personalization   | User type selection patterns | Refine recommendation weights with ML         |
+| Content Freshness | Tool pricing/feature changes | Trigger review updates                        |
+| Market Sensing    | New fintech launches         | Alert for new review opportunities            |
 
 ### 8.3 Human Oversight Thresholds
 
-| Confidence Level | Action |
-|------------------|--------|
-| **95%+** | Full automation, no intervention |
-| **80-95%** | Automated with periodic review |
-| **60-80%** | Human approval required |
-| **< 60%** | Manual handling, flag for process improvement |
+| Confidence Level | Action                                        |
+| ---------------- | --------------------------------------------- |
+| **95%+**         | Full automation, no intervention              |
+| **80-95%**       | Automated with periodic review                |
+| **60-80%**       | Human approval required                       |
+| **< 60%**        | Manual handling, flag for process improvement |
 
 **Trajectory:** Reduce human intervention from current ~40% to < 10% by Autonomy phase
 
 ### 8.4 Progress Tracking & Learning
 
-| Mechanism | Purpose |
-|-----------|---------|
-| Decision Logs | Record all strategic choices with rationale |
-| Outcome Tracking | Link decisions to measurable results |
+| Mechanism           | Purpose                                      |
+| ------------------- | -------------------------------------------- |
+| Decision Logs       | Record all strategic choices with rationale  |
+| Outcome Tracking    | Link decisions to measurable results         |
 | Pattern Recognition | Identify successful patterns for replication |
-| Knowledge Base | Document learnings for future application |
+| Knowledge Base      | Document learnings for future application    |
 
 ---
 
 ## 9. Risk Assessment & Mitigation
 
-| Risk | Impact | Likelihood | Mitigation | Philosophy Alignment |
-|------|--------|------------|------------|---------------------|
-| Affiliate program changes | High | Medium | Diversify partnerships, multiple programs per category | *Dynamic Adaptation* |
-| SEO algorithm updates | High | Medium | Focus on E-E-A-T, user value, technical excellence | *Enduring Practice Alignment* |
-| AI tool market consolidation | Medium | Medium | Cover emerging tools, maintain broad category coverage | *Opportunity Alignment* |
-| User trust erosion | High | Low | Transparent disclosures, honest reviews, LLM-researched content with cited sources | *Risk & Ethical Integrity* |
-| Technical performance issues | Medium | Low | Core Web Vitals monitoring, performance budgets | *Efficiency Discipline* |
-| Over-automation failures | Medium | Medium | Progressive autonomy stages, human oversight thresholds | *Progressive Autonomy* |
+| Risk                         | Impact | Likelihood | Mitigation                                                | Philosophy Alignment          |
+| ---------------------------- | ------ | ---------- | --------------------------------------------------------- | ----------------------------- |
+| Affiliate program changes    | High   | Medium     | Diversify partnerships, multiple programs per category    | _Dynamic Adaptation_          |
+| SEO algorithm updates        | High   | Medium     | Focus on E-E-A-T, user value, technical excellence        | _Enduring Practice Alignment_ |
+| Market volatility            | Medium | High       | Incorporate scenario planning, quant safeguards           | _Risk & Ethical Integrity_    |
+| User trust erosion           | High   | Low        | Transparent disclosures, honest reviews, quant validation | _Risk & Ethical Integrity_    |
+| Technical performance issues | Medium | Low        | Core Web Vitals monitoring, performance budgets           | _Efficiency Discipline_       |
+| Over-automation failures     | Medium | Medium     | Progressive autonomy stages, human oversight thresholds   | _Progressive Autonomy_        |
 
 ---
 
@@ -500,39 +512,44 @@ Convert via Affiliate Link
 
 ### 10.1 Tool Categories
 
-- **AI Writing:** Jasper AI, Copy.ai
-- **AI Voice:** Murf AI
-- **AI Video:** Runway ML, Descript
-- **AI Productivity:** Notion AI
+- **AI Investment Signals:** TradingView, QuantConnect
+- **Quantitative Platforms:** QuantConnect, Alpaca
+- **Fintech Infrastructure:** Plaid, Stripe Treasury
+- **Crypto Tools:** Polymarket, Binance
+- **Portfolio Management:** Wealthfront, Betterment
 
 ### 10.2 Affiliate Partnership Priorities
 
-| Tool | Commission | Cookie | Priority |
-|------|------------|--------|----------|
-| Copy.ai | 45% | 60 days | **High** (Exclusive deal) |
-| Descript | 30% | 90 days | **High** (Exclusive deal) |
-| Jasper AI | 30% | 30 days | High |
-| Murf AI | 25% | 30 days | Medium |
-| Runway ML | 20% | 30 days | Medium |
-| Notion AI | 20% | 90 days | Medium |
+| Tool         | Commission                | Cookie  | Priority                  |
+| ------------ | ------------------------- | ------- | ------------------------- |
+| QuantConnect | 10% recurring             | N/A     | **High** (Exclusive deal) |
+| TradeStation | Varies (CPA)              | Varies  | **High** (Exclusive deal) |
+| Polymarket   | $0.01/click + $10/deposit | Varies  | High                      |
+| Notion       | Up to $50 + 20% year 1    | Varies  | High                      |
+| TradingView  | Up to $100/subscription   | 90 days | High                      |
+| Alpaca       | Varies (partners)         | Varies  | Medium                    |
+| Plaid        | Varies (partners)         | Varies  | Medium                    |
+| Binance      | Up to 50%                 | Varies  | Medium                    |
+| Wealthfront  | Varies (referrals)        | Varies  | Medium                    |
+| Betterment   | $50/funded                | 30 days | Medium                    |
+| Robinhood    | $5-$200 stock             | Varies  | Medium                    |
 
 ### 10.3 Content Guidelines
 
-1. **LLM Deep Research:** Tool data is collected via LLM with web search (e.g., Grok, Perplexity) — not fabricated. Every claim must be traceable to cited sources (official sites, G2, Capterra, Trustpilot, Reddit). See [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md).
-2. **Honest Assessment:** Include genuine cons from real user reviews, not just marketing copy
-3. **Regular Updates:** Refresh reviews when tools change significantly; re-run research or use freshness checks
-4. **Transparent Disclosures:** Always disclose affiliate relationships
-5. **User Value First:** Prioritize helpfulness over commission optimization
+1. **LLM Deep Research:** Reuse existing LLM prompts/workflows for data collection via web search (e.g., official sites, user reviews); every claim traceable to cited sources.
+2. **Honest Assessment:** Include genuine risks from real user reviews, not just marketing copy.
+3. **Regular Updates:** Refresh reviews on tool changes; re-run reusable LLM research.
+4. **Transparent Disclosures:** Always disclose affiliate relationships and "not financial advice".
+5. **User Value First:** Prioritize social proof (e.g., user quotes) for trust; include quant data where ideal and comparable, but not required uniformly.
+6. **Affiliate-Centric Tagging**: Tags must map to our highest-commission / longest-cookie partners where possible (e.g. QuantConnect for data & quantitative analysis, TradeStation/Polymarket for execution & trading platforms, Notion for AI-powered tools & automation). Prioritize genuine fit over forced promotion.
 
 ### 10.4 Philosophy Framework References
 
-| Document | Purpose |
-|----------|---------|
-| [EvoLink.md](./EvoLink.md) | EvoLink Architect persona definition |
-| [philosophy_framework.md](./philosophy_framework.md) | Timeless judgment philosophy framework |
-| [business_context.md](./business_context.md) | Business strategy and market context |
-| [system_design.md](./system_design.md) | Technical architecture implementation |
-| [GROK_DEEP_RESEARCH_PROMPT.md](./GROK_DEEP_RESEARCH_PROMPT.md) | LLM deep research prompt for tool data collection |
+| Document                                             | Purpose                                 |
+| ---------------------------------------------------- | --------------------------------------- |
+| [InvestLink.md](./InvestLink.md)                     | InvestLink Architect persona definition |
+| [philosophy_framework.md](./philosophy_framework.md) | Timeless judgment philosophy framework  |
+| [system_design.md](./system_design.md)               | Technical architecture implementation   |
 
 ### 10.5 Decision Reference Template
 
