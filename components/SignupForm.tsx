@@ -36,7 +36,7 @@ export function SignupForm({
   location,
   variant = 'card',
   headline = 'Get the Best AI Tool Recommendations',
-  description = 'Join 5,000+ creators receiving weekly insights on the best AI tools, exclusive deals, and productivity tips.',
+  description = 'Join 5,000+ investors and traders receiving weekly insights on the best AI investment tools, exclusive deals, and market analysis.',
   showToolPreference = false,
   ctaText = 'Subscribe Free',
   successMessage = "You're in! Check your email to confirm your subscription.",
@@ -315,11 +315,12 @@ export function SignupForm({
               onChange={(e) => setToolPreference(e.target.value)}
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
             >
-              <option value="all">All AI Tools</option>
-              <option value="writing">AI Writing Tools</option>
-              <option value="voice">AI Voice Tools</option>
-              <option value="images">AI Image Tools</option>
-              <option value="video">AI Video Tools</option>
+              <option value="all">All Investment Tools</option>
+              <option value="signals">AI Investment Signals</option>
+              <option value="quant">Quantitative Platforms</option>
+              <option value="fintech">Fintech Infrastructure</option>
+              <option value="crypto">Crypto Tools</option>
+              <option value="portfolio">Portfolio Management</option>
             </select>
           </div>
         )}

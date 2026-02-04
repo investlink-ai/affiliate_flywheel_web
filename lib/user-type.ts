@@ -39,7 +39,7 @@ export function isValidUserType(type: string): type is UserType {
  * export default async function Page({ searchParams }) {
  *   const params = await searchParams;
  *   const userType = getUserTypeFromParams(params);
- *   // userType is 'marketer' | 'creator' | ... | null
+ *   // userType is 'individual_investor' | 'trader' | ... | null
  * }
  * ```
  */

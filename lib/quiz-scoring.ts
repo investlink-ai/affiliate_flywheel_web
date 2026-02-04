@@ -170,7 +170,7 @@ export const CATEGORY_MATCH_BONUS = 5;
  * ```ts
  * const answers = { 'use-case': 'marketing', 'team-size': 'solo' };
  * const tags = collectTagsFromAnswers(answers, questions);
- * // ['AI Writing', 'marketing', 'copy', 'solo', 'budget-friendly']
+ * // ['Quantitative Platforms', 'technical-quantitative', 'budget-friendly']
  * ```
  */
 export function collectTagsFromAnswers(
@@ -243,8 +243,8 @@ export function generateMatchReasons(
  * 
  * @example
  * ```ts
- * const selectedTags = ['AI Writing', 'marketing', 'solo', 'budget-friendly'];
- * const result = calculateToolScore(jasperTool, selectedTags);
+ * const selectedTags = ['Quantitative Platforms', 'technical-quantitative', 'budget-friendly'];
+ * const result = calculateToolScore(quantconnectTool, selectedTags);
  * // { score: 14, matchReasons: ['Matches your ai writing needs'] }
  * ```
  */

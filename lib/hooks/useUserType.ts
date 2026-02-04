@@ -25,7 +25,7 @@ export interface UseUserTypeResult {
  * Hook for managing user type personalization
  * 
  * Priority order:
- * 1. URL query parameter (?usertype=marketer)
+ * 1. URL query parameter (?usertype=individual_investor)
  * 2. localStorage persisted value
  * 
  * @example
@@ -33,14 +33,14 @@ export interface UseUserTypeResult {
  * const { userType, setUserType, isReady } = useUserType();
  * 
  * // Show personalized content
- * if (userType === 'marketer') {
+ * if (userType === 'individual_investor') {
  *   return <MarketingFeatures />;
  * }
  * 
  * // Let user select their type
  * <select onChange={(e) => setUserType(e.target.value as UserType)}>
- *   <option value="marketer">Marketer</option>
- *   <option value="creator">Creator</option>
+ *   <option value="individual_investor">Individual Investor</option>
+ *   <option value="trader">Trader</option>
  * </select>
  * ```
  */

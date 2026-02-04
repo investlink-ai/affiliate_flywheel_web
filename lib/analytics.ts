@@ -14,8 +14,8 @@
  * // Track an affiliate click
  * trackAffiliateClick({
  *   toolName: 'Jasper AI',
- *   toolSlug: 'jasper-ai',
- *   affiliateUrl: 'https://jasper.ai?ref=example',
+ *   toolSlug: 'quantconnect',
+ *   affiliateUrl: 'https://quantconnect.com?ref=example',
  *   position: 'hero',
  * });
  * 
@@ -63,14 +63,14 @@ export const isGAAvailable = (): boolean => {
  * This is typically called automatically by the GoogleAnalytics component
  * on route changes, but can be called manually for custom tracking needs.
  * 
- * @param {string} url - The URL path of the page (e.g., '/reviews/jasper-ai')
+ * @param {string} url - The URL path of the page (e.g., '/reviews/quantconnect')
  * @param {string} [title] - Optional page title for the view
  * @returns {void}
  * 
  * @example
  * ```typescript
  * // Track a page view
- * trackPageView('/reviews/jasper-ai', 'Jasper AI Review 2026');
+ * trackPageView('/reviews/quantconnect', 'QuantConnect Review 2026');
  * 
  * // Track without title
  * trackPageView('/comparisons');
@@ -133,7 +133,7 @@ export function trackEvent(
 interface AffiliateClickParams {
   /** Display name of the tool (e.g., 'Jasper AI') */
   toolName: string;
-  /** URL-friendly slug of the tool (e.g., 'jasper-ai') */
+  /** URL-friendly slug of the tool (e.g., 'quantconnect') */
   toolSlug: string;
   /** The full affiliate URL being clicked */
   affiliateUrl: string;
@@ -168,9 +168,9 @@ interface AffiliateClickParams {
  * @example
  * ```typescript
  * trackAffiliateClick({
- *   toolName: 'Jasper AI',
- *   toolSlug: 'jasper-ai',
- *   affiliateUrl: 'https://jasper.ai?ref=aitoolreviews',
+ *   toolName: 'QuantConnect',
+ *   toolSlug: 'quantconnect',
+ *   affiliateUrl: 'https://quantconnect.com?ref=aitoolreviews',
  *   position: 'hero',
  *   ctaVariant: 'gradient',
  *   urgencyVariant: 'limited-offer',
@@ -400,7 +400,7 @@ interface ReviewEngagementParams {
  * @example
  * ```typescript
  * trackReviewEngagement({
- *   toolSlug: 'jasper-ai',
+ *   toolSlug: 'quantconnect',
  *   scrollDepth: 75,
  *   timeOnPage: 180,
  * });
@@ -451,7 +451,7 @@ interface EPCDataParams {
  * ```typescript
  * // Track monthly EPC for a tool
  * trackEPCData({
- *   toolSlug: 'jasper-ai',
+ *   toolSlug: 'quantconnect',
  *   clicks: 1500,
  *   conversions: 45,
  *   revenue: 2250.00,

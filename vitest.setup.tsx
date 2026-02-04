@@ -136,7 +136,7 @@ export const createMockTool = (overrides = {}) => ({
   logoUrl: '/images/tools/test-logo.svg',
   rating: 4.5,
   ratingCount: 100,
-  category: 'AI Writing',
+  category: 'Quantitative Platforms',
   pricing: 'From $29/mo',
   pricingDetails: 'Free tier available. Pro at $29/mo.',
   affiliateUrl: 'https://test-tool.com',

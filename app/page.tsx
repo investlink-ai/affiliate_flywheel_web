@@ -14,12 +14,12 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
-              Best AI Tools for{' '}
-              <span className="text-gradient">Productivity & Content Creation</span> 2026
+              Best AI Investment Tools{' '}
+              <span className="text-gradient">for Traders & Investors</span> 2026
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Honest, in-depth reviews of the AI tools that actually work. Tested by real creators
-              for creators, marketers, and solopreneurs who want to work smarter.
+              Honest, in-depth reviews of AI investment tools that actually work. For individual
+              investors, traders, and fintech professionals who want data-driven decisions.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/reviews" className="btn-primary w-full sm:w-auto">
@@ -51,10 +51,10 @@ export default function HomePage() {
         <div className="flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
-              Featured AI Tools
+              Featured Investment Tools
             </h2>
             <p className="mt-2 text-slate-600 dark:text-slate-400">
-              Our top picks for productivity and content creation
+              Our top picks for trading, quantitative analysis, and portfolio management
             </p>
           </div>
           <Link
@@ -243,7 +243,7 @@ export default function HomePage() {
               location="homepage"
               variant="card"
               headline="Get Weekly AI Tool Insights"
-              description="Join 5,000+ creators and marketers receiving our weekly newsletter with the best AI tool recommendations, exclusive deals, and productivity tips."
+              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, exclusive deals, and market insights."
               showToolPreference={true}
               ctaText="Subscribe Free"
             />

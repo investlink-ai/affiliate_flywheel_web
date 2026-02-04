@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: '%s | AI Tool Reviews',
   },
   description:
-    'Honest, in-depth reviews of the best AI tools for productivity, content creation, and marketing. Tested by real creators for creators.',
+    'Honest, in-depth reviews of the best AI investment tools for traders and investors. Data-driven comparisons of quantitative platforms, robo-advisors, and fintech tools.',
   keywords: [
     'AI tools',
     'AI writing tools',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AI Tool Reviews | Best AI Tools 2026',
-    description: 'Honest, in-depth reviews of the best AI tools for productivity and content creation.',
+    description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
     creator: '@FeynmanXu',
     images: ['/og-image.png'],
   },

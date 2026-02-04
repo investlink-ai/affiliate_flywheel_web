@@ -69,64 +69,72 @@ function QuizSkeleton() {
 }
 
 export const metadata: Metadata = {
-  title: 'AI Tool Comparisons',
+  title: 'AI Investment Tool Comparisons',
   description:
-    'Side-by-side comparisons of the best AI tools. Compare features, pricing, and find the perfect tool for your needs.',
+    'Side-by-side comparisons of the best AI investment tools. Compare robo-advisors, trading platforms, and quantitative tools for your investing needs.',
   openGraph: {
-    title: 'AI Tool Comparisons | Find Your Perfect Tool',
-    description: 'Side-by-side comparisons of the best AI tools for content creation and productivity.',
+    title: 'AI Investment Tool Comparisons | Find Your Perfect Tool',
+    description: 'Side-by-side comparisons of the best AI investment tools for traders and investors.',
   },
 };
 
-// Feature comparison data
-const writingToolFeatures = [
-  'Free tier available',
-  'Unlimited words (paid)',
-  'Brand voice training',
-  'SEO optimization',
-  'Chrome extension',
-  'Team collaboration',
-  'API access',
-  '25+ languages',
+// Portfolio Management feature comparison
+const portfolioToolFeatures = [
+  'Commission-free trading',
+  'Automated investing',
+  'Tax-loss harvesting',
+  'IRA / retirement accounts',
+  'High-yield cash',
+  'Mobile app',
+  'Fractional shares',
+  'Crypto trading',
 ];
 
-const writingFeatureMatrix: Record<string, Record<string, boolean | string>> = {
-  'Free tier available': {
-    'jasper-ai': false,
-    'copy-ai': true,
+const portfolioFeatureMatrix: Record<string, Record<string, boolean | string>> = {
+  'Commission-free trading': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  'Unlimited words (paid)': {
-    'jasper-ai': false,
-    'copy-ai': true,
+  'Automated investing': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  'Brand voice training': {
-    'jasper-ai': true,
-    'copy-ai': true,
+  'Tax-loss harvesting': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: false,
   },
-  'SEO optimization': {
-    'jasper-ai': true,
-    'copy-ai': false,
+  'IRA / retirement accounts': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  'Chrome extension': {
-    'jasper-ai': true,
-    'copy-ai': true,
+  'High-yield cash': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  'Team collaboration': {
-    'jasper-ai': true,
-    'copy-ai': true,
+  'Mobile app': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  'API access': {
-    'jasper-ai': true,
-    'copy-ai': true,
+  'Fractional shares': {
+    wealthfront: true,
+    betterment: true,
+    robinhood: true,
   },
-  '25+ languages': {
-    'jasper-ai': true,
-    'copy-ai': true,
+  'Crypto trading': {
+    wealthfront: false,
+    betterment: false,
+    robinhood: true,
   },
 };
 
 export default function ComparisonsPage() {
-  const writingTools = tools.filter((t) => t.category === 'AI Writing');
+  const portfolioTools = tools.filter((t) => t.category === 'Portfolio Management');
 
   return (
     <>
@@ -134,11 +142,11 @@ export default function ComparisonsPage() {
       <section className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            AI Tool Comparisons
+            AI Investment Tool Comparisons
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
             Side-by-side comparisons to help you choose the right tool. Every feature has been
-            verified through hands-on testing.
+            verified through hands-on research.
           </p>
         </div>
       </section>
@@ -151,31 +159,31 @@ export default function ComparisonsPage() {
             <div className="sticky top-24">
               <QuizComponent
                 title="Not Sure Which Tool?"
-                description="Answer 3 quick questions for personalized recommendations."
+                description="Answer 5 quick questions for personalized recommendations."
               />
             </div>
           </div>
 
           {/* Right: Comparison Tables */}
           <div className="lg:col-span-2">
-            {/* AI Writing Tools Comparison */}
+            {/* Portfolio Management Comparison */}
             <div className="mb-12">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  AI Writing Tools Comparison
+                  Portfolio Management & Robo-Advisors
                 </h2>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">
-                  Compare the top AI writing assistants for marketing and content creation.
+                  Compare robo-advisors and commission-free brokers for passive and active investing.
                   Click column headers to sort.
                 </p>
               </div>
 
               <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
                 <ComparisonTableSortable
-                  tools={writingTools}
-                  features={writingToolFeatures}
-                  featureMatrix={writingFeatureMatrix}
-                  winnerId="jasper-ai"
+                  tools={portfolioTools}
+                  features={portfolioToolFeatures}
+                  featureMatrix={portfolioFeatureMatrix}
+                  winnerId="wealthfront"
                 />
               </div>
 
@@ -189,31 +197,31 @@ export default function ComparisonsPage() {
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Quick Recommendations</h2>
               <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Teams</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Passive Investing</h3>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Jasper AI</strong> — Superior collaboration features, brand voice consistency,
-                    and enterprise-grade security.
+                    <strong>Wealthfront</strong> — Automated, tax-optimized portfolios with high-yield cash
+                    and strong long-term focus.
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best Value</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Tax Efficiency</h3>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Copy.ai</strong> — Generous free tier and unlimited words on Pro make it
-                    unbeatable for budget-conscious users.
+                    <strong>Betterment</strong> — Tax-loss harvesting and tax-coordinated IRAs help many
+                    users cover advisory fees through savings.
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Video</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Beginners</h3>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Murf AI</strong> — The most natural-sounding AI voices with built-in video
-                    editing for creators.
+                    <strong>Robinhood</strong> — Commission-free stocks, options, and crypto with a
+                    user-friendly app. Good for learning.
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Solopreneurs</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for All-in-One</h3>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Copy.ai</strong> — The free tier is genuinely usable, and unlimited words
-                    on Pro means predictable costs.
+                    <strong>Robinhood</strong> — Stocks, options, crypto, and robo-advisory in one app.
+                    Fractional shares and Robinhood Gold available.
                   </p>
                 </div>
               </div>
@@ -226,15 +234,14 @@ export default function ComparisonsPage() {
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">How We Compare</h2>
           <div className="mt-4 prose prose-slate max-w-none dark:prose-invert">
             <p className="text-slate-600 dark:text-slate-400">
-              Every comparison is based on hands-on testing with paid subscriptions. I evaluate tools
-              across real-world workflows including blog writing, social media content, ad copy, and
-              video scripts. Features are verified directly in the product, not from marketing
-              materials.
+              Every comparison is based on research from official sites, user reviews, and hands-on
+              evaluation. We verify features, pricing, and pros/cons from real user feedback—not
+              marketing materials. This is not financial advice; always conduct your own due diligence.
             </p>
             <p className="mt-4 text-slate-600 dark:text-slate-400">
               Winner badges indicate the tool that offers the best overall value for most users in
-              that category. Your needs may vary — always consider your specific use case when making
-              a decision.
+              that category. Your needs may vary—consider your investment style, risk tolerance, and
+              workflow when making a decision.
             </p>
           </div>
         </div>
