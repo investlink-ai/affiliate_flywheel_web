@@ -72,7 +72,7 @@ export function ToolCard({
               loading={priority ? 'eager' : 'lazy'}
               priority={priority}
               unoptimized={tool.logoUrl.endsWith('.svg')}
-              className="h-full w-full object-contain p-2"
+              className="h-full w-full object-contain p-1.5"
             />
           ) : (
             <span 

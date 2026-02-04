@@ -14,7 +14,7 @@
  * import { generateReviewSchema, organizationSchema } from '@/lib/schema';
  * 
  * // Generate schema for a review page
- * const tool = await getToolBySlug('jasper-ai');
+ * const tool = await getToolBySlug('quantconnect');
  * const schema = generateReviewSchema(tool);
  * 
  * // Use in page
@@ -43,10 +43,10 @@ import { primaryAuthor, getAuthorSchema } from './author';
  */
 export const organizationSchema = {
   '@type': 'Organization',
-  name: 'AI Tool Reviews',
-  url: 'https://aitoolreviews.com',
-  logo: 'https://aitoolreviews.com/icon.svg',
-  description: 'Honest, in-depth reviews of the best AI tools for productivity and content creation.',
+  name: 'LinkInvest',
+  url: 'https://linkinvest.com',
+  logo: 'https://linkinvest.com/icon.svg',
+  description: 'AI Investment Tool Reviews - Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
   sameAs: [
     'https://twitter.com/FeynmanXu',
     'https://github.com/feynmanxu',
@@ -72,7 +72,7 @@ export const organizationSchema = {
  * 
  * @example
  * ```typescript
- * const tool = getToolBySlug('jasper-ai');
+ * const tool = getToolBySlug('quantconnect');
  * const schema = generateReviewSchema(tool);
  * 
  * // Returns structure like:
@@ -92,7 +92,8 @@ export const organizationSchema = {
  * @see {@link https://developers.google.com/search/docs/appearance/structured-data/review-snippet} Google Review Snippets
  */
 export function generateReviewSchema(tool: Tool) {
-  const siteUrl = 'https://affievo.com';
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://linkinvest.com';
   const reviewUrl = `${siteUrl}/reviews/${tool.slug}`;
   const authorSchema = getAuthorSchema();
 
@@ -113,7 +114,7 @@ export function generateReviewSchema(tool: Tool) {
         isPartOf: {
           '@type': 'WebSite',
           '@id': `${siteUrl}#website`,
-          name: 'AI Tool Reviews',
+          name: 'AI Investment Tools Reviews',
           url: siteUrl,
           publisher: organizationSchema,
         },
@@ -259,7 +260,7 @@ export function generateReviewSchema(tool: Tool) {
  * //     "name": "How much does Jasper AI cost?",
  * //     "acceptedAnswer": {
  * //       "@type": "Answer",
- * //       "text": "Jasper AI pricing starts at..."
+ * //       "text": "QuantConnect pricing starts at..."
  * //     }
  * //   },
  * //   ...
@@ -305,14 +306,14 @@ function generateFAQSchema(tool: Tool) {
  * Converts our internal category names to the appropriate
  * Schema.org SoftwareApplication category type.
  * 
- * @param {string} category - The internal category name (e.g., 'AI Writing')
- * @returns {string} Schema.org application category (e.g., 'BusinessApplication')
+ * @param {string} category - The internal category name (e.g., 'Quantitative Platforms')
+ * @returns {string} Schema.org application category (e.g., 'FinanceApplication')
  * 
  * @example
  * ```typescript
- * getCategoryType('AI Writing');   // Returns 'BusinessApplication'
- * getCategoryType('AI Voice');     // Returns 'MultimediaApplication'
- * getCategoryType('AI Images');    // Returns 'DesignApplication'
+ * getCategoryType('Quantitative Platforms');  // Returns 'FinanceApplication'
+ * getCategoryType('Portfolio Management');    // Returns 'FinanceApplication'
+ * getCategoryType('Crypto Tools');             // Returns 'FinanceApplication'
  * getCategoryType('AI Video');     // Returns 'MultimediaApplication'
  * getCategoryType('Unknown');      // Returns 'BusinessApplication' (default)
  * ```
@@ -321,13 +322,13 @@ function generateFAQSchema(tool: Tool) {
  */
 function getCategoryType(category: string): string {
   const categoryMap: Record<string, string> = {
-    'AI Writing': 'BusinessApplication',
-    'AI Voice': 'MultimediaApplication',
-    'AI Images': 'DesignApplication',
-    'AI Video': 'MultimediaApplication',
-    'AI Productivity': 'BusinessApplication',
+    'AI Investment Signals': 'FinanceApplication',
+    'Quantitative Platforms': 'FinanceApplication',
+    'Fintech Infrastructure': 'FinanceApplication',
+    'Crypto Tools': 'FinanceApplication',
+    'Portfolio Management': 'FinanceApplication',
   };
-  return categoryMap[category] ?? 'BusinessApplication';
+  return categoryMap[category] ?? 'FinanceApplication';
 }
 
 /**
@@ -387,9 +388,9 @@ interface ArticleSchemaParams {
  * ```typescript
  * const articleSchema = generateArticleSchema({
  *   title: 'Best AI Writing Tools for 2026',
- *   description: 'A comprehensive guide to the top AI writing assistants...',
- *   url: 'https://aitoolreviews.com/blog/best-ai-writing-tools',
- *   image: 'https://aitoolreviews.com/images/blog/ai-writing-guide.jpg',
+ *   description: 'A comprehensive guide to the top AI investment tools...',
+ *   url: 'https://linkinvest.com/blog/best-ai-investment-tools',
+ *   image: 'https://linkinvest.com/images/blog/ai-investment-guide.jpg',
  *   datePublished: '2026-01-15',
  *   dateModified: '2026-01-20',
  * });

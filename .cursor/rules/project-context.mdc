@@ -5,11 +5,11 @@ alwaysApply: true
 
 # Affiliate Flywheel – Project Context
 
-AI tool review site with comparisons, quizzes, and personalized recommendations. Built on the **EvoLink Architect** philosophy for scalable, self-adapting affiliate systems.
+AI investment tools review site with comparisons, quizzes, and personalized recommendations. Built on the **InvestLink Architect** philosophy for scalable, self-adapting affiliate systems focused on investment tools, fintech, and quantitative strategies.
 
 ## Philosophy (Decision Framework)
 
-> Reference: `docs/EvoLink.md`, `docs/philosophy_framework.md`
+> Reference: `docs/InvestLink.md`, `docs/philosophy_framework.md`
 
 When making decisions, apply these principles:
 
@@ -32,7 +32,7 @@ When making decisions, apply these principles:
 
 ```
 app/                      # Next.js App Router
-├── [category]/           # Dynamic category pages (ai-writing, ai-voice, etc.)
+├── [category]/           # Dynamic category pages (ai-investment-signals, quantitative-platforms, etc.)
 ├── reviews/[slug]/       # Dynamic review pages with ISR (24h)
 ├── comparisons/          # Tool comparison with quiz
 ├── api/newsletter/       # Newsletter API with rate limiting
@@ -54,7 +54,7 @@ docs/                     # Project documentation
 ├── prd.md                # Product requirements (features, phases)
 ├── system_design.md      # Technical architecture
 ├── Audit_Report.md       # Current assessment & gaps
-└── EvoLink.md            # Philosophy framework
+└── InvestLink.md         # Philosophy framework
 ```
 
 ## Key Data Types
@@ -65,16 +65,17 @@ interface Tool {
   slug: string;           // URL-friendly ID
   name: string;           // Display name
   rating: number;         // 1-5 score
-  category: Category;     // AI Writing | AI Voice | AI Images | AI Video | AI Productivity
-  pricing: string;        // "From $49/mo"
+  category: Category;     // AI Investment Signals | Quantitative Platforms | Fintech Infrastructure | Crypto Tools | Portfolio Management
+  pricing: string;       // "From $49/mo"
   affiliateUrl: string;   // Partner link
   features: string[];     // Feature list
-  pros: string[];         // Advantages
-  cons: string[];         // Disadvantages
+  pros: string[];        // Advantages
+  cons: string[];        // Disadvantages
   recommendations?: Partial<Record<UserType, string>>;  // Personalization
+  optionalMetrics?: string[];  // Per-tool flexible metrics
 }
 
-type UserType = 'marketer' | 'creator' | 'solopreneur' | 'agency' | 'developer';
+type UserType = 'individual_investor' | 'trader' | 'fintech_professional' | 'financial_advisor' | 'quantitative_analyst';
 ```
 
 ## Conventions

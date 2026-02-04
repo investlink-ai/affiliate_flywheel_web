@@ -26,7 +26,7 @@ export function ExitIntentPopup({
   storageKey = 'exit-popup-dismissed',
   dismissDays = 7,
   headline = "Wait! Don't miss out on AI insights",
-  subheadline = 'Get weekly reviews of the best AI tools delivered to your inbox. Join 5,000+ creators and marketers.',
+  subheadline = 'Get weekly reviews of the best AI investment tools delivered to your inbox. Join 5,000+ investors and traders.',
 }: ExitIntentPopupProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);

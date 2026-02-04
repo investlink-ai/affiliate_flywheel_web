@@ -14,12 +14,12 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
-              Best AI Tools for{' '}
-              <span className="text-gradient">Productivity & Content Creation</span> 2026
+              Best AI Investment Tools{' '}
+              <span className="text-gradient">for Traders & Investors</span> 2026
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Honest, in-depth reviews of the AI tools that actually work. Tested by real creators
-              for creators, marketers, and solopreneurs who want to work smarter.
+              Honest, in-depth reviews of AI investment tools that actually work. For individual
+              investors, traders, and fintech professionals who want data-driven decisions.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/reviews" className="btn-primary w-full sm:w-auto">
@@ -51,10 +51,10 @@ export default function HomePage() {
         <div className="flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
-              Featured AI Tools
+              Featured Investment Tools
             </h2>
             <p className="mt-2 text-slate-600 dark:text-slate-400">
-              Our top picks for productivity and content creation
+              Our top picks for trading, quantitative analysis, and portfolio management
             </p>
           </div>
           <Link
@@ -95,52 +95,52 @@ export default function HomePage() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
-                name: 'AI Writing',
-                description: 'Blog posts, copy, and content',
+                name: 'AI Investment Signals',
+                description: 'Trading signals and market analysis',
                 icon: (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
                   />
                 ),
-                href: '/reviews?category=ai-writing',
+                href: '/reviews?category=AI+Investment+Signals',
               },
               {
-                name: 'AI Voice',
-                description: 'Text-to-speech and voiceovers',
+                name: 'Quantitative Platforms',
+                description: 'Backtesting and algo trading',
                 icon: (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
+                    d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 011.414-1.414L11.25 9l6.75-6.75"
                   />
                 ),
-                href: '/reviews?category=ai-voice',
+                href: '/reviews?category=Quantitative+Platforms',
               },
               {
-                name: 'AI Images',
-                description: 'Art, graphics, and photos',
+                name: 'Fintech Infrastructure',
+                description: 'APIs and integrations',
                 icon: (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                    d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
                   />
                 ),
-                href: '/reviews?category=ai-images',
+                href: '/reviews?category=Fintech+Infrastructure',
               },
               {
-                name: 'AI Video',
-                description: 'Video editing and generation',
+                name: 'Portfolio Management',
+                description: 'Wealth and robo-advisors',
                 icon: (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
                   />
                 ),
-                href: '/reviews?category=ai-video',
+                href: '/reviews?category=Portfolio+Management',
               },
             ].map((category) => (
               <Link
@@ -150,7 +150,7 @@ export default function HomePage() {
               >
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
                   <svg
-                    className="h-6 w-6"
+                    className="h-7 w-7"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
@@ -222,7 +222,7 @@ export default function HomePage() {
           ].map((item) => (
             <div key={item.title} className="text-center">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   {item.icon}
                 </svg>
               </div>
@@ -243,7 +243,7 @@ export default function HomePage() {
               location="homepage"
               variant="card"
               headline="Get Weekly AI Tool Insights"
-              description="Join 5,000+ creators and marketers receiving our weekly newsletter with the best AI tool recommendations, exclusive deals, and productivity tips."
+              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, exclusive deals, and market insights."
               showToolPreference={true}
               ctaText="Subscribe Free"
             />

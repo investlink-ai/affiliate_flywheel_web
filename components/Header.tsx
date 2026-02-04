@@ -53,7 +53,7 @@ export function Header() {
             </svg>
           </div>
           <span className="text-lg font-bold text-slate-900 dark:text-white">
-            AI Tool Reviews
+            LinkInvest
           </span>
         </Link>
 

@@ -9,11 +9,11 @@ interface UserTypeSelectorProps {
 }
 
 const userTypeOptions: { value: UserType; label: string; description: string }[] = [
-  { value: 'marketer', label: 'Marketer', description: 'Marketing teams & professionals' },
-  { value: 'creator', label: 'Creator', description: 'Content creators & influencers' },
-  { value: 'solopreneur', label: 'Solopreneur', description: 'Independent business owners' },
-  { value: 'agency', label: 'Agency', description: 'Marketing & creative agencies' },
-  { value: 'developer', label: 'Developer', description: 'Technical users & builders' },
+  { value: 'individual_investor', label: 'Individual Investor', description: 'Retail investors managing personal portfolios' },
+  { value: 'trader', label: 'Trader', description: 'Active day & swing traders' },
+  { value: 'fintech_professional', label: 'Fintech Professional', description: 'Developers & builders in fintech' },
+  { value: 'financial_advisor', label: 'Financial Advisor', description: 'Advisors & wealth managers' },
+  { value: 'quantitative_analyst', label: 'Quantitative Analyst', description: 'Quant-focused users' },
 ];
 
 /**

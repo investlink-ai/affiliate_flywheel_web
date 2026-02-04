@@ -7,30 +7,30 @@ import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://affievo.com'),
+  metadataBase: new URL('https://linkinvest.com'),
   title: {
-    default: 'AI Tool Reviews | Best AI Tools for Productivity & Content Creation 2026',
-    template: '%s | AI Tool Reviews',
+    default: 'LinkInvest | AI Investment Tool Reviews 2026',
+    template: '%s | LinkInvest',
   },
   description:
-    'Honest, in-depth reviews of the best AI tools for productivity, content creation, and marketing. Tested by real creators for creators.',
+    'Honest, in-depth reviews of the best AI investment tools for traders and investors. Data-driven comparisons of quantitative platforms, robo-advisors, and fintech tools.',
   keywords: [
-    'AI tools',
-    'AI writing tools',
-    'AI productivity',
-    'content creation',
-    'Jasper AI',
-    'Copy.ai',
-    'AI voice',
-    'AI marketing tools',
+    'AI investment tools',
+    'quantitative platforms',
+    'robo-advisors',
+    'fintech tools',
+    'trading platforms',
+    'portfolio management',
+    'QuantConnect',
+    'TradingView',
   ],
-  authors: [{ name: 'Sam Xu', url: 'https://aitoolreviews.com/about' }],
+  authors: [{ name: 'Sam Xu', url: 'https://linkinvest.com/about' }],
   creator: 'Sam Xu',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'AI Tool Reviews',
+    title: 'LinkInvest',
   },
   formatDetection: {
     telephone: false,
@@ -38,24 +38,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://aitoolreviews.com',
-    siteName: 'AI Tool Reviews',
-    title: 'AI Tool Reviews | Best AI Tools for Productivity & Content Creation 2026',
+    url: 'https://linkinvest.com',
+    siteName: 'LinkInvest',
+    title: 'LinkInvest | AI Investment Tool Reviews 2026',
     description:
-      'Honest, in-depth reviews of the best AI tools for productivity, content creation, and marketing.',
+      'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'AI Tool Reviews - Best AI Tools for 2026',
+        alt: 'LinkInvest - AI Investment Tool Reviews 2026',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Tool Reviews | Best AI Tools 2026',
-    description: 'Honest, in-depth reviews of the best AI tools for productivity and content creation.',
+    title: 'LinkInvest | AI Investment Tool Reviews 2026',
+    description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
     creator: '@FeynmanXu',
     images: ['/og-image.png'],
   },
@@ -91,8 +91,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/icon.svg" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body className="flex min-h-screen flex-col">
         {/* Skip to content link for accessibility */}

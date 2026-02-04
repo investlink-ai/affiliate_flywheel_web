@@ -31,7 +31,7 @@ In the Vercel project **Settings → Environment Variables**, add:
 
 | Variable                         | Required | Description                                     | Example               |
 | -------------------------------- | -------- | ----------------------------------------------- | --------------------- |
-| `NEXT_PUBLIC_SITE_URL`           | Yes      | Canonical site URL (sitemap, schema)            | `https://affievo.com` |
+| `NEXT_PUBLIC_SITE_URL`           | Yes      | Canonical site URL (sitemap, schema)            | `https://linkinvest.com` |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID`  | Yes      | GA4 Measurement ID                              | `G-XXXXXXXXXX`        |
 | `NEXT_PUBLIC_GA_FORCE_ENABLE`    | No       | Set `true` to enable GA in dev                  | (leave unset in prod) |
 | `KIT_API_KEY`                   | Yes*     | Kit API v4 key for newsletter signups           | Kit > Account Settings > Developer > Add new key |
@@ -65,7 +65,7 @@ In the Vercel project **Settings → Environment Variables**, add:
 
 ## 5. Custom domain (optional)
 
-1. **Settings → Domains** → Add your domain (e.g. `affievo.com`).
+1. **Settings → Domains** → Add your domain (e.g. `linkinvest.com`).
 2. Add the DNS records Vercel shows (A/CNAME).
 3. After DNS propagates, Vercel will issue SSL and the site will be served on your domain.
 4. Update `NEXT_PUBLIC_SITE_URL` to your production domain and redeploy.

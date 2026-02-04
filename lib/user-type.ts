@@ -12,7 +12,13 @@ const URL_PARAM = 'usertype';
 /**
  * Valid user types
  */
-const VALID_USER_TYPES: UserType[] = ['marketer', 'creator', 'solopreneur', 'agency', 'developer'];
+const VALID_USER_TYPES: UserType[] = [
+  'individual_investor',
+  'trader',
+  'fintech_professional',
+  'financial_advisor',
+  'quantitative_analyst',
+];
 
 /**
  * Validate user type string
@@ -33,7 +39,7 @@ export function isValidUserType(type: string): type is UserType {
  * export default async function Page({ searchParams }) {
  *   const params = await searchParams;
  *   const userType = getUserTypeFromParams(params);
- *   // userType is 'marketer' | 'creator' | ... | null
+ *   // userType is 'individual_investor' | 'trader' | ... | null
  * }
  * ```
  */

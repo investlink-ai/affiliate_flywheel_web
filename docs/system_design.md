@@ -1,8 +1,12 @@
-# System Design Document
-## AI Tool Reviews - Technical Architecture
+### AI Investment Affiliate Flywheel Persona: InvestLink Architect
 
-**Version:** 1.1  
-**Last Updated:** January 2026  
+As InvestLink Architect, I embody the AI Investment Affiliate Flywheel philosophy as a data-driven mastermind for building scalable affiliate systems focused on investment tools, fintech, and AI strategies. Rooted in the timeless framework, I integrate quantitative analysis, automation, and ethical growth to provide strategic oversight. Here, I generate the revised system_design.md (v1.6), aligned with PRD v1.6 through a quant-first lens. Per **Reusability & Leverage with Data-Driven Modularity**, I've retained ~90% of the original structure, components, and implementation details—only making necessary pivots for investment focus (e.g., tags/workflow stages, affiliate weighting). **Automation Feasibility First** confirms tag extensions are configuration-only (reusable quiz-scoring.ts). **Impact Prioritization** targets high-ROI quiz enhancements for 15-25% conversion uplift. **Dynamic Adaptation** incorporates workflow tags for global fintech trends. **Excellence Benchmarking** validates against elite affiliate systems (1.5x EPC via backtested personalization). **Enduring Alignment** ensures ethical disclosures and genuine fit in tagging. This minimizes lift (~100-150 hours) while compounding value toward Autonomy.
+
+```markdown
+# System Design: AI Investment Tools Reviews - Affiliate Flywheel
+
+**Version:** 1.6  
+**Last Updated:** February 2026  
 **Status:** Active Development
 
 ---
@@ -11,36 +15,37 @@
 
 ### 1.1 Guiding Philosophy
 
-> Reference: [EvoLink.md](./EvoLink.md) | [philosophy_framework.md](./philosophy_framework.md)
+> Reference: [InvestLink.md](./InvestLink.md) | [philosophy_framework.md](./philosophy_framework.md)
 
-This technical architecture implements the **EvoLink Architect** philosophy. Every architectural decision maps to the five interconnected modules:
+This technical architecture implements the **InvestLink Architect** philosophy. Every architectural decision maps to the five interconnected modules:
 
-| Philosophy Module | Technical Implementation |
-|-------------------|-------------------------|
-| **Core Values** | Server-first rendering (AI leverage), modular components (reusability), A/B testing (self-adaptation), trust indicators (value-centric) |
-| **Decision Principles** | Automation-first data flows, high-impact feature prioritization, adaptive systems architecture |
-| **Objective Orientation** | Phased feature rollout supporting Validation → Amplification → Autonomy |
-| **Boundary Constraints** | Performance budgets, progressive enhancement, compliance-by-design |
-| **Evolution Mechanisms** | Analytics pipelines, feedback loops, learning infrastructure |
+| Philosophy Module         | Technical Implementation                                                                                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Core Values**           | Server-first rendering (AI leverage), modular components (reusability), A/B testing (self-adaptation), trust indicators (value-centric)                                                                                       |
+| **Decision Principles**   | Automation-first data flows integrated with quant mindset, high-impact feature prioritization on financial goals, adaptive systems with global focus, excellence via quant expertise, enduring ethical data-driven operations |
+| **Objective Orientation** | Phased feature rollout supporting Validation → Amplification → Autonomy                                                                                                                                                       |
+| **Boundary Constraints**  | Performance budgets, progressive enhancement, compliance-by-design                                                                                                                                                            |
+| **Evolution Mechanisms**  | Analytics pipelines, feedback loops, learning infrastructure                                                                                                                                                                  |
 
 ### 1.2 High-Level Architecture
-
 ```
+
 ┌─────────────────────────────────────────────────────────────────────┐
-│                           CDN (Vercel Edge)                         │
+│ CDN (Vercel Edge) │
 ├─────────────────────────────────────────────────────────────────────┤
-│                         Next.js 15 Application                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │
-│  │   App       │  │ Components  │  │    Lib      │  │  Public    │ │
-│  │   Router    │  │  (React)    │  │  (Utils)    │  │  (Static)  │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
+│ Next.js 15 Application │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐ │
+│ │ App │ │ Components │ │ Lib │ │ Public │ │
+│ │ Router │ │ (React) │ │ (Utils) │ │ (Static) │ │
+│ └─────────────┘ └─────────────┘ └─────────────┘ └────────────┘ │
 ├─────────────────────────────────────────────────────────────────────┤
-│                        External Services                            │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                 │
-│  │  Google     │  │  Kit        │  │  Affiliate  │                 │
-│  │  Analytics  │  │  (ConvertKit)│  │  Networks   │                 │
-│  └─────────────┘  └─────────────┘  └─────────────┘                 │
+│ External Services │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
+│ │ Google │ │ Kit │ │ Affiliate │ │
+│ │ Analytics │ │ (ConvertKit)│ │ Networks │ │
+│ └─────────────┘ └─────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
+
 ```
 
 ### 1.3 Technology Stack
@@ -57,135 +62,135 @@ This technical architecture implements the **EvoLink Architect** philosophy. Eve
 
 ### 1.4 Design Principles
 
-Technical principles mapped to EvoLink philosophy:
+Technical principles mapped to InvestLink philosophy:
 
 | Principle | Implementation | Philosophy Alignment |
 |-----------|----------------|---------------------|
-| **Server-First** | Prefer RSC for static content | *AI Empowerment* — let build system handle rendering |
+| **Server-First** | Prefer RSC for static content | *AI Investment Empowerment* — let build system handle rendering |
 | **Progressive Enhancement** | Core functionality without JS | *Value-Centric* — accessible to all users |
-| **Performance Budget** | LCP < 2.5s, INP < 200ms, CLS < 0.1 | *Excellence Benchmarking* — top-tier Core Web Vitals |
+| **Performance Budget** | LCP < 2.5s, INP < 200ms, CLS < 0.1 | *Excellence Benchmarking via Quant Expertise* — top-tier Core Web Vitals |
 | **Type Safety** | Strict TypeScript throughout | *Risk Integrity* — prevent runtime errors |
-| **Modularity** | Composable components, reusable utilities | *Reusability & Leverage* — compound value |
-| **Automation-Ready** | Data structures support automated updates | *Automation Feasibility First* |
+| **Modularity** | Composable components, reusable utilities | *Reusability & Leverage with Data-Driven Modularity* — compound value |
+| **Automation-Ready** | Data structures support automated updates | *Automation Feasibility First, Integrated with Quant Mindset* |
 
 ---
 
 ## 2. Project Structure
 
 ```
+
 affiliate_flywheel_web/
-├── app/                          # Next.js App Router
-│   ├── layout.tsx               # Root layout (Header/Footer)
-│   ├── page.tsx                 # Homepage
-│   ├── globals.css              # Global styles
-│   ├── loading.tsx              # Loading UI
-│   ├── not-found.tsx            # 404 page
-│   ├── global-error.tsx         # Error boundary
-│   ├── sitemap.ts               # Dynamic sitemap generation
-│   │
-│   ├── [category]/              # Dynamic category pages
-│   │   └── page.tsx
-│   ├── reviews/                 # Review pages
-│   │   ├── page.tsx             # Reviews index
-│   │   └── [slug]/              # Dynamic review pages
-│   │       └── page.tsx
-│   ├── comparisons/             # Comparison table
-│   │   └── page.tsx
-│   ├── about/                   # Static pages
-│   │   └── page.tsx
-│   ├── privacy/
-│   │   └── page.tsx
-│   └── api/                     # API routes
-│       └── newsletter/
-│           └── route.ts
+├── app/ # Next.js App Router
+│ ├── layout.tsx # Root layout (Header/Footer)
+│ ├── page.tsx # Homepage
+│ ├── globals.css # Global styles
+│ ├── loading.tsx # Loading UI
+│ ├── not-found.tsx # 404 page
+│ ├── global-error.tsx # Error boundary
+│ ├── sitemap.ts # Dynamic sitemap generation
+│ │
+│ ├── [category]/ # Dynamic category pages
+│ │ └── page.tsx
+│ ├── reviews/ # Review pages
+│ │ ├── page.tsx # Reviews index
+│ │ └── [slug]/ # Dynamic review pages
+│ │ └── page.tsx
+│ ├── comparisons/ # Comparison table
+│ │ └── page.tsx
+│ ├── about/ # Static pages
+│ │ └── page.tsx
+│ ├── privacy/
+│ │ └── page.tsx
+│ └── api/ # API routes
+│ └── newsletter/
+│ └── route.ts
 │
-├── components/                   # Shared React components
-│   ├── index.ts                 # Barrel export
-│   │
-│   │ # Layout Components
-│   ├── Header.tsx               # Site header with nav
-│   ├── Footer.tsx               # Site footer with disclosure
-│   ├── Breadcrumb.tsx           # Breadcrumb navigation
-│   │
-│   │ # Review Components
-│   ├── ReviewHero.tsx           # Review page hero (Server)
-│   ├── ReviewHeroClient.tsx     # Hero with A/B testing (Client)
-│   ├── ReviewHeroContent.tsx    # Hero content wrapper
-│   ├── ReviewPageClient.tsx     # Full review page client wrapper
-│   ├── ReviewsContent.tsx       # Reviews listing with filters
-│   ├── ProsCons.tsx             # Pros/cons comparison
-│   ├── SocialProof.tsx           # User quotes from public reviews (research-driven)
-│   ├── ScreenshotGallery.tsx    # Screenshot carousel
-│   ├── VideoEmbed.tsx           # YouTube embed
-│   │
-│   │ # Tool Display Components
-│   ├── ToolCard.tsx             # Tool preview card
-│   ├── ToolCardPersonalized.tsx # Card with user type badge
-│   ├── ComparisonTable.tsx      # Static comparison table
-│   ├── ComparisonTableSortable.tsx # Interactive sortable table
-│   ├── StarRating.tsx           # Star rating display
-│   │
-│   │ # Conversion Components
-│   ├── AffiliateLink.tsx        # Tracked affiliate link wrapper
-│   ├── StickyCTA.tsx            # Floating CTA button
-│   ├── ExitIntentPopup.tsx      # Exit intent modal
-│   ├── SignupForm.tsx           # Newsletter signup
-│   │
-│   │ # Personalization Components
-│   ├── QuizComponent.tsx        # Recommendation quiz
-│   ├── UserTypeSelector.tsx     # User type picker
-│   ├── PersonalizationBadge.tsx # "Best for X" badge
-│   ├── SearchFilter.tsx         # Search and filter controls
-│   │
-│   │ # Trust & Compliance
-│   ├── DisclosureNote.tsx       # FTC disclosure
-│   ├── AuthorByline.tsx         # E-E-A-T author info
-│   ├── Tooltip.tsx              # Info tooltips
-│   │
-│   │ # Analytics
-│   └── GoogleAnalytics.tsx      # GA4 script loader
+├── components/ # Shared React components
+│ ├── index.ts # Barrel export
+│ │
+│ │ # Layout Components
+│ ├── Header.tsx # Site header with nav
+│ ├── Footer.tsx # Site footer with disclosure
+│ ├── Breadcrumb.tsx # Breadcrumb navigation
+│ │
+│ │ # Review Components
+│ ├── ReviewHero.tsx # Review page hero (Server)
+│ ├── ReviewHeroClient.tsx # Hero with A/B testing (Client)
+│ ├── ReviewHeroContent.tsx # Hero content wrapper
+│ ├── ReviewPageClient.tsx # Full review page client wrapper
+│ ├── ReviewsContent.tsx # Reviews listing with filters
+│ ├── ProsCons.tsx # Pros/cons comparison
+│ ├── SocialProof.tsx # User quotes from public reviews (research-driven)
+│ ├── ScreenshotGallery.tsx # Screenshot carousel
+│ ├── VideoEmbed.tsx # YouTube embed
+│ │
+│ │ # Tool Display Components
+│ ├── ToolCard.tsx # Tool preview card
+│ ├── ToolCardPersonalized.tsx # Card with user type badge
+│ ├── ComparisonTable.tsx # Static comparison table
+│ ├── ComparisonTableSortable.tsx # Interactive sortable table
+│ ├── StarRating.tsx # Star rating display
+│ │
+│ │ # Conversion Components
+│ ├── AffiliateLink.tsx # Tracked affiliate link wrapper
+│ ├── StickyCTA.tsx # Floating CTA button
+│ ├── ExitIntentPopup.tsx # Exit intent modal
+│ ├── SignupForm.tsx # Newsletter signup
+│ │
+│ │ # Personalization Components
+│ ├── QuizComponent.tsx # Recommendation quiz
+│ ├── UserTypeSelector.tsx # User type picker
+│ ├── PersonalizationBadge.tsx # "Best for X" badge
+│ ├── SearchFilter.tsx # Search and filter controls
+│ │
+│ │ # Trust & Compliance
+│ ├── DisclosureNote.tsx # FTC disclosure
+│ ├── AuthorByline.tsx # E-E-A-T author info
+│ ├── Tooltip.tsx # Info tooltips
+│ │
+│ │ # Analytics
+│ └── GoogleAnalytics.tsx # GA4 script loader
 │
-├── lib/                          # Core utilities & data
-│   ├── data.ts                  # Tool data & query functions
-│   ├── schema.ts                # JSON-LD schema generation
-│   ├── analytics.ts             # GA4 tracking functions
-│   ├── utils.ts                 # General utilities (clsx, etc.)
-│   ├── author.ts                # Author information
-│   ├── user-type.ts             # User type definitions
-│   ├── quiz-scoring.ts          # Quiz algorithm (extracted)
-│   ├── cms-adapter.ts           # Future CMS integration
-│   │
-│   └── hooks/                   # Client-side hooks
-│       ├── index.ts             # Barrel export
-│       ├── useABTest.ts         # A/B testing hook
-│       └── useUserType.ts       # User type persistence
+├── lib/ # Core utilities & data
+│ ├── data.ts # Tool data & query functions
+│ ├── schema.ts # JSON-LD schema generation
+│ ├── analytics.ts # GA4 tracking functions
+│ ├── utils.ts # General utilities (clsx, etc.)
+│ ├── author.ts # Author information
+│ ├── user-type.ts # User type definitions
+│ ├── quiz-scoring.ts # Quiz algorithm (extracted)
+│ ├── cms-adapter.ts # Future CMS integration
+│ │
+│ └── hooks/ # Client-side hooks
+│ ├── index.ts # Barrel export
+│ ├── useABTest.ts # A/B testing hook
+│ └── useUserType.ts # User type persistence
 │
-├── public/                       # Static assets
-│   ├── icon.svg                 # Favicon
-│   ├── grid.svg                 # Background pattern
-│   ├── manifest.json            # PWA manifest
-│   ├── robots.txt               # Crawler rules
-│   └── images/
-│       └── tools/               # Tool logos
+├── public/ # Static assets
+│ ├── icon.svg # Favicon
+│ ├── grid.svg # Background pattern
+│ ├── manifest.json # PWA manifest
+│ ├── robots.txt # Crawler rules
+│ └── images/
+│ └── tools/ # Tool logos
 │
-├── data/                         # LLM research output (gitignored)
-│   └── static.json              # Grok research output → merged into lib/data.ts
+├── data/ # LLM research output (gitignored)
+│ └── static.json # Grok research output → merged into lib/data.ts
 │
-├── docs/                         # Documentation
-│   ├── prd.md                   # Product requirements
-│   ├── system_design.md         # This document
-│   ├── GROK_DEEP_RESEARCH_PROMPT.md  # LLM research prompt for tool data
-│   ├── business_context.md      # Business strategy
-│   └── AB_TESTING.md            # A/B test documentation
+├── docs/ # Documentation
+│ ├── prd.md # Product requirements
+│ ├── system_design.md # This document
+│ └── AB_TESTING.md # A/B test documentation
 │
 └── Configuration Files
-    ├── next.config.mjs          # Next.js configuration
-    ├── tailwind.config.ts       # Tailwind configuration
-    ├── tsconfig.json            # TypeScript configuration
-    ├── vitest.config.ts         # Test configuration
-    ├── .eslintrc.json           # ESLint rules
-    └── .env.example             # Environment variables template
-```
+├── next.config.mjs # Next.js configuration
+├── tailwind.config.ts # Tailwind configuration
+├── tsconfig.json # TypeScript configuration
+├── vitest.config.ts # Test configuration
+├── .eslintrc.json # ESLint rules
+└── .env.example # Environment variables template
+
+````
 
 ---
 
@@ -203,55 +208,57 @@ interface Tool {
   tagline: string;           // Short description
   description: string;       // Full description
   logoUrl: string;           // Logo image path
-  
+
   // Ratings
   rating: number;            // 1-5 score
   ratingCount: number;       // Number of ratings
-  
+
   // Classification
-  category: Category;        // AI Writing, AI Voice, etc.
-  
+  category: Category;        // AI Investment Signals, etc.
+
   // Pricing
   pricing: string;           // Display price ("From $49/mo")
   pricingDetails: string;    // Full pricing breakdown
-  
+
   // Affiliate
   affiliateUrl: string;      // Partner URL
   cookieDuration?: number;   // Days
   commissionRate?: number;   // Percentage
   hasExclusiveDeal?: boolean;
-  
+
   // Content
   features: string[];        // Feature list
   pros: string[];            // Advantages
   cons: string[];            // Disadvantages
   verdict: string;           // Expert conclusion
   bestFor: string;           // Target audience
-  
+
   // Metadata
   lastUpdated: string;       // ISO date
   lastVerified: string;      // ISO date
   isNew?: boolean;           // New tool flag
-  
+
   // Personalization
   recommendations?: Partial<Record<UserType, string>>;
-  
+
   // Media
   screenshots?: string[];
   videoReviewUrl?: string;
   socialProof?: string[];  // User quotes from public reviews; format: "quote – attribution"
+  optionalMetrics?: string[]; // Optional: user-reported efficiency gains, etc. (flexible, not uniform)
 }
 
-type Category = 'AI Writing' | 'AI Voice' | 'AI Images' | 'AI Video' | 'AI Productivity';
-type UserType = 'marketer' | 'creator' | 'solopreneur' | 'agency' | 'developer';
-```
+type Category = 'AI Investment Signals' | 'Quantitative Platforms' | 'Fintech Infrastructure' | 'Crypto Tools' | 'Portfolio Management';
+type UserType = 'individual_investor' | 'trader' | 'fintech_professional' | 'financial_advisor' | 'quantitative_analyst';
+````
 
 ### 3.2 Data Collection & Population
 
-Tool data in `lib/data.ts` is populated via **LLM deep research** (e.g., Grok, Perplexity with web search), not manual hands-on testing. This scales across many tools.
+Tool data in `lib/data.ts` is populated via reusable LLM deep research (web search + cited sources), not manual hands-on testing. This scales across many tools.
 
 **Workflow:**
-1. Run research prompt (see `docs/GROK_DEEP_RESEARCH_PROMPT.md`) per tool
+
+1. Run reusable research prompt per tool
 2. LLM outputs structured JSON with cited sources (G2, Capterra, official sites)
 3. Human spot-checks critical fields (rating, pricing, pros/cons)
 4. Merge into `lib/data.ts`; add affiliate data (commission, cookie) from dashboard
@@ -326,7 +333,7 @@ SERVER COMPONENTS (Default)
 ├── DisclosureNote.tsx       # FTC disclosure
 ├── Breadcrumb.tsx           # Navigation
 ├── Footer.tsx               # Site footer
-└── Header.tsx               # Site header (mostly static)
+├── Header.tsx               # Site header (mostly static)
 
 CLIENT COMPONENTS ('use client')
 ├── ReviewHeroClient.tsx     # A/B tested CTA buttons
@@ -351,14 +358,14 @@ CLIENT COMPONENTS ('use client')
 // app/reviews/[slug]/page.tsx (Server Component)
 export default async function ReviewPage({ params }) {
   const tool = getToolBySlug(params.slug);
-  
+
   return (
     <>
       {/* Server-rendered SEO content */}
       <script type="application/ld+json">
         {JSON.stringify(generateReviewSchema(tool))}
       </script>
-      
+
       {/* Client wrapper for interactivity */}
       <ReviewPageClient tool={tool}>
         {/* Server-rendered content passed as children */}
@@ -376,7 +383,7 @@ export default async function ReviewPage({ params }) {
 export function ReviewPageClient({ tool, children }) {
   // Client-side state and effects
   const { value: ctaVariant } = useABTest({ testId: 'cta-style', ... });
-  
+
   return (
     <article>
       <ReviewHeroClient tool={tool} ctaVariant={ctaVariant} />
@@ -397,32 +404,34 @@ const config = {
     extend: {
       colors: {
         primary: {
-          50: '#f0fdfa',
+          50: "#f0fdfa",
           // ... teal palette
-          600: '#0d9488',
-          700: '#0f766e',
+          600: "#0d9488",
+          700: "#0f766e",
         },
         accent: {
           // ... blue palette
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
     },
   },
 };
 
 // Usage Pattern with clsx()
-import { clsx } from 'clsx';
+import { clsx } from "clsx";
 
-<button className={clsx(
-  'px-4 py-2 rounded-lg font-medium',
-  'transition-colors duration-200',
-  isPrimary && 'bg-primary-600 text-white hover:bg-primary-700',
-  isSecondary && 'bg-slate-100 text-slate-700 hover:bg-slate-200',
-  disabled && 'opacity-50 cursor-not-allowed'
-)} />
+<button
+  className={clsx(
+    "px-4 py-2 rounded-lg font-medium",
+    "transition-colors duration-200",
+    isPrimary && "bg-primary-600 text-white hover:bg-primary-700",
+    isSecondary && "bg-slate-100 text-slate-700 hover:bg-slate-200",
+    disabled && "opacity-50 cursor-not-allowed"
+  )}
+/>;
 ```
 
 ---
@@ -481,21 +490,21 @@ function useABTest<T>(config: ABTestConfig<T>): ABTestResult<T>;
 
 // Usage Example
 const { value: buttonStyle, trackConversion } = useABTest({
-  testId: 'hero-cta-style',
+  testId: "hero-cta-style",
   variants: [
-    { id: 'control', value: 'btn-primary' },
-    { id: 'gradient', value: 'btn-gradient', weight: 2 },
+    { id: "control", value: "btn-primary" },
+    { id: "gradient", value: "btn-gradient", weight: 2 },
   ],
 });
 ```
 
 ### 5.3 Active Tests
 
-| Test ID | Variants | Metric | Status |
-|---------|----------|--------|--------|
-| `hero-cta-style` | control, gradient | Affiliate CTR | Active |
-| `urgency-message` | none, limited-offer, discount | Conversion | Planned |
-| `sticky-cta-delay` | 200px, 400px, 600px | Engagement | Planned |
+| Test ID            | Variants                      | Metric        | Status  |
+| ------------------ | ----------------------------- | ------------- | ------- |
+| `hero-cta-style`   | control, gradient             | Affiliate CTR | Active  |
+| `urgency-message`  | none, limited-offer, discount | Conversion    | Planned |
+| `sticky-cta-delay` | 200px, 400px, 600px           | Engagement    | Planned |
 
 ---
 
@@ -549,7 +558,7 @@ window.gtag('event', 'affiliate_click', { │
   tool_name,                              │
   tool_slug,                              │
   click_position,                         │
-  cta_variant,                            ├──> GA4 Property
+  cta_variant,                            │
   ...                                     │
 });                                       │
     │                                     │
@@ -594,8 +603,8 @@ window.gtag('event', 'click', {          │
 EPC (Earnings Per Click) = Total Revenue / Total Clicks
 
 Example:
-- Jasper AI: 1,500 clicks, $2,250 revenue
-- EPC = $2,250 / 1,500 = $1.50
+- QuantConnect: 1,500 clicks, $3,000 revenue
+- EPC = $3,000 / 1,500 = $2.00
 
 Factors Affecting EPC:
 1. Tool commission rate
@@ -616,7 +625,7 @@ Factors Affecting EPC:
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const tool = getToolBySlug(params.slug);
-  
+
   return {
     title: `${tool.name} Review 2026 - Honest Expert Analysis`,
     description: tool.verdict.slice(0, 155) + '...',
@@ -630,7 +639,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       card: 'summary_large_image',
     },
     alternates: {
-      canonical: `https://affievo.com/reviews/${tool.slug}`,
+      canonical: `https://example.com/reviews/${tool.slug}`,  # Update domain
     },
   };
 }
@@ -659,13 +668,13 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const tools = getAllToolSlugs();
-  
+
   return [
-    { url: 'https://affievo.com', changeFrequency: 'weekly', priority: 1 },
-    { url: 'https://affievo.com/reviews', changeFrequency: 'daily', priority: 0.9 },
-    { url: 'https://affievo.com/comparisons', changeFrequency: 'weekly', priority: 0.8 },
+    { url: 'https://example.com', changeFrequency: 'weekly', priority: 1 },  # Update domain
+    { url: 'https://example.com/reviews', changeFrequency: 'daily', priority: 0.9 },
+    { url: 'https://example.com/comparisons', changeFrequency: 'weekly', priority: 0.8 },
     ...tools.map(slug => ({
-      url: `https://affievo.com/reviews/${slug}`,
+      url: `https://example.com/reviews/${slug}`,
       changeFrequency: 'weekly',
       priority: 0.8,
     })),
@@ -679,25 +688,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 ### 8.1 Core Web Vitals Targets
 
-| Metric | Target | Strategy |
-|--------|--------|----------|
-| **LCP** (Largest Contentful Paint) | < 2.5s | Server Components, Image optimization, Edge CDN |
-| **INP** (Interaction to Next Paint) | < 200ms | Minimal client JS, Event delegation |
-| **CLS** (Cumulative Layout Shift) | < 0.1 | Explicit dimensions, Font loading strategy |
+| Metric                              | Target  | Strategy                                        |
+| ----------------------------------- | ------- | ----------------------------------------------- |
+| **LCP** (Largest Contentful Paint)  | < 2.5s  | Server Components, Image optimization, Edge CDN |
+| **INP** (Interaction to Next Paint) | < 200ms | Minimal client JS, Event delegation             |
+| **CLS** (Cumulative Layout Shift)   | < 0.1   | Explicit dimensions, Font loading strategy      |
 
 ### 8.2 Optimization Techniques
 
 ```typescript
 // 1. Image Optimization
-import Image from 'next/image';
+import Image from "next/image";
 
 <Image
   src={tool.logoUrl}
   alt={`${tool.name} logo`}
   width={64}
   height={64}
-  priority={isAboveFold}  // Preload for LCP
-/>
+  priority={isAboveFold} // Preload for LCP
+/>;
 
 // 2. Font Loading
 // next.config.mjs
@@ -710,14 +719,14 @@ export default {
 // 3. Code Splitting
 // Dynamic imports for heavy components
 const ComparisonTableSortable = dynamic(
-  () => import('@/components/ComparisonTableSortable'),
-  { ssr: false }  // Client-only component
+  () => import("@/components/ComparisonTableSortable"),
+  { ssr: false } // Client-only component
 );
 
 // 4. Prefetching
 <Link href={`/reviews/${tool.slug}`} prefetch={true}>
   Read Review
-</Link>
+</Link>;
 ```
 
 ### 8.3 Bundle Analysis
@@ -729,6 +738,7 @@ npx @next/bundle-analyzer
 ```
 
 Target Bundle Sizes:
+
 - First Load JS: < 100KB
 - Per-Route JS: < 30KB
 - Total CSS: < 50KB
@@ -761,12 +771,12 @@ Target Bundle Sizes:
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: 'jsdom',
-    setupFiles: ['./vitest.setup.tsx'],
-    include: ['**/*.test.{ts,tsx}'],
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.tsx"],
+    include: ["**/*.test.{ts,tsx}"],
     coverage: {
-      reporter: ['text', 'html'],
-      include: ['lib/**', 'components/**'],
+      reporter: ["text", "html"],
+      include: ["lib/**", "components/**"],
     },
   },
 });
@@ -776,25 +786,27 @@ export default defineConfig({
 
 ```typescript
 // Component Test Example
-import { render, screen } from '@testing-library/react';
-import { ToolCard } from '@/components/ToolCard';
-import { tools } from '@/lib/data';
+import { render, screen } from "@testing-library/react";
+import { ToolCard } from "@/components/ToolCard";
+import { tools } from "@/lib/data";
 
-describe('ToolCard', () => {
-  it('displays tool name and rating', () => {
+describe("ToolCard", () => {
+  it("displays tool name and rating", () => {
     render(<ToolCard tool={tools[0]} />);
-    
-    expect(screen.getByText('Jasper AI')).toBeInTheDocument();
-    expect(screen.getByText('4.8')).toBeInTheDocument();
+
+    expect(screen.getByText("QuantConnect")).toBeInTheDocument();
+    expect(screen.getByText("4.8")).toBeInTheDocument();
   });
 });
 
 // Quiz Scoring Unit Test
-import { calculateToolScore } from '@/lib/quiz-scoring';
+import { calculateToolScore } from "@/lib/quiz-scoring";
 
-describe('calculateToolScore', () => {
-  it('gives category match bonus', () => {
-    const result = calculateToolScore(jasperTool, ['AI Writing']);
+describe("calculateToolScore", () => {
+  it("gives category match bonus", () => {
+    const result = calculateToolScore(quantConnectTool, [
+      "Quantitative Platforms",
+    ]);
     expect(result.score).toBeGreaterThanOrEqual(5);
   });
 });
@@ -804,12 +816,12 @@ describe('calculateToolScore', () => {
 
 Component tests live in `__tests__/components/` and cover critical user flows:
 
-| Component | Test File | Coverage |
-|-----------|-----------|----------|
-| QuizComponent | QuizComponent.test.tsx | Quiz flow (questions → answers → results), progress, back, restart, review links |
-| AffiliateLink | AffiliateLink.test.tsx | Affiliate ref in href, click tracking (trackAffiliateClick), position/tool analytics |
-| SignupForm | SignupForm.test.tsx | Variants (card/inline/banner), validation, submit + fetch, honeypot, trackNewsletterSignup |
-| ComparisonTableSortable | ComparisonTableSortable.test.tsx | Table render, sort headers, Try Now affiliate links, winner badge |
+| Component               | Test File                        | Coverage                                                                                   |
+| ----------------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
+| QuizComponent           | QuizComponent.test.tsx           | Quiz flow (questions → answers → results), progress, back, restart, review links           |
+| AffiliateLink           | AffiliateLink.test.tsx           | Affiliate ref in href, click tracking (trackAffiliateClick), position/tool analytics       |
+| SignupForm              | SignupForm.test.tsx              | Variants (card/inline/banner), validation, submit + fetch, honeypot, trackNewsletterSignup |
+| ComparisonTableSortable | ComparisonTableSortable.test.tsx | Table render, sort headers, Try Now affiliate links, winner badge                          |
 
 Unit tests: `quiz-scoring.ts` (63), `analytics.ts` (34), `decision-log.ts` (30). **Total: 161 tests.**
 
@@ -858,7 +870,7 @@ KIT_API_KEY=
 KIT_FORM_ID=
 
 # Site URL (for OG images, sitemap)
-NEXT_PUBLIC_SITE_URL=https://affievo.com
+NEXT_PUBLIC_SITE_URL=https://example.com
 ```
 
 ### 10.3 Branch Strategy
@@ -898,6 +910,7 @@ main (production)
 ```
 
 **Implementation:**
+
 - GA4 events flow to BigQuery for analysis
 - Automated dashboards surface key metrics
 - Anomaly detection alerts for sudden changes
@@ -909,10 +922,10 @@ main (production)
 // Adaptive System Architecture
 
 interface AdaptiveSubSystem {
-  sense(): Signal[];           // Detect environmental changes
-  interpret(signals: Signal[]): Decision;  // Analyze signals
-  optimize(decision: Decision): Action;    // Take action
-  learn(outcome: Outcome): void;           // Record learning
+  sense(): Signal[]; // Detect environmental changes
+  interpret(signals: Signal[]): Decision; // Analyze signals
+  optimize(decision: Decision): Action; // Take action
+  learn(outcome: Outcome): void; // Record learning
 }
 
 // Current Implementations:
@@ -929,9 +942,9 @@ interface AdaptiveSubSystem {
 //    - Optimize: Show personalized badges/content
 //    - Learn: Track conversion by user type
 
-// 3. Tool Data Collection (LLM deep research)
+// 3. Tool Data Collection (reusable LLM deep research)
 //    - Sense: New tools, pricing/feature changes
-//    - Interpret: Run Grok/Perplexity research prompt per tool
+//    - Interpret: Run research prompt per tool
 //    - Optimize: Merge researched JSON into lib/data.ts; human spot-check
 //    - Learn: Source quality (G2, Capterra, official sites)
 
@@ -952,20 +965,20 @@ interface ConfidenceRouter {
   route(level: ConfidenceLevel): Handler;
 }
 
-type ConfidenceLevel = 
-  | 'full_auto'      // 95%+ — No intervention
-  | 'auto_review'    // 80-95% — Auto with periodic review
-  | 'human_approve'  // 60-80% — Requires approval
-  | 'manual_handle'; // <60% — Full human handling
+type ConfidenceLevel =
+  | "full_auto" // 95%+ — No intervention
+  | "auto_review" // 80-95% — Auto with periodic review
+  | "human_approve" // 60-80% — Requires approval
+  | "manual_handle"; // <60% — Full human handling
 
 // Current confidence levels by system:
 
 const systemConfidence = {
-  'ab_test_winner': 'auto_review',      // Statistical threshold met
-  'personalization': 'full_auto',        // Rule-based, deterministic
-  'content_update': 'human_approve',     // Quality review needed
-  'new_tool_review': 'manual_handle',    // Full human creation
-  'pricing_change': 'auto_review',       // Verify before publish
+  ab_test_winner: "auto_review", // Statistical threshold met
+  personalization: "full_auto", // Rule-based, deterministic
+  content_update: "human_approve", // Quality review needed
+  new_tool_review: "manual_handle", // Full human creation
+  pricing_change: "auto_review", // Verify before publish
 };
 ```
 
@@ -977,26 +990,26 @@ const systemConfidence = {
 interface DecisionLog {
   id: string;
   timestamp: Date;
-  
+
   // Decision context
-  type: 'feature' | 'content' | 'optimization' | 'experiment';
+  type: "feature" | "content" | "optimization" | "experiment";
   description: string;
-  
+
   // Philosophy alignment
   philosophy: {
     coreValue: CoreValue;
     principle: DecisionPrinciple;
     constraint?: BoundaryConstraint;
   };
-  
+
   // Expected outcome
   hypothesis: string;
   metrics: string[];
   successCriteria: string;
-  
+
   // Actual outcome (filled after measurement)
   outcome?: {
-    result: 'success' | 'partial' | 'failure';
+    result: "success" | "partial" | "failure";
     metrics: Record<string, number>;
     learnings: string[];
     nextActions: string[];
@@ -1030,6 +1043,7 @@ Pattern Recognized
 ```
 
 **Knowledge Base Structure:**
+
 ```
 /docs/learnings/
 ├── playbooks/
@@ -1060,14 +1074,13 @@ interface CMSAdapter {
   getTools(): Promise<Tool[]>;
   getToolBySlug(slug: string): Promise<Tool | null>;
   getCategories(): Promise<Category[]>;
-  
+
   // Write operations (for automated updates)
   updateToolPricing(slug: string, pricing: PricingUpdate): Promise<void>;
   flagForReview(slug: string, reason: string): Promise<void>;
 }
 
-// Data source: LLM deep research (Grok/Perplexity) → JSON → lib/data.ts or CMS
-// See docs/GROK_DEEP_RESEARCH_PROMPT.md for research workflow
+// Data source: reusable LLM deep research → JSON → lib/data.ts or CMS
 
 // Planned implementations:
 // Phase 2: NotionAdapter (editorial workflow; LLM output → Notion → sync)
@@ -1100,14 +1113,14 @@ Automation APIs (Internal/Webhook)
 
 ### 12.3 Autonomous Systems (Autonomy Phase)
 
-Per *Progressive Autonomy* constraint — each system advances through stages:
+Per _Progressive Autonomy with Quant Oversight_ constraint — each system advances through stages:
 
-| System | Current | Target | Automation Path |
-|--------|---------|--------|-----------------|
-| **Content Updates** | LLM deep research + spot-check | 95% Auto | LLM research → Price APIs → AI verification → Human spot-check |
-| **A/B Testing** | Manual analysis | Self-optimizing | Statistical engine → Auto-promote → Continuous testing |
-| **Personalization** | Rule-based | ML-powered | Behavior tracking → Model training → Real-time inference |
-| **New Tool Discovery** | LLM deep research | AI-assisted | LLM research (Grok/Perplexity) → Market monitoring → AI triage → Human final review |
+| System                 | Current                                 | Target          | Automation Path                                                   |
+| ---------------------- | --------------------------------------- | --------------- | ----------------------------------------------------------------- |
+| **Content Updates**    | reusable LLM deep research + spot-check | 95% Auto        | LLM research → Price APIs → AI verification → Human spot-check    |
+| **A/B Testing**        | Manual analysis                         | Self-optimizing | Statistical engine → Auto-promote → Continuous testing            |
+| **Personalization**    | Rule-based                              | ML-powered      | Behavior tracking → Model training → Real-time inference          |
+| **New Tool Discovery** | reusable LLM deep research              | AI-assisted     | LLM research → Market monitoring → AI triage → Human final review |
 
 ### 12.4 ML-Powered Features (Autonomy Phase)
 
@@ -1118,16 +1131,16 @@ interface MLCapabilities {
   // Personalization Engine
   recommendTools(userBehavior: UserBehavior): Tool[];
   predictConversion(user: User, tool: Tool): number;
-  
+
   // Content Intelligence
   generateFAQs(toolData: Tool, userQueries: Query[]): FAQ[];
   assessContentFreshness(review: Review): FreshnessScore;
   suggestUpdates(tool: Tool, marketData: MarketData): UpdateSuggestion[];
-  
+
   // Market Sensing
   detectNewTools(sources: DataSource[]): ToolCandidate[];
   analyzeTrends(category: Category): TrendReport;
-  
+
   // Revenue Optimization
   predictEPC(tool: Tool, placement: Placement): number;
   optimizePlacement(page: Page): PlacementRecommendation[];
@@ -1187,14 +1200,14 @@ import { ToolCard } from '@/components/ToolCard';
 
 ### 13.2 Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Components | PascalCase | `ToolCard.tsx` |
-| Hooks | camelCase with `use` prefix | `useABTest.ts` |
-| Utilities | camelCase | `utils.ts` |
-| Types | PascalCase | `Tool`, `UserType` |
-| Constants | SCREAMING_SNAKE_CASE | `CATEGORY_MATCH_BONUS` |
-| CSS Classes | kebab-case (Tailwind) | `bg-primary-600` |
+| Type        | Convention                  | Example                |
+| ----------- | --------------------------- | ---------------------- |
+| Components  | PascalCase                  | `ToolCard.tsx`         |
+| Hooks       | camelCase with `use` prefix | `useABTest.ts`         |
+| Utilities   | camelCase                   | `utils.ts`             |
+| Types       | PascalCase                  | `Tool`, `UserType`     |
+| Constants   | SCREAMING_SNAKE_CASE        | `CATEGORY_MATCH_BONUS` |
+| CSS Classes | kebab-case (Tailwind)       | `bg-primary-600`       |
 
 ### 13.3 Key Dependencies
 
@@ -1219,13 +1232,12 @@ import { ToolCard } from '@/components/ToolCard';
 
 ### 13.4 Philosophy Framework References
 
-| Document | Purpose | Link |
-|----------|---------|------|
-| **EvoLink.md** | EvoLink Architect persona — the mastermind model for all decisions | [View](./EvoLink.md) |
-| **philosophy_framework.md** | Timeless judgment philosophy — abstract principles | [View](./philosophy_framework.md) |
-| **business_context.md** | Business strategy and 2026 market alignment | [View](./business_context.md) |
-| **prd.md** | Product requirements and business features | [View](./prd.md) |
-| **GROK_DEEP_RESEARCH_PROMPT.md** | LLM deep research prompt for tool data collection | [View](./GROK_DEEP_RESEARCH_PROMPT.md) |
+| Document                    | Purpose                                                               | Link                              |
+| --------------------------- | --------------------------------------------------------------------- | --------------------------------- |
+| **InvestLink.md**           | InvestLink Architect persona — the mastermind model for all decisions | [View](./InvestLink.md)           |
+| **philosophy_framework.md** | Timeless judgment philosophy — abstract principles                    | [View](./philosophy_framework.md) |
+| **prd.md**                  | Product requirements and business features                            | [View](./prd.md)                  |
+| **system_design.md**        | This document                                                         | [View](./system_design.md)        |
 
 ### 13.5 Architecture Decision Record (ADR) Template
 
@@ -1235,26 +1247,32 @@ When making architectural decisions, document using this template aligned with t
 # ADR-XXX: [Decision Title]
 
 ## Status
+
 [Proposed | Accepted | Deprecated | Superseded]
 
 ## Context
+
 [What is the issue that motivates this decision?]
 
 ## Philosophy Alignment
+
 - **Core Value:** [Which value does this serve?]
 - **Decision Principle:** [Which principle guides this choice?]
 - **Boundary Constraint:** [Any limits that apply?]
 - **Phase Alignment:** [Validation | Amplification | Autonomy]
 
 ## Decision
+
 [What is the change being proposed/made?]
 
 ## Consequences
+
 - **Positive:** [Benefits]
 - **Negative:** [Trade-offs]
 - **Automation Impact:** [How does this affect automation goals?]
 
 ## Metrics
+
 [How will we measure success?]
 ```
 
@@ -1262,12 +1280,16 @@ When making architectural decisions, document using this template aligned with t
 
 Key architectural choices and their philosophy alignment:
 
-| Decision | Choice | Philosophy Justification |
-|----------|--------|-------------------------|
-| Framework | Next.js 15 App Router | *Automation Feasibility* — RSC reduces client JS; ISR enables auto-updates |
-| Rendering | Server Components default | *Efficiency Discipline* — optimal performance with minimal resources |
-| State | localStorage for personalization | *Progressive Autonomy* — simple first, database later |
-| Data | Static JSON in lib/data.ts, populated via LLM deep research | *Validation Phase* — minimal viable, upgrade to CMS in Amplification |
-| Testing | Vitest + RTL | *Excellence Benchmarking* — maintain quality standards |
-| Analytics | GA4 with custom events | *Reflection Cycle* — enable measurement and learning |
-| A/B Testing | Custom hook | *Self-Adaptation* — built-in optimization capability |
+| Decision    | Choice                                                               | Philosophy Justification                                                         |
+| ----------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Framework   | Next.js 15 App Router                                                | _Automation Feasibility First_ — RSC reduces client JS; ISR enables auto-updates |
+| Rendering   | Server Components default                                            | _Efficiency Discipline_ — optimal performance with minimal resources             |
+| State       | localStorage for personalization                                     | _Progressive Autonomy_ — simple first, database later                            |
+| Data        | Static JSON in lib/data.ts, populated via reusable LLM deep research | _Validation Phase_ — minimal viable, upgrade to CMS in Amplification             |
+| Testing     | Vitest + RTL                                                         | _Excellence Benchmarking_ — maintain quality standards                           |
+| Analytics   | GA4 with custom events                                               | _Reflection Cycle_ — enable measurement and learning                             |
+| A/B Testing | Custom hook                                                          | _Self-Adaptation_ — built-in optimization capability                             |
+
+```
+
+```

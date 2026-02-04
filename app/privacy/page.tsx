@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy & Disclosures',
   description:
-    'Privacy policy, affiliate disclosures, and terms of service for AI Tool Reviews.',
+    'Privacy policy, affiliate disclosures, and terms of service for LinkInvest - AI Investment Tool Reviews.',
 };
 
 export default function PrivacyPage() {
@@ -181,7 +181,7 @@ export default function PrivacyPage() {
             <h2>Contact</h2>
             <p>
               If you have any questions about these policies, please contact me at{' '}
-              <a href="mailto:hello@aitoolreviews.com">hello@aitoolreviews.com</a> or via{' '}
+              <a href="mailto:hello@linkinvest.com">hello@linkinvest.com</a> or via{' '}
               <a
                 href="https://twitter.com/FeynmanXu"
                 target="_blank"
