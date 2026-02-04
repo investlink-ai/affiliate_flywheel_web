@@ -1,9 +1,6 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "npm run start",
-      "startServerReadyTimeout": 90000,
-      "startServerReadyPattern": "Ready",
       "url": [
         "http://localhost:3000",
         "http://localhost:3000/reviews",
