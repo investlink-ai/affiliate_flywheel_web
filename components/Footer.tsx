@@ -49,8 +49,8 @@ export function Footer() {
               <span className="font-bold text-slate-900 dark:text-white">AI Tool Reviews</span>
             </Link>
             <p className="mt-4 max-w-md text-sm text-slate-600 dark:text-slate-400">
-              Honest, in-depth reviews of the best AI tools for productivity, content creation, and
-              marketing. Helping creators make informed decisions since 2024.
+              Honest, in-depth reviews of AI investment tools and fintech platforms. Helping
+              investors make informed decisions since 2024. Not financial advice.
             </p>
             {/* Social Links */}
             <div className="mt-6 flex gap-4">

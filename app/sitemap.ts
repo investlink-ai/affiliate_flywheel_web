@@ -3,11 +3,11 @@ import { getAllToolSlugs } from '@/lib/data';
 
 /** Category page slugs */
 const categorySlugs = [
-  'ai-writing',
-  'ai-voice',
-  'ai-images',
-  'ai-video',
-  'ai-productivity',
+  'ai-investment-signals',
+  'quantitative-platforms',
+  'fintech-infrastructure',
+  'crypto-tools',
+  'portfolio-management',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

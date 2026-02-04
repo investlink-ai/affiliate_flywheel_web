@@ -47,83 +47,110 @@ export interface QuizResult {
  * - 1: Partial match
  */
 export const toolScoring: Record<string, Record<string, number>> = {
-  'jasper-ai': {
-    'AI Writing': 3,
-    marketing: 3,
-    copy: 3,
-    content: 2,
-    seo: 3,
-    team: 3,
-    collaboration: 3,
-    agency: 3,
-    enterprise: 3,
-    'brand-voice': 3,
+  quantconnect: {
+    'Quantitative Platforms': 3,
+    'AI Investment Signals': 2,
+    'idea-generation-research': 3,
+    'data-fundamentals': 3,
+    'technical-quantitative': 3,
+    'execution-trading': 2,
+    'multi-asset': 3,
+    active: 3,
+    aggressive: 2,
     'moderate-budget': 2,
     premium: 3,
-    unlimited: 1,
     'pro-features': 3,
   },
-  'copy-ai': {
-    'AI Writing': 3,
-    marketing: 2,
-    copy: 3,
-    content: 2,
-    versatile: 2,
-    solo: 3,
-    'budget-friendly': 3,
-    'free-tier': 3,
-    'moderate-budget': 3,
-    'small-team': 2,
-    team: 2,
-    collaboration: 2,
-    unlimited: 3,
-    'pro-features': 2,
+  tradestation: {
+    'Quantitative Platforms': 3,
+    'execution-trading': 3,
+    'technical-quantitative': 2,
+    'stocks-etfs': 3,
+    'multi-asset': 2,
+    active: 3,
+    aggressive: 2,
+    'moderate-budget': 2,
+    premium: 3,
+    'pro-features': 3,
   },
-  'murf-ai': {
-    'AI Voice': 3,
-    video: 3,
-    audio: 3,
-    solo: 2,
-    'small-team': 2,
+  polymarket: {
+    'Crypto Tools': 3,
+    'execution-trading': 3,
+    'prediction-markets': 3,
+    active: 3,
+    aggressive: 2,
     'budget-friendly': 2,
-    'moderate-budget': 3,
-    premium: 2,
-    'pro-features': 2,
+    'free-tier': 2,
   },
-  'notion-ai': {
-    'AI Productivity': 3,
-    'AI Writing': 2,
-    content: 2,
-    versatile: 3,
-    solo: 3,
-    'small-team': 3,
-    team: 3,
-    collaboration: 3,
-    'budget-friendly': 3,
+  notion: {
+    'AI Investment Signals': 3,
+    'Fintech Infrastructure': 2,
+    'ai-powered-tools': 3,
+    'idea-generation-research': 2,
+    'budget-friendly': 2,
     'moderate-budget': 2,
     'pro-features': 2,
   },
-  'runway-ml': {
-    'AI Video': 3,
-    video: 3,
-    marketing: 2,
-    solo: 2,
-    'small-team': 2,
+  tradingview: {
+    'AI Investment Signals': 3,
+    'technical-quantitative': 3,
+    'idea-generation-research': 2,
+    'stocks-etfs': 2,
     'budget-friendly': 2,
     'moderate-budget': 3,
     'pro-features': 3,
   },
-  'descript': {
-    'AI Video': 3,
-    'AI Voice': 2,
-    video: 3,
-    audio: 3,
-    solo: 3,
-    'small-team': 2,
-    'budget-friendly': 2,
+  alpaca: {
+    'Fintech Infrastructure': 3,
+    'execution-trading': 3,
+    'technical-quantitative': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
     'free-tier': 2,
-    'moderate-budget': 3,
-    'pro-features': 3,
+    'pro-features': 2,
+  },
+  plaid: {
+    'Fintech Infrastructure': 3,
+    'data-fundamentals': 2,
+    'pro-features': 2,
+  },
+  binance: {
+    'Crypto Tools': 3,
+    'execution-trading': 3,
+    crypto: 3,
+    active: 2,
+    aggressive: 2,
+    'budget-friendly': 2,
+    'pro-features': 2,
+  },
+  wealthfront: {
+    'Portfolio Management': 3,
+    'portfolio-risk-management': 3,
+    passive: 3,
+    conservative: 3,
+    'moderate-risk': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
+    'free-tier': 2,
+  },
+  betterment: {
+    'Portfolio Management': 3,
+    'portfolio-risk-management': 3,
+    passive: 3,
+    conservative: 3,
+    'moderate-risk': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
+    'free-tier': 2,
+  },
+  robinhood: {
+    'Portfolio Management': 3,
+    'execution-trading': 2,
+    'stocks-etfs': 3,
+    crypto: 2,
+    'budget-friendly': 3,
+    'free-tier': 3,
+    'moderate-risk': 2,
   },
 };
 
@@ -188,20 +215,20 @@ export function generateMatchReasons(
   if (scoring['free-tier'] && selectedTags.includes('free-tier')) {
     reasons.push('Offers a free tier');
   }
-  if (scoring.team && (selectedTags.includes('team') || selectedTags.includes('agency'))) {
-    reasons.push('Great for team collaboration');
-  }
-  if (scoring['brand-voice'] && selectedTags.includes('brand-voice')) {
-    reasons.push('Strong brand voice features');
-  }
-  if (scoring.video && selectedTags.includes('video')) {
-    reasons.push('Excellent for video content');
-  }
-  if (scoring.audio && selectedTags.includes('audio')) {
-    reasons.push('Great for audio content');
-  }
   if (scoring['budget-friendly'] && selectedTags.includes('budget-friendly')) {
     reasons.push('Budget-friendly option');
+  }
+  if (scoring['execution-trading'] && selectedTags.includes('execution-trading')) {
+    reasons.push('Strong execution & trading');
+  }
+  if (scoring['portfolio-risk-management'] && selectedTags.includes('portfolio-risk-management')) {
+    reasons.push('Portfolio & risk management');
+  }
+  if (scoring['technical-quantitative'] && selectedTags.includes('technical-quantitative')) {
+    reasons.push('Technical & quantitative analysis');
+  }
+  if (scoring['ai-powered-tools'] && selectedTags.includes('ai-powered-tools')) {
+    reasons.push('AI-powered workflow');
   }
 
   return reasons.slice(0, 3); // Limit to top 3 reasons

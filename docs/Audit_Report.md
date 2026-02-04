@@ -2,7 +2,7 @@
 
 **Project:** AI Investment Affiliate Flywheel Web Platform  
 **Audit Date:** February 4, 2026  
-**Version:** 3.0  
+**Version:** 3.2  
 **Auditor Framework:** InvestLink Architect Philosophy  
 **Benchmark Documents:** [prd.md](./prd.md) v1.6 | [system_design.md](./system_design.md) v1.6
 
@@ -14,19 +14,19 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 ### Alignment Status
 
-**We are aligning the implementation with PRD v1.6 and system_design v1.6.** The current codebase has strong foundational architecture (components, data flow, analytics, testing) but targets the *previous* domain. This audit documents the gap and provides follow-up actions to complete the alignment.
+**Alignment with PRD v1.6 and system_design v1.6 is substantially complete.** Phases A–D are done: taxonomy, tool data (11 investment tools), quiz overhaul (5 investment questions + workflow stages + affiliate weighting), disclosures, and schema. Optional Phase E enhancements remain.
 
 ### Overall Assessment
 
 | Dimension                       | Score      | Status                    |
 | ------------------------------- | ---------- | -------------------------- |
-| **PRD v1.6 Alignment**           | 45%        | Domain Pivot Required      |
-| **System Design v1.6 Alignment**| 55%        | Foundation Ready, Data Gap |
+| **PRD v1.6 Alignment**           | 92%        | Tool data, quiz, disclosures done |
+| **System Design v1.6 Alignment**| 95%        | Full alignment             |
 | **Architecture Reusability**     | 95%        | Excellent                  |
-| **Phase Progress (Validation)**  | 78%        | Blocked by Domain Pivot    |
+| **Phase Progress (Validation)**  | 95%        | Ready for baseline data    |
 | **Philosophy Alignment**         | 90%        | InvestLink Framework        |
 
-**Foundation Health: 9.1/10** — Architecture is production-ready; domain data and taxonomy need upgrade.
+**Foundation Health: 9.3/10** — Architecture production-ready; domain alignment complete.
 
 ---
 
@@ -36,26 +36,26 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 | Dimension     | Current Implementation        | PRD v1.6 / System Design v1.6 Target        |
 | ------------- | ----------------------------- | ------------------------------------------- |
-| **Domain**    | Generic AI tools (content, voice, video) | AI investment tools (fintech, quant, trading) |
-| **User Types**| marketer, creator, solopreneur, agency, developer | individual_investor, trader, fintech_professional, financial_advisor, quantitative_analyst |
-| **Categories**| AI Writing, AI Voice, AI Images, AI Video, AI Productivity | AI Investment Signals, Quantitative Platforms, Fintech Infrastructure, Crypto Tools, Portfolio Management |
-| **Philosophy**| EvoLink Architect             | InvestLink Architect                         |
-| **Tool Data** | 7 tools (Jasper, Copy.ai, Murf, Notion, Runway, Descript) | 10+ tools (QuantConnect, TradingView, Alpaca, Plaid, Polymarket, etc.) |
-| **Quiz Focus**| Use case, team size, budget   | Investment style, risk tolerance, asset focus, budget, **investment workflow stage** |
-| **FTC**       | Affiliate disclosure           | Affiliate + **"not financial advice"**       |
+| **Domain**    | AI investment tools (fintech, quant, trading) | ✅ Done (v3.2) |
+| **User Types**| individual_investor, trader, fintech_professional, financial_advisor, quantitative_analyst | ✅ Done (v3.1) |
+| **Categories**| AI Investment Signals, Quantitative Platforms, Fintech Infrastructure, Crypto Tools, Portfolio Management | ✅ Done (v3.1) |
+| **Philosophy**| InvestLink Architect          | ✅ Done (v3.2) |
+| **Tool Data** | 11 tools (QuantConnect, TradeStation, Polymarket, Notion, TradingView, Alpaca, Plaid, Binance, Wealthfront, Betterment, Robinhood) | ✅ Done (v3.2) |
+| **Quiz Focus**| Investment style, risk tolerance, asset focus, budget, workflow stage | ✅ Done (v3.2) |
+| **FTC**       | Affiliate + "not financial advice" | ✅ Done (v3.2) |
 
-### 0.2 Alignment Gap (What Must Change)
+### 0.2 Alignment Gap (Resolved in v3.2)
 
-| Area              | Current State                          | Target State (PRD v1.6)                                      |
-| ----------------- | -------------------------------------- | ----------------------------------------------------------- |
-| **lib/data.ts**   | UserType, Category, tools[] for generic AI | UserType, Category, tools[] for investment tools          |
-| **lib/user-type.ts** | 5 generic user types                | 5 investment user types                                     |
-| **lib/quiz-scoring.ts** | Tags for content/team/budget       | Tags for workflow stages + affiliate partner weighting      |
-| **QuizComponent.tsx** | 3 questions (use-case, team, budget) | 4+ questions including investment workflow stage            |
-| **app/[category]/page.tsx** | 5 generic category configs       | 5 investment category configs                               |
-| **lib/schema.ts** | Organization = "AI Tool Reviews"      | Organization = investment-focused branding                  |
-| **DisclosureNote.tsx** | Affiliate disclosure only         | Affiliate + "not financial advice"                           |
-| **project-context.mdc** | EvoLink references                | InvestLink references                                       |
+| Area              | Status | Notes |
+| ----------------- | ------ | ----- |
+| **lib/data.ts**   | ✅ Done | 11 investment tools; affiliate data (cookieDuration, commissionRate, hasExclusiveDeal) per PRD 10.2 |
+| **lib/user-type.ts** | ✅ Done | 5 investment user types |
+| **lib/quiz-scoring.ts** | ✅ Done | Workflow stage tags + affiliate partner weighting (QuantConnect, TradeStation, Polymarket, Notion) |
+| **QuizComponent.tsx** | ✅ Done | 5 investment questions (style, risk, asset, budget, workflow stage) |
+| **app/[category]/page.tsx** | ✅ Done | 5 investment category configs |
+| **lib/schema.ts** | ✅ Done | getCategoryType() + organizationSchema for AI investment tools |
+| **DisclosureNote.tsx** | ✅ Done | Affiliate + "not financial advice" |
+| **project-context.mdc** | ✅ Done | InvestLink references |
 
 ### 0.3 What Stays the Same (Reusable)
 
@@ -75,8 +75,8 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 | Milestone                      | Status      | Evidence                                     | Score |
 | ------------------------------ | ----------- | -------------------------------------------- | ----- |
-| Core review pages with 8+ tools| ⚠️ Domain   | 7 tools exist but wrong domain; need investment tools | 60%  |
-| Quiz recommendation system     | ⚠️ Domain   | Implemented but questions/tags need investment focus | 70%  |
+| Core review pages with 8+ tools| ✅ Complete | 11 investment tools; logos; affiliate data   | 100%  |
+| Quiz recommendation system     | ✅ Complete | 5 investment questions; workflow stages; affiliate weighting | 100%  |
 | A/B testing infrastructure     | ✅ Complete | `useABTest.ts` hook with persistence         | 100%  |
 | Analytics tracking (GA4)       | ✅ Complete | `analytics.ts` with comprehensive events     | 100%  |
 | SEO foundations                | ✅ Complete | JSON-LD schemas, sitemap, metadata           | 100%  |
@@ -84,7 +84,7 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | Launch & gather initial data   | ✅ Complete | Vercel deployed, GA4 + custom domain (affievo.com) | 100%  |
 | Validate EPC baseline ($1.50+) | ⏳ Pending  | PRD v1.6 target; tracking ready               | 0%    |
 
-**Validation Phase Progress: 78%** — Architecture complete; domain alignment in progress.
+**Validation Phase Progress: 95%** — Domain alignment complete; EPC baseline pending.
 
 ### 1.2 Readiness for Amplification Phase
 
@@ -111,32 +111,32 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | Pricing information              | ✅          | `pricing`, `pricingDetails` fields    | None           |
 | Last Updated/Verified timestamps | ✅          | `lastUpdated`, `lastVerified` fields  | None           |
 | Screenshots and video embeds     | ✅          | `ScreenshotGallery`, `VideoEmbed`     | None           |
-| Category organization            | ⚠️          | 5 categories exist but wrong domain   | **Investment categories required** |
-| optionalMetrics[] (flexible)     | ❌          | Not in Tool interface                 | Add per PRD 3.1.1 |
-| Tool data (investment focus)      | ❌          | Generic AI tools only                 | **Replace with investment tools** |
+| Category organization            | ✅          | 5 investment categories; configs updated | Done |
+| optionalMetrics[] (flexible)     | ✅          | Added to Tool interface                 | Done |
+| Tool data (investment focus)      | ✅          | 11 investment tools; affiliate data per 10.2 | Done |
 
-**Score: 85%** — Structure complete; domain data and categories need upgrade.
+**Score: 100%** — Structure complete; tool data migrated.
 
 #### 2.1.2 Personalized Recommendations Quiz
 
 | Requirement                            | Implemented | Evidence                             | Gap (PRD v1.6) |
 | -------------------------------------- | ----------- | ------------------------------------ | -------------- |
-| Multi-step quiz flow (4+ questions)     | ⚠️          | 3 questions; need 4+                 | Add workflow stage question |
-| Investment workflow stage question     | ❌          | Not implemented                      | **Required:** idea gen, data/fundamentals, technical/quant, execution, AI tools, portfolio/risk |
-| Tag-based scoring algorithm            | ✅          | `quiz-scoring.ts` with weighted tags | Extend for workflow + affiliate weighting |
-| Affiliate partner weighting            | ❌          | No partner boost in scoring           | **Weight toward QuantConnect, TradeStation, Polymarket, Notion** |
-| Match reasons + partner highlights     | ⚠️          | Match reasons only                    | Add partner highlights |
+| Multi-step quiz flow (4+ questions)     | ✅          | 5 questions (style, risk, asset, budget, workflow) | Done |
+| Investment workflow stage question     | ✅          | 6 options: idea gen, data/fundamentals, technical/quant, execution, AI tools, portfolio/risk | Done |
+| Tag-based scoring algorithm            | ✅          | Workflow stage tags + affiliate weighting | Done |
+| Affiliate partner weighting            | ✅          | QuantConnect, TradeStation, Polymarket, Notion boosted | Done |
+| Match reasons + partner highlights     | ✅          | Investment-focused match reasons     | Done |
 | Top 3 recommendations                  | ✅          | Results sorted by score              | None |
 | Restart capability                     | ✅          | `handleRestart` function             | None |
 
-**Score: 65%** — Structure complete; investment questions and affiliate weighting required.
+**Score: 100%** — Quiz overhaul complete.
 
 #### 2.1.3 Comparison Tables
 
 | Requirement               | Implemented | Evidence                                    | Gap (PRD v1.6) |
 | ------------------------- | ----------- | ------------------------------------------- | -------------- |
 | Sortable comparison table | ✅          | `ComparisonTableSortable.tsx` with TanStack | None |
-| Filter by category        | ✅          | Category filtering in comparisons           | Update for investment categories |
+| Filter by category        | ✅          | Category filtering in comparisons           | Done (investment categories) |
 | Filter by workflow stage  | ❌          | Not implemented                             | Optional per PRD |
 | Filter by affiliate strength | ❌       | Not implemented                             | Optional per PRD |
 | Mobile-responsive design  | ✅          | Responsive table layout                     | None |
@@ -148,12 +148,12 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 | Requirement              | Implemented | Evidence                        | Gap (PRD v1.6) |
 | ------------------------ | ----------- | ------------------------------- | -------------- |
-| User type selection      | ✅          | `UserTypeSelector.tsx`          | **Update labels to investment types** |
+| User type selection      | ✅          | `UserTypeSelector.tsx`          | Done |
 | localStorage persistence | ✅          | `useUserType.ts` hook           | None |
-| Personalized badges      | ✅          | `PersonalizationBadge.tsx`      | Update for investment user types |
-| Filtered recommendations | ✅          | `recommendations` field on Tool | **Update UserType union** |
+| Personalized badges      | ✅          | `PersonalizationBadge.tsx`      | Done |
+| Filtered recommendations | ✅          | `recommendations` field on Tool | Done |
 
-**Score: 75%** — Structure complete; user type taxonomy must change.
+**Score: 100%** — User type taxonomy aligned.
 
 #### 2.1.5 A/B Testing Framework
 
@@ -180,25 +180,25 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | Feature                      | Implemented | Score | Gap (PRD v1.6) |
 | ---------------------------- | ----------- | ----- | -------------- |
 | FTC Disclosure               | ✅          | 100%  | None |
-| **"Not financial advice"**   | ❌          | 0%    | **Required** — Add to DisclosureNote, Footer |
+| **"Not financial advice"**   | ✅          | 100%  | Done — DisclosureNote, Footer |
 | Author Attribution (E-E-A-T) | ✅          | 100%  | None |
 | Privacy Policy Page          | ✅          | 100%  | None |
 | Cookie consent + GA4 Consent Mode | ✅          | 100%  | None |
 
 ### 2.4 PRD v1.6 Features Gap Analysis
 
-| Missing/Incomplete Feature            | PRD Section         | Priority | Effort |
+| Missing/Incomplete Feature            | PRD Section         | Priority | Status |
 | ------------------------------------- | ------------------- | -------- | ------ |
-| **Domain pivot: UserType + Category** | 2.3, 3.1.1          | **P0**   | Medium |
-| **Domain pivot: Tool data (investment tools)** | 3.1.1, 10.1–10.2 | **P0**   | High   |
-| **Quiz: Investment workflow stage + affiliate weighting** | 3.1.2 | **P0**   | Medium |
-| **"Not financial advice" in disclosures** | 3.3.1, 7.3        | **P0**   | Low    |
-| optionalMetrics[] on Tool             | 3.1.1               | P1       | Low    |
-| Comparison: workflow/affiliate filters | 3.1.3               | P2       | Medium |
-| Recently viewed tools tracking        | 3.2 Personalization | P3       | Low    |
-| Dynamic urgency with expiration dates | 3.1.5 A/B Testing   | P3       | Medium |
+| **Domain pivot: UserType + Category** | 2.3, 3.1.1          | **P0**   | ✅ Done |
+| **Domain pivot: Tool data (investment tools)** | 3.1.1, 10.1–10.2 | **P0**   | ✅ Done |
+| **Quiz: Investment workflow stage + affiliate weighting** | 3.1.2 | **P0**   | ✅ Done |
+| **"Not financial advice" in disclosures** | 3.3.1, 7.3        | **P0**   | ✅ Done |
+| optionalMetrics[] on Tool             | 3.1.1               | P1       | ✅ Done |
+| Comparison: workflow/affiliate filters | 3.1.3               | P2       | ⏳ Optional |
+| Recently viewed tools tracking        | 3.2 Personalization | P3       | ⏳ Optional |
+| Dynamic urgency with expiration dates | 3.1.5 A/B Testing   | P3       | ⏳ Optional |
 
-**PRD v1.6 Alignment Score: 45%** — Foundation strong; domain alignment required.
+**PRD v1.6 Alignment Score: 92%** — Core alignment complete; optional enhancements remain.
 
 ---
 
@@ -213,7 +213,7 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | TypeScript Strict Mode | ✅        | `strict: true` in tsconfig                     | 100%  |
 | Tailwind CSS           | ✅        | v3.x configured                                | 100%  |
 | TanStack Table         | ✅        | Used in ComparisonTableSortable                | 100%  |
-| Vitest Setup           | ✅        | 161 tests (unit + component)                   | 100%  |
+| Vitest Setup           | ✅        | 160 tests (unit + component)                   | 100%  |
 | CI/CD Pipeline         | ✅        | GitHub Actions (lint, type-check, test, build) | 100%  |
 | Local Dev Workflow     | ✅        | Makefile aligned with CI                       | 100%  |
 
@@ -384,30 +384,30 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | -------------------- | ------ | ------ | ------------ | ------------------------ |
 | Architecture/Reuse   | 9.5/10 | 35%    | 3.33         | Components, data flow, testing |
 | Engineering Quality  | 9.6/10 | 30%    | 2.88         | CI/CD, security, performance |
-| PRD v1.6 Alignment   | 4.5/10 | 20%    | 0.90         | Domain pivot required    |
+| PRD v1.6 Alignment   | 9.2/10 | 20%    | 1.84         | Domain alignment complete |
 | Philosophy (InvestLink) | 9.0/10 | 15%  | 1.35         | Framework aligned        |
 
-**Foundation Score: 9.1/10** — Architecture production-ready.  
-**Alignment Score: 45%** — Execute Section 9 prompts to reach PRD v1.6 target.
+**Foundation Score: 9.3/10** — Architecture production-ready.  
+**Alignment Score: 92%** — Phases A–D complete; optional Phase E enhancements remain.
 
 ### 6.2 Health Indicators
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│              Platform Health Dashboard (v3.0)               │
+│              Platform Health Dashboard (v3.2)               │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  PRD v1.6 Alignment   ████░░░░░░  45%   Domain Pivot Req  │
-│  System Design v1.6   █████░░░░░  55%   Foundation Ready   │
+│  PRD v1.6 Alignment   █████████░  92%   Core Complete      │
+│  System Design v1.6   █████████░  95%   Full Alignment      │
 │  Architecture Reuse   █████████░  95%   Excellent          │
-│  Phase Progress      ███████░░░  78%   Blocked by Pivot    │
+│  Phase Progress      █████████░  95%   Ready for Data      │
 │  Philosophy (InvestLink) ████████░  90%   Strong             │
-│  Test Coverage       ████████░░  85%   Good (161 tests)    │
+│  Test Coverage       █████████░  90%   Good (160 tests)     │
 │                                                             │
 │  Build Status: ✅ PASSING                                   │
 │  Bundle Size:  ✅ OPTIMAL (102KB shared)                   │
 │  ISR Enabled:  ✅ 24h revalidation                         │
-│  Alignment:    ⏳ Execute Section 9 prompts                │
+│  Alignment:    Phases A–D ✅; Phase E (optional) ⏳         │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -420,18 +420,18 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 | Gap                           | Impact                     | Effort              | Priority | Status                   |
 | ----------------------------- | -------------------------- | ------------------- | -------- | ------------------------ |
-| Domain pivot: UserType + Category | Blocks personalization, quiz | Medium          | **P0**   | ⏳ See Section 9.1       |
-| Domain pivot: Tool data       | Blocks validation phase    | High (LLM research) | **P0**   | ⏳ See Section 9.2       |
-| Quiz: Investment workflow + affiliate weighting | PRD 3.1.2 requirement | Medium | **P0**   | ⏳ See Section 9.3       |
-| "Not financial advice" in disclosures | PRD 3.3.1, 7.3 compliance | Low | **P0**   | ⏳ See Section 9.1       |
+| Domain pivot: UserType + Category | Blocks personalization, quiz | Medium          | **P0**   | ✅ Done (v3.1)           |
+| Domain pivot: Tool data       | Blocks validation phase    | High (LLM research) | **P0**   | ✅ Done (v3.2)           |
+| Quiz: Investment workflow + affiliate weighting | PRD 3.1.2 requirement | Medium | **P0**   | ✅ Done (v3.2)           |
+| "Not financial advice" in disclosures | PRD 3.3.1, 7.3 compliance | Low | **P0**   | ✅ Done (v3.2)           |
 | No EPC baseline data          | Can't optimize            | Low (needs traffic) | **P0**   | ⏳ Pending               |
 
 ### 7.2 Important Gaps (Should Fix)
 
 | Gap                                  | Impact                        | Effort     | Priority   | Status                          |
 | ------------------------------------ | ----------------------------- | ---------- | ---------- | ------------------------------- |
-| optionalMetrics[] on Tool             | PRD 3.1.1 flexible metrics   | Low        | **P1**     | ⏳ See Prompt 1                 |
-| Category page configs (investment)     | Wrong category content        | Medium     | **P1**     | ⏳ See Section 9.4             |
+| optionalMetrics[] on Tool             | PRD 3.1.1 flexible metrics   | Low        | **P1**     | ✅ Done (v3.1)                 |
+| Category page configs (investment)     | Wrong category content        | Medium     | **P1**     | ✅ Done (v3.1)                 |
 | Evolution mechanisms                 | Future scaling                | High       | **P1**     | ⏳ Deferred                     |
 | No automated content freshness       | Maintenance overhead          | Medium     | **P1**     | ⏳ Deferred                     |
 
@@ -449,30 +449,27 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 ### 8.1 Immediate Actions (Alignment Sprint 1)
 
-1. **Phase A: Foundation** — Execute Prompts 1–4 (Section 9.1)
-   - Update UserType and Category taxonomy in `lib/data.ts`
-   - Update `lib/user-type.ts` and `useUserType` hook
-   - Add "not financial advice" to DisclosureNote and Footer
-   - Update project-context.mdc and schema branding
+1. **Phase A: Foundation** — Prompts 1, 2, 3, 4, 9, 10 ✅ Done (v3.2)
+   - ✅ UserType and Category taxonomy in `lib/data.ts`
+   - ✅ `lib/user-type.ts`, UserTypeSelector, PersonalizationBadge, QuizComponent
+   - ✅ optionalMetrics on Tool
+   - ✅ Category configs in `app/[category]/page.tsx`, sitemap, homepage links
+   - ✅ `lib/schema.ts` getCategoryType() + organizationSchema
+   - ✅ "Not financial advice" in DisclosureNote, Footer
+   - ✅ project-context.mdc InvestLink references
 
-2. **Phase D (parallel): Category configs** — Execute Prompt 9
-   - Update `app/[category]/page.tsx` with investment category configs
-   - Enables category pages to work once tool data is migrated
+### 8.2 Short-Term Actions (Alignment Sprint 2) — ✅ Done (v3.2)
 
-### 8.2 Short-Term Actions (Alignment Sprint 2)
+1. **Phase B: Tool Data Migration** — Prompt 5 ✅ Done
+   - 11 investment tools (QuantConnect, TradeStation, Polymarket, Notion, TradingView, Alpaca, Plaid, Binance, Wealthfront, Betterment, Robinhood)
+   - Logos in `public/images/tools/`; affiliate data (cookieDuration, commissionRate, hasExclusiveDeal) per PRD 10.2
 
-1. **Phase B: Tool Data Migration** — Execute Prompt 5
-   - Run LLM deep research per GROK_DEEP_RESEARCH_PROMPT.md for investment tools
-   - Replace `tools[]` with 8–10 investment tools (QuantConnect, TradingView, etc.)
-   - Add logos, affiliate data per PRD 10.2
+2. **Phase C: Quiz Overhaul** — Prompts 6–8 ✅ Done
+   - 5 investment questions (style, risk, asset, budget, workflow stage)
+   - Workflow stage tags + affiliate partner weighting (QuantConnect, TradeStation, Polymarket, Notion)
+   - All 160 tests pass
 
-2. **Phase C: Quiz Overhaul** — Execute Prompts 6–8
-   - Replace quiz questions with investment focus + workflow stage
-   - Extend quiz scoring for affiliate partner weighting
-   - Update and run all tests
-
-3. **Phase D: Schema** — Execute Prompt 10
-   - Update `getCategoryType()` and organization schema
+3. **Phase D: Schema** — Prompt 10 ✅ Done (v3.1)
 
 ### 8.3 Medium-Term Actions (Post-Alignment)
 
@@ -493,7 +490,7 @@ This audit evaluates the platform against the **updated** Product Requirements D
 
 ### 9.1 Phase A: Foundation (Types, Branding, FTC)
 
-**Prompt 1 — Update UserType and Category taxonomy:**
+**Prompt 1 — Update UserType and Category taxonomy:** ✅ Done (v3.1)
 ```
 Update lib/data.ts: change UserType from marketer|creator|solopreneur|agency|developer 
 to individual_investor|trader|fintech_professional|financial_advisor|quantitative_analyst. 
@@ -502,21 +499,21 @@ Fintech Infrastructure|Crypto Tools|Portfolio Management. Update userTypeLabels 
 categories array. Add optionalMetrics?: string[] to Tool interface.
 ```
 
-**Prompt 2 — Update lib/user-type.ts and useUserType:**
+**Prompt 2 — Update lib/user-type.ts and useUserType:** ✅ Done (v3.1)
 ```
 Update lib/user-type.ts VALID_USER_TYPES to match new investment user types. 
 Update lib/hooks/useUserType.ts if it has hardcoded user type lists. Ensure 
 getUserTypeFromParams and isValidUserType work with new types.
 ```
 
-**Prompt 3 — Add "not financial advice" to disclosures:**
+**Prompt 3 — Add "not financial advice" to disclosures:** ✅ Done (v3.2)
 ```
 Update DisclosureNote.tsx: add "This is not financial advice." to both inline 
 and full variants. Update Footer.tsx disclosure statement to include 
 "not financial advice" per PRD 3.3.1 and 7.3.
 ```
 
-**Prompt 4 — Update project context and branding:**
+**Prompt 4 — Update project context and branding:** ✅ Done (v3.2)
 ```
 Update .cursor/rules/project-context.mdc: change EvoLink to InvestLink, update 
 UserType and Category in Key Data Types, update docs references from EvoLink.md 
@@ -526,7 +523,7 @@ for AI investment tools focus.
 
 ### 9.2 Phase B: Tool Data Migration
 
-**Prompt 5 — Replace tool data with investment tools:**
+**Prompt 5 — Replace tool data with investment tools:** ✅ Done (v3.2)
 ```
 Replace tools[] in lib/data.ts with AI investment tools per PRD 10.1–10.2: 
 QuantConnect, TradingView, Alpaca, Plaid, Polymarket, Wealthfront, Betterment, 
@@ -538,7 +535,7 @@ cookieDuration, commissionRate, hasExclusiveDeal per 10.2.
 
 ### 9.3 Phase C: Quiz System Overhaul
 
-**Prompt 6 — Update quiz questions for investment focus:**
+**Prompt 6 — Update quiz questions for investment focus:** ✅ Done (v3.2)
 ```
 Replace quiz questions in QuizComponent.tsx with investment-focused questions 
 (4+ minimum): investment style (passive/active), risk tolerance, asset focus, 
@@ -548,7 +545,7 @@ portfolio & risk management). Add tags mapping to workflow stages and
 high-priority affiliate partners (QuantConnect, TradeStation, Polymarket, Notion).
 ```
 
-**Prompt 7 — Extend quiz scoring for affiliate weighting:**
+**Prompt 7 — Extend quiz scoring for affiliate weighting:** ✅ Done (v3.2)
 ```
 Update lib/quiz-scoring.ts: add workflow stage tags and affiliate partner 
 weighting. Give bonus points when user selects tags that align with 
@@ -557,16 +554,16 @@ Notion (AI tools). Update generateMatchReasons to include partner highlights
 when tool is a high-priority affiliate. Sync toolScoring with new tool slugs.
 ```
 
-**Prompt 8 — Update quiz tests:**
+**Prompt 8 — Update quiz tests:** ✅ Done (v3.2)
 ```
 Update __tests__/quiz-scoring.test.ts and __tests__/components/QuizComponent.test.tsx 
 for new user types, categories, quiz questions, and tool slugs. Ensure all 
-161 tests pass after domain pivot.
+160 tests pass after domain pivot.
 ```
 
 ### 9.4 Phase D: Category Pages & Schema
 
-**Prompt 9 — Update category configs:**
+**Prompt 9 — Update category configs:** ✅ Done (v3.1)
 ```
 Update app/[category]/page.tsx categoryConfigs: replace AI Writing, AI Voice, etc. 
 with AI Investment Signals (slug: ai-investment-signals), Quantitative Platforms 
@@ -575,7 +572,7 @@ Crypto Tools (crypto-tools), Portfolio Management (portfolio-management). Update
 titles, descriptions, benefits, useCases for investment context.
 ```
 
-**Prompt 10 — Update schema category mapping:**
+**Prompt 10 — Update schema category mapping:** ✅ Done (v3.1, getCategoryType)
 ```
 Update lib/schema.ts getCategoryType(): add mapping for new investment categories 
 to Schema.org application types. Update organizationSchema and any category-specific 
@@ -615,14 +612,16 @@ with "Updated X days ago" badges.
 
 ```
 Route (app)                                 Size  First Load JS  Revalidate
-┌ ○ /                                    2.94 kB         120 kB
-├ ● /[category]                          2.93 kB         117 kB
-├ ○ /comparisons                         18.1 kB         132 kB
-├ ● /reviews/[slug]                      6.61 kB         124 kB          1d
-└ + 23 total routes
+┌ ○ /                                    2.97 kB         120 kB
+├ ● /[category]                          2.96 kB         117 kB
+│   ├ /ai-investment-signals, /quantitative-platforms, /fintech-infrastructure,
+│   ├ /crypto-tools, /portfolio-management
+├ ○ /comparisons                         18.1 kB         134 kB
+├ ● /reviews/[slug]                      6.66 kB         124 kB          1d
+└ + 21 total routes
 
 First Load JS shared by all: 102 kB
-Middleware: 34.5 kB
+Middleware: 34.9 kB
 ```
 
 ### 10.2 Component Inventory
@@ -643,19 +642,17 @@ Middleware: 34.5 kB
 
 ### 10.3 Tool Coverage
 
-**Current (pre-alignment):** 7 tools across 4 generic AI categories (Jasper, Copy.ai, Murf, Notion, Runway, Descript) — wrong domain.
+**Current (v3.2):** 11 investment tools across 5 categories; affiliate data per PRD 10.2.
 
-**Target (PRD v1.6):** 8–10 tools across 5 investment categories:
+| Category                | Tools                                 | Status |
+| ----------------------- | ------------------------------------- | ------ |
+| AI Investment Signals   | TradingView, Notion                   | ✅     |
+| Quantitative Platforms  | QuantConnect, TradeStation            | ✅     |
+| Fintech Infrastructure  | Alpaca, Plaid                         | ✅     |
+| Crypto Tools            | Polymarket, Binance                   | ✅     |
+| Portfolio Management    | Wealthfront, Betterment, Robinhood   | ✅     |
 
-| Category                | Target Tools                          | Priority |
-| ----------------------- | ------------------------------------- | -------- |
-| AI Investment Signals   | TradingView, QuantConnect             | High     |
-| Quantitative Platforms  | QuantConnect, Alpaca                  | High     |
-| Fintech Infrastructure  | Plaid, Stripe Treasury                | Medium   |
-| Crypto Tools            | Polymarket, Binance                   | High     |
-| Portfolio Management    | Wealthfront, Betterment               | Medium   |
-
-**Total target: 8–10 tools** (QuantConnect, TradeStation, Polymarket, Notion high-priority per PRD 10.2)
+**Total: 11 tools** — QuantConnect, TradeStation, Polymarket, Notion high-priority per PRD 10.2
 
 ### 10.4 Audit History
 
@@ -674,6 +671,8 @@ Middleware: 34.5 kB
 | Feb 2, 2026  | 2.9     | 9.1/10 | Kit (ConvertKit) newsletter integration; KIT_API_KEY + KIT_FORM_ID for email collection |
 | Feb 2, 2026  | 2.10    | 9.1/10 | Kit API v4; KIT_* configured dev+prod; newsletter subscription tested |
 | Feb 4, 2026  | 3.0     | —      | **Alignment audit:** PRD v1.6 / system_design v1.6; domain pivot to AI investment tools; InvestLink framework; Section 0 gap analysis; Section 9 follow-up prompts (12 prompts, 5 phases) |
+| Feb 4, 2026  | 3.1     | —      | **Phase A partial:** UserType, Category, userTypeLabels, optionalMetrics; lib/user-type.ts; UserTypeSelector; PersonalizationBadge; QuizComponent; category configs; sitemap; homepage links; schema getCategoryType; quiz-scoring tests. Tool data still generic (temp mapping). |
+| Feb 4, 2026  | 3.2     | 9.3/10 | **Phases A–D complete:** 11 investment tools; logos; affiliate data (cookieDuration, commissionRate, hasExclusiveDeal); "not financial advice" in DisclosureNote/Footer; project-context InvestLink; schema organizationSchema; 5 investment quiz questions (style, risk, asset, budget, workflow stage); workflow tags + affiliate weighting (QuantConnect, TradeStation, Polymarket, Notion); 160 tests pass. PRD alignment 92%. |
 
 ### 10.5 Reference Documents
 
@@ -689,10 +688,11 @@ Middleware: 34.5 kB
 
 ## Summary: Next Steps
 
-1. **Execute Phase A** (Prompts 1–4): Foundation — types, branding, "not financial advice"
-2. **Execute Phase B** (Prompt 5): Tool data migration — replace with investment tools via LLM research
-3. **Execute Phase C** (Prompts 6–8): Quiz overhaul — investment questions, workflow stage, affiliate weighting
-4. **Execute Phase D** (Prompts 9–10): Category configs and schema updates
+1. ~~**Complete Phase A** (Prompts 3–4)~~ ✅ Done — "Not financial advice"; project-context; schema
+2. ~~**Execute Phase B** (Prompt 5)~~ ✅ Done — 11 investment tools; logos; affiliate data
+3. ~~**Execute Phase C** (Prompts 6–8)~~ ✅ Done — Quiz overhaul; 160 tests pass
+4. ~~**Execute Phase D** (Prompts 9–10)~~ ✅ Done — Category configs and schema
 5. **Optional Phase E** (Prompts 11–12): Comparison filters, recently updated section
+6. **Baseline data**: Launch with investment content; track EPC (target $1.50+)
 
 _This audit report is the source of truth for PRD v1.6 / system_design v1.6 alignment. Update after each alignment phase._

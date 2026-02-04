@@ -7,19 +7,19 @@ interface PersonalizationBadgeProps {
 }
 
 const badgeColors: Record<UserType, string> = {
-  marketer: 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800',
-  creator: 'bg-pink-100 text-pink-700 border-pink-200 dark:bg-pink-900/30 dark:text-pink-400 dark:border-pink-800',
-  solopreneur: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800',
-  agency: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800',
-  developer: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800',
+  individual_investor: 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800',
+  trader: 'bg-pink-100 text-pink-700 border-pink-200 dark:bg-pink-900/30 dark:text-pink-400 dark:border-pink-800',
+  fintech_professional: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800',
+  financial_advisor: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800',
+  quantitative_analyst: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800',
 };
 
 const highlightColors: Record<UserType, string> = {
-  marketer: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
-  creator: 'bg-gradient-to-r from-pink-500 to-pink-600 text-white',
-  solopreneur: 'bg-gradient-to-r from-amber-500 to-amber-600 text-white',
-  agency: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
-  developer: 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white',
+  individual_investor: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
+  trader: 'bg-gradient-to-r from-pink-500 to-pink-600 text-white',
+  fintech_professional: 'bg-gradient-to-r from-amber-500 to-amber-600 text-white',
+  financial_advisor: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
+  quantitative_analyst: 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white',
 };
 
 /**

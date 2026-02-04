@@ -43,10 +43,10 @@ import { primaryAuthor, getAuthorSchema } from './author';
  */
 export const organizationSchema = {
   '@type': 'Organization',
-  name: 'AI Tool Reviews',
-  url: 'https://aitoolreviews.com',
-  logo: 'https://aitoolreviews.com/icon.svg',
-  description: 'Honest, in-depth reviews of the best AI tools for productivity and content creation.',
+  name: 'AI Investment Tools Reviews',
+  url: 'https://affievo.com',
+  logo: 'https://affievo.com/icon.svg',
+  description: 'Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
   sameAs: [
     'https://twitter.com/FeynmanXu',
     'https://github.com/feynmanxu',
@@ -113,7 +113,7 @@ export function generateReviewSchema(tool: Tool) {
         isPartOf: {
           '@type': 'WebSite',
           '@id': `${siteUrl}#website`,
-          name: 'AI Tool Reviews',
+          name: 'AI Investment Tools Reviews',
           url: siteUrl,
           publisher: organizationSchema,
         },
@@ -321,13 +321,13 @@ function generateFAQSchema(tool: Tool) {
  */
 function getCategoryType(category: string): string {
   const categoryMap: Record<string, string> = {
-    'AI Writing': 'BusinessApplication',
-    'AI Voice': 'MultimediaApplication',
-    'AI Images': 'DesignApplication',
-    'AI Video': 'MultimediaApplication',
-    'AI Productivity': 'BusinessApplication',
+    'AI Investment Signals': 'FinanceApplication',
+    'Quantitative Platforms': 'FinanceApplication',
+    'Fintech Infrastructure': 'FinanceApplication',
+    'Crypto Tools': 'FinanceApplication',
+    'Portfolio Management': 'FinanceApplication',
   };
-  return categoryMap[category] ?? 'BusinessApplication';
+  return categoryMap[category] ?? 'FinanceApplication';
 }
 
 /**

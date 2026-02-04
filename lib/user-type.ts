@@ -12,7 +12,13 @@ const URL_PARAM = 'usertype';
 /**
  * Valid user types
  */
-const VALID_USER_TYPES: UserType[] = ['marketer', 'creator', 'solopreneur', 'agency', 'developer'];
+const VALID_USER_TYPES: UserType[] = [
+  'individual_investor',
+  'trader',
+  'fintech_professional',
+  'financial_advisor',
+  'quantitative_analyst',
+];
 
 /**
  * Validate user type string

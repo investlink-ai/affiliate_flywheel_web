@@ -26,173 +26,276 @@ interface QuizResult {
   matchReasons: string[];
 }
 
+/** Investment workflow stages – maps to high-priority affiliate partners */
 const quizQuestions: QuizQuestion[] = [
   {
-    id: 'use-case',
-    question: 'What do you primarily want to create?',
+    id: 'investment-style',
+    question: 'What best describes your investment style?',
     options: [
       {
-        id: 'marketing',
-        label: 'Marketing Copy',
-        description: 'Ads, landing pages, email campaigns',
-        tags: ['AI Writing', 'marketing', 'copy'],
-        userType: 'marketer',
+        id: 'passive',
+        label: 'Passive / Long-term',
+        description: 'Buy and hold, index funds, robo-advisors',
+        tags: ['passive', 'portfolio-risk-management', 'Portfolio Management'],
+        userType: 'individual_investor',
       },
       {
-        id: 'blog',
-        label: 'Blog & Articles',
-        description: 'Long-form content, SEO articles',
-        tags: ['AI Writing', 'content', 'seo'],
-        userType: 'creator',
+        id: 'active',
+        label: 'Active / Short-term',
+        description: 'Day trading, swing trading, frequent rebalancing',
+        tags: ['active', 'execution-trading', 'Quantitative Platforms'],
+        userType: 'trader',
       },
       {
-        id: 'video',
-        label: 'Video Content',
-        description: 'Voiceovers, video scripts, podcasts',
-        tags: ['AI Voice', 'video', 'audio'],
-        userType: 'creator',
-      },
-      {
-        id: 'all',
-        label: 'Multiple Types',
-        description: 'I need an all-in-one solution',
-        tags: ['AI Writing', 'versatile'],
-        userType: 'solopreneur',
+        id: 'hybrid',
+        label: 'Hybrid',
+        description: 'Core-satellite: passive core + active satellite',
+        tags: ['passive', 'active', 'portfolio-risk-management', 'execution-trading'],
+        userType: 'individual_investor',
       },
     ],
   },
   {
-    id: 'team-size',
-    question: 'How many people will use this tool?',
+    id: 'risk-tolerance',
+    question: 'What is your risk tolerance?',
     options: [
       {
-        id: 'solo',
-        label: 'Just Me',
-        description: 'Individual creator or freelancer',
-        tags: ['solo', 'budget-friendly'],
-        userType: 'solopreneur',
+        id: 'conservative',
+        label: 'Conservative',
+        description: 'Capital preservation, low volatility',
+        tags: ['conservative', 'portfolio-risk-management', 'Portfolio Management'],
+        userType: 'individual_investor',
       },
       {
-        id: 'small-team',
-        label: 'Small Team (2-5)',
-        description: 'Startup or small business',
-        tags: ['team', 'collaboration'],
-        userType: 'creator',
+        id: 'moderate',
+        label: 'Moderate',
+        description: 'Balanced growth with some volatility',
+        tags: ['moderate-risk', 'Portfolio Management', 'AI Investment Signals'],
+        userType: 'individual_investor',
       },
       {
-        id: 'agency',
-        label: 'Agency or Large Team',
-        description: 'Multiple clients or departments',
-        tags: ['agency', 'enterprise', 'brand-voice'],
-        userType: 'agency',
+        id: 'aggressive',
+        label: 'Aggressive',
+        description: 'High growth, comfortable with volatility',
+        tags: ['aggressive', 'execution-trading', 'Crypto Tools', 'Quantitative Platforms'],
+        userType: 'trader',
+      },
+    ],
+  },
+  {
+    id: 'asset-focus',
+    question: 'Where do you focus your investments?',
+    options: [
+      {
+        id: 'stocks-etfs',
+        label: 'Stocks & ETFs',
+        description: 'Equities, index funds, traditional markets',
+        tags: ['stocks-etfs', 'Quantitative Platforms', 'Portfolio Management', 'AI Investment Signals'],
+        userType: 'individual_investor',
+      },
+      {
+        id: 'crypto',
+        label: 'Crypto',
+        description: 'Bitcoin, altcoins, tokenized assets',
+        tags: ['crypto', 'Crypto Tools', 'execution-trading'],
+        userType: 'trader',
+      },
+      {
+        id: 'multi-asset',
+        label: 'Multi-asset',
+        description: 'Stocks, options, futures, forex, crypto',
+        tags: ['multi-asset', 'Quantitative Platforms', 'data-fundamentals', 'technical-quantitative'],
+        userType: 'quantitative_analyst',
+      },
+      {
+        id: 'prediction-markets',
+        label: 'Prediction markets',
+        description: 'Event-based outcomes, political/sports/finance',
+        tags: ['prediction-markets', 'Crypto Tools', 'execution-trading'],
+        userType: 'trader',
       },
     ],
   },
   {
     id: 'budget',
-    question: 'What\'s your monthly budget?',
+    question: "What's your monthly budget for tools?",
     options: [
       {
         id: 'free',
         label: 'Free / Minimal',
-        description: 'Looking for free tiers or under $20/mo',
+        description: 'Free tiers or under $20/mo',
         tags: ['free-tier', 'budget-friendly'],
       },
       {
         id: 'moderate',
-        label: '$20-100/month',
+        label: '$20–100/month',
         description: 'Willing to invest in quality',
         tags: ['moderate-budget', 'pro-features'],
       },
       {
         id: 'premium',
         label: '$100+/month',
-        description: 'Need premium features and support',
-        tags: ['premium', 'enterprise', 'unlimited'],
+        description: 'Premium features and support',
+        tags: ['premium', 'pro-features'],
+      },
+    ],
+  },
+  {
+    id: 'workflow-stage',
+    question: "What's your primary workflow stage right now?",
+    options: [
+      {
+        id: 'idea-research',
+        label: 'Idea generation & research',
+        description: 'Finding ideas, screening, due diligence',
+        tags: ['idea-generation-research', 'data-fundamentals', 'Quantitative Platforms', 'AI Investment Signals'],
+        userType: 'financial_advisor',
+      },
+      {
+        id: 'data-fundamentals',
+        label: 'Data & fundamentals',
+        description: 'Financial data, fundamentals, alternative data',
+        tags: ['data-fundamentals', 'technical-quantitative', 'Quantitative Platforms', 'Fintech Infrastructure'],
+        userType: 'quantitative_analyst',
+      },
+      {
+        id: 'technical-quant',
+        label: 'Technical & quantitative analysis',
+        description: 'Charts, backtesting, strategy development',
+        tags: ['technical-quantitative', 'Quantitative Platforms', 'AI Investment Signals'],
+        userType: 'trader',
+      },
+      {
+        id: 'execution',
+        label: 'Execution & trading',
+        description: 'Order execution, live trading, APIs',
+        tags: ['execution-trading', 'Quantitative Platforms', 'Crypto Tools'],
+        userType: 'trader',
+      },
+      {
+        id: 'ai-tools',
+        label: 'AI-powered tools',
+        description: 'Automation, AI assistants, workflow',
+        tags: ['ai-powered-tools', 'AI Investment Signals', 'Fintech Infrastructure'],
+        userType: 'fintech_professional',
+      },
+      {
+        id: 'portfolio-risk',
+        label: 'Portfolio & risk management',
+        description: 'Rebalancing, tax optimization, risk monitoring',
+        tags: ['portfolio-risk-management', 'Portfolio Management'],
+        userType: 'individual_investor',
       },
     ],
   },
 ];
 
-/** Tag-based scoring for each tool */
+/** Tag-based scoring: workflow stages + high-priority affiliates (QuantConnect, TradeStation, Polymarket, Notion) */
 const toolScoring: Record<string, Record<string, number>> = {
-  'jasper-ai': {
-    'AI Writing': 3,
-    marketing: 3,
-    copy: 3,
-    content: 2,
-    seo: 3,
-    team: 3,
-    collaboration: 3,
-    agency: 3,
-    enterprise: 3,
-    'brand-voice': 3,
+  quantconnect: {
+    'Quantitative Platforms': 3,
+    'AI Investment Signals': 2,
+    'idea-generation-research': 3,
+    'data-fundamentals': 3,
+    'technical-quantitative': 3,
+    'execution-trading': 2,
+    'multi-asset': 3,
+    'active': 3,
+    'aggressive': 2,
     'moderate-budget': 2,
     premium: 3,
-    unlimited: 1,
     'pro-features': 3,
   },
-  'copy-ai': {
-    'AI Writing': 3,
-    marketing: 2,
-    copy: 3,
-    content: 2,
-    versatile: 2,
-    solo: 3,
-    'budget-friendly': 3,
-    'free-tier': 3,
-    'moderate-budget': 3,
-    'small-team': 2,
-    team: 2,
-    collaboration: 2,
-    unlimited: 3,
-    'pro-features': 2,
+  tradestation: {
+    'Quantitative Platforms': 3,
+    'execution-trading': 3,
+    'technical-quantitative': 2,
+    'stocks-etfs': 3,
+    'multi-asset': 2,
+    'active': 3,
+    'aggressive': 2,
+    'moderate-budget': 2,
+    premium: 3,
+    'pro-features': 3,
   },
-  'murf-ai': {
-    'AI Voice': 3,
-    video: 3,
-    audio: 3,
-    solo: 2,
-    'small-team': 2,
+  polymarket: {
+    'Crypto Tools': 3,
+    'execution-trading': 3,
+    'prediction-markets': 3,
+    'active': 3,
+    'aggressive': 2,
     'budget-friendly': 2,
-    'moderate-budget': 3,
-    premium: 2,
-    'pro-features': 2,
+    'free-tier': 2,
   },
-  'notion-ai': {
-    'AI Productivity': 3,
-    'AI Writing': 2,
-    content: 2,
-    versatile: 3,
-    solo: 3,
-    'small-team': 3,
-    team: 3,
-    collaboration: 3,
-    'budget-friendly': 3,
+  notion: {
+    'AI Investment Signals': 3,
+    'Fintech Infrastructure': 2,
+    'ai-powered-tools': 3,
+    'idea-generation-research': 2,
+    'budget-friendly': 2,
     'moderate-budget': 2,
     'pro-features': 2,
   },
-  'runway-ml': {
-    'AI Video': 3,
-    video: 3,
-    marketing: 2,
-    solo: 2,
-    'small-team': 2,
+  tradingview: {
+    'AI Investment Signals': 3,
+    'technical-quantitative': 3,
+    'idea-generation-research': 2,
+    'stocks-etfs': 2,
     'budget-friendly': 2,
     'moderate-budget': 3,
     'pro-features': 3,
   },
-  'descript': {
-    'AI Video': 3,
-    'AI Voice': 2,
-    video: 3,
-    audio: 3,
-    solo: 3,
-    'small-team': 2,
-    'budget-friendly': 2,
+  alpaca: {
+    'Fintech Infrastructure': 3,
+    'execution-trading': 3,
+    'technical-quantitative': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
     'free-tier': 2,
-    'moderate-budget': 3,
-    'pro-features': 3,
+    'pro-features': 2,
+  },
+  plaid: {
+    'Fintech Infrastructure': 3,
+    'data-fundamentals': 2,
+    'pro-features': 2,
+  },
+  binance: {
+    'Crypto Tools': 3,
+    'execution-trading': 3,
+    'crypto': 3,
+    'active': 2,
+    'aggressive': 2,
+    'budget-friendly': 2,
+    'pro-features': 2,
+  },
+  wealthfront: {
+    'Portfolio Management': 3,
+    'portfolio-risk-management': 3,
+    'passive': 3,
+    'conservative': 3,
+    'moderate-risk': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
+    'free-tier': 2,
+  },
+  betterment: {
+    'Portfolio Management': 3,
+    'portfolio-risk-management': 3,
+    'passive': 3,
+    'conservative': 3,
+    'moderate-risk': 2,
+    'stocks-etfs': 2,
+    'budget-friendly': 3,
+    'free-tier': 2,
+  },
+  robinhood: {
+    'Portfolio Management': 3,
+    'execution-trading': 2,
+    'stocks-etfs': 3,
+    'crypto': 2,
+    'budget-friendly': 3,
+    'free-tier': 3,
+    'moderate-risk': 2,
   },
 };
 
@@ -208,8 +311,8 @@ interface QuizComponentProps {
 }
 
 export function QuizComponent({
-  title = 'Find Your Perfect AI Tool',
-  description = 'Answer 3 quick questions to get personalized recommendations.',
+  title = 'Find Your Perfect Investment Tool',
+  description = 'Answer 5 quick questions to get personalized recommendations.',
   onComplete,
   className = '',
 }: QuizComponentProps) {
@@ -261,14 +364,20 @@ export function QuizComponent({
       if (scoring['free-tier'] && selectedTags.includes('free-tier')) {
         matchReasons.push('Offers a free tier');
       }
-      if (scoring.team && (selectedTags.includes('team') || selectedTags.includes('agency'))) {
-        matchReasons.push('Great for team collaboration');
+      if (scoring['budget-friendly'] && selectedTags.includes('budget-friendly')) {
+        matchReasons.push('Budget-friendly option');
       }
-      if (scoring['brand-voice'] && selectedTags.includes('brand-voice')) {
-        matchReasons.push('Strong brand voice features');
+      if (scoring['execution-trading'] && selectedTags.includes('execution-trading')) {
+        matchReasons.push('Strong execution & trading');
       }
-      if (scoring.video && selectedTags.includes('video')) {
-        matchReasons.push('Excellent for video content');
+      if (scoring['portfolio-risk-management'] && selectedTags.includes('portfolio-risk-management')) {
+        matchReasons.push('Portfolio & risk management');
+      }
+      if (scoring['technical-quantitative'] && selectedTags.includes('technical-quantitative')) {
+        matchReasons.push('Technical & quantitative analysis');
+      }
+      if (scoring['ai-powered-tools'] && selectedTags.includes('ai-powered-tools')) {
+        matchReasons.push('AI-powered workflow');
       }
 
       return {
