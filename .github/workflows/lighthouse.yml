@@ -25,11 +25,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v11
+      - name: Build
         env:
           NEXT_PUBLIC_SITE_URL: https://linkinvest.com
           NEXT_PUBLIC_GA_MEASUREMENT_ID: G-XXXXXXXXXX
+        run: npm run build
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v11
         with:
           configPath: .github/lighthouserc.json
           uploadArtifacts: true
