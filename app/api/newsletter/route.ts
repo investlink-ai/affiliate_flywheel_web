@@ -99,7 +99,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const referrer =
           request.headers.get('referer') ??
           process.env.NEXT_PUBLIC_SITE_URL ??
-          'https://linkinvest.com';
+          'https://investlink.com';
         const addRes = await fetch(`${kitBase}/forms/${formId}/subscribers`, {
           method: 'POST',
           headers,

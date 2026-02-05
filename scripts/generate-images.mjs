@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate og-image.png and favicon.ico for LinkInvest
+ * Generate og-image.png and favicon.ico for InvestLink
  * Run: node scripts/generate-images.mjs
  */
 import sharp from 'sharp';

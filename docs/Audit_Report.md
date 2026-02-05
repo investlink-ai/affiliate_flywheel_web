@@ -81,7 +81,7 @@ This audit evaluates the platform against the **updated** Product Requirements D
 | Analytics tracking (GA4)       | ✅ Complete | `analytics.ts` with comprehensive events     | 100%  |
 | SEO foundations                | ✅ Complete | JSON-LD schemas, sitemap, metadata           | 100%  |
 | Newsletter signup forms        | ✅ Complete | `SignupForm.tsx` with 3 variants             | 100%  |
-| Launch & gather initial data   | ✅ Complete | Vercel deployed, GA4 + custom domain (linkinvest.com) | 100%  |
+| Launch & gather initial data   | ✅ Complete | Vercel deployed, GA4 + custom domain (investlink.com) | 100%  |
 | Validate EPC baseline ($1.50+) | ⏳ Pending  | PRD v1.6 target; tracking ready               | 0%    |
 
 **Validation Phase Progress: 95%** — Domain alignment complete; EPC baseline pending.
@@ -665,7 +665,7 @@ Middleware: 34.9 kB
 | Jan 31, 2026 | 2.3     | 9.1/10 | Analytics tests (lib/analytics.ts, 34 tests); 127 tests total; tsconfig include __tests__ |
 | Jan 31, 2026 | 2.4     | 9.1/10 | Cookie consent + GA4 Consent Mode (ConsentBanner, middleware region, gtag consent default/update) |
 | Jan 31, 2026 | 2.5     | 9.1/10 | Component tests for critical paths (QuizComponent, AffiliateLink, SignupForm, ComparisonTableSortable); 161 tests total |
-| Jan 31, 2026 | 2.6     | 9.1/10 | Launch complete: Vercel deployed, GA4 + Web Data Stream, custom domain linkinvest.com; 7 tools, 4 categories; Phase 88% |
+| Jan 31, 2026 | 2.6     | 9.1/10 | Launch complete: Vercel deployed, GA4 + Web Data Stream, custom domain investlink.com; 7 tools, 4 categories; Phase 88% |
 | Jan 31, 2026 | 2.7     | 9.1/10 | Privacy Policy (cookies, GA4, consent); ESLint CLI migration (next lint → eslint .) |
 | Feb 2, 2026  | 2.8     | 9.1/10 | UserTestimonials/SocialProof clarification; Content Automation (Grok → static.json workflow); data.ts synced from static.json |
 | Feb 2, 2026  | 2.9     | 9.1/10 | Kit (ConvertKit) newsletter integration; KIT_API_KEY + KIT_FORM_ID for email collection |

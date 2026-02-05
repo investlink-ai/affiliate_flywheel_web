@@ -4,7 +4,7 @@ import { DisclosureNote } from '@/components/DisclosureNote';
 import { primaryAuthor } from '@/lib/author';
 
 export const metadata: Metadata = {
-  title: `About ${primaryAuthor.name} | LinkInvest`,
+  title: `About ${primaryAuthor.name} | InvestLink`,
   description: `Meet ${primaryAuthor.name}, ${primaryAuthor.title}. ${primaryAuthor.bio.slice(0, 150)}...`,
   openGraph: {
     title: `About ${primaryAuthor.name} - ${primaryAuthor.title}`,
@@ -104,7 +104,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">The Story</h2>
           <div className="mt-4 space-y-4 text-slate-600 dark:text-slate-400">
             <p>
-              I started LinkInvest in 2024 after spending countless hours (and dollars) testing
+              I started InvestLink in 2024 after spending countless hours (and dollars) testing
               AI investment tools for my own trading and research. I was frustrated by reviews that were either
               thinly-veiled ads or written by people who clearly hadn&apos;t used the product beyond
               a free trial.
@@ -225,7 +225,7 @@ export default function AboutPage() {
                   LinkedIn
                 </a>
               )}
-              <a href="mailto:hello@linkinvest.com" className="btn-secondary">
+              <a href="mailto:hello@investlink.com" className="btn-secondary">
                 <svg
                   className="h-5 w-5"
                   fill="none"
