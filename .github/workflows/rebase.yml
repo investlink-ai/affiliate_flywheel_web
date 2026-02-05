@@ -12,6 +12,9 @@ on:
 jobs:
   rebase:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: peter-evans/rebase@v4
         with:
