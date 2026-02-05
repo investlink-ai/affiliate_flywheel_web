@@ -173,28 +173,28 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include free tier reason when applicable', () => {
-      const scoring = toolScoring['robinhood']!;
+      const scoring = toolScoring['etoro']!;
       const tags = ['free-tier'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Portfolio Management');
+      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
       
       expect(reasons).toContain('Offers a free tier');
     });
 
     it('should include execution trading reason', () => {
-      const scoring = toolScoring['tradestation']!;
+      const scoring = toolScoring['polymarket']!;
       const tags = ['execution-trading'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
+      const reasons = generateMatchReasons(scoring, tags, 'Crypto Tools');
       
       expect(reasons).toContain('Strong execution & trading');
     });
 
     it('should include portfolio risk management reason', () => {
-      const scoring = toolScoring['wealthfront']!;
+      const scoring = toolScoring['etoro']!;
       const tags = ['portfolio-risk-management'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Portfolio Management');
+      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
       
       expect(reasons).toContain('Portfolio & risk management');
     });
@@ -233,7 +233,7 @@ describe('Quiz Scoring Algorithm', () => {
       }
     });
 
-    it('should recommend Wealthfront/Betterment for passive conservative investors on free budget', () => {
+    it('should recommend eToro/tradingview for passive conservative investors on free budget', () => {
       const answers = {
         'investment-style': 'passive',
         'risk-tolerance': 'conservative',
@@ -245,10 +245,10 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topSlugs = results.slice(0, 3).map((r) => r.tool.slug);
       
-      expect(['wealthfront', 'betterment', 'robinhood']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
+      expect(['etoro', 'tradingview', 'notion']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
     });
 
-    it('should recommend QuantConnect/TradeStation for active execution-focused users', () => {
+    it('should recommend QuantConnect/eToro for active execution-focused users', () => {
       const answers = {
         'investment-style': 'active',
         'risk-tolerance': 'aggressive',
@@ -260,7 +260,7 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topSlugs = results.slice(0, 3).map((r) => r.tool.slug);
       
-      expect(['quantconnect', 'tradestation', 'polymarket', 'alpaca', 'binance']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
+      expect(['quantconnect', 'etoro', 'polymarket', 'binance']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
     });
 
     it('should recommend Polymarket for prediction market focus', () => {
@@ -333,7 +333,7 @@ describe('Quiz Scoring Algorithm', () => {
 
   describe('toolScoring weights', () => {
     it('should have scoring weights for high-priority affiliate tools', () => {
-      const expectedTools = ['quantconnect', 'tradestation', 'polymarket', 'notion'];
+      const expectedTools = ['quantconnect', 'etoro', 'polymarket', 'notion'];
       
       expectedTools.forEach((slug) => {
         expect(toolScoring[slug]).toBeDefined();
@@ -384,9 +384,9 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topThree = results.slice(0, 3).map((r) => r.tool.slug);
       
-      const portfolioTools = ['wealthfront', 'betterment', 'robinhood'];
-      const hasPortfolioTool = topThree.some((slug) => portfolioTools.includes(slug));
-      expect(hasPortfolioTool).toBe(true);
+      const passiveFriendlyTools = ['etoro', 'tradingview', 'notion'];
+      const hasPassiveTool = topThree.some((slug) => passiveFriendlyTools.includes(slug));
+      expect(hasPassiveTool).toBe(true);
     });
 
     it('should differentiate between passive and active investors', () => {
@@ -493,10 +493,10 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should not give category bonus when category does not match tags', () => {
-      const plaid = getToolBySlug('plaid');
+      const binance = getToolBySlug('binance');
       const tags = ['Portfolio Management', 'passive'];
       
-      const { score } = calculateToolScore(plaid, tags);
+      const { score } = calculateToolScore(binance, tags);
       
       expect(score).toBe(0);
     });
@@ -523,28 +523,28 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include execution trading reason when applicable', () => {
-      const scoring = toolScoring['tradestation']!;
+      const scoring = toolScoring['polymarket']!;
       const tags = ['execution-trading'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
+      const reasons = generateMatchReasons(scoring, tags, 'Crypto Tools');
       
       expect(reasons).toContain('Strong execution & trading');
     });
 
     it('should include budget-friendly reason', () => {
-      const scoring = toolScoring['robinhood']!;
+      const scoring = toolScoring['etoro']!;
       const tags = ['budget-friendly'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Portfolio Management');
+      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
       
       expect(reasons).toContain('Budget-friendly option');
     });
 
     it('should not include reason when tool does not have matching scoring', () => {
-      const scoring = toolScoring['plaid']!;
+      const scoring = toolScoring['notion']!;
       const tags = ['free-tier'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Fintech Infrastructure');
+      const reasons = generateMatchReasons(scoring, tags, 'AI Investment Signals');
       
       expect(reasons).not.toContain('Offers a free tier');
     });

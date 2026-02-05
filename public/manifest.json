@@ -1,6 +1,6 @@
 {
-  "name": "LinkInvest",
-  "short_name": "LinkInvest",
+  "name": "InvestLink",
+  "short_name": "InvestLink",
   "description": "AI Investment Tool Reviews - Honest, in-depth reviews of the best AI investment tools",
   "start_url": "/",
   "display": "standalone",

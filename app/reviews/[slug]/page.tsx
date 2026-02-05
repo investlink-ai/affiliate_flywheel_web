@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     authors: [{ name: primaryAuthor.name, url: primaryAuthor.socialProfiles.website }],
     creator: primaryAuthor.name,
-    publisher: 'LinkInvest',
+    publisher: 'InvestLink',
     openGraph: {
       title: `${tool.name} Review ${currentYear} | Expert Analysis`,
       description: `${authorByline}. ${tool.verdict.slice(0, 150)}...`,

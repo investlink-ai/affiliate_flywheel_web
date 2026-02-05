@@ -7,10 +7,10 @@ import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://linkinvest.com'),
+  metadataBase: new URL('https://investlink.com'),
   title: {
-    default: 'LinkInvest | AI Investment Tool Reviews 2026',
-    template: '%s | LinkInvest',
+    default: 'InvestLink | AI Investment Tool Reviews 2026',
+    template: '%s | InvestLink',
   },
   description:
     'Honest, in-depth reviews of the best AI investment tools for traders and investors. Data-driven comparisons of quantitative platforms, robo-advisors, and fintech tools.',
@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     'QuantConnect',
     'TradingView',
   ],
-  authors: [{ name: 'Sam Xu', url: 'https://linkinvest.com/about' }],
+  authors: [{ name: 'Sam Xu', url: 'https://investlink.com/about' }],
   creator: 'Sam Xu',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'LinkInvest',
+    title: 'InvestLink',
   },
   formatDetection: {
     telephone: false,
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://linkinvest.com',
-    siteName: 'LinkInvest',
-    title: 'LinkInvest | AI Investment Tool Reviews 2026',
+    url: 'https://investlink.com',
+    siteName: 'InvestLink',
+    title: 'InvestLink | AI Investment Tool Reviews 2026',
     description:
       'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
     images: [
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'LinkInvest - AI Investment Tool Reviews 2026',
+        alt: 'InvestLink - AI Investment Tool Reviews 2026',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LinkInvest | AI Investment Tool Reviews 2026',
+    title: 'InvestLink | AI Investment Tool Reviews 2026',
     description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
     creator: '@FeynmanXu',
     images: ['/og-image.png'],

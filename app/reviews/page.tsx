@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     'Comprehensive reviews of the best AI investment tools for traders and investors. Honest assessments based on real testing.',
   openGraph: {
-    title: 'AI Investment Tool Reviews | LinkInvest',
+    title: 'AI Investment Tool Reviews | InvestLink',
     description: 'Comprehensive reviews of the best AI investment tools for traders and investors.',
   },
 };

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllToolSlugs } from '@/lib/data';
 
 const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://linkinvest.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://investlink.com';
 
 /** Category page slugs */
 const categorySlugs = [

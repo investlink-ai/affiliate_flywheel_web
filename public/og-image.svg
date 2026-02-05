@@ -8,6 +8,6 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="48" y="48" width="120" height="120" rx="24" fill="white" opacity="0.95"/>
   <path d="M90 68 L98 92 L124 92 L106 108 L114 140 L90 122 L66 140 L74 108 L56 92 L82 92 Z" fill="#0d9488"/>
-  <text x="600" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="white" text-anchor="middle">LinkInvest</text>
+  <text x="600" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="white" text-anchor="middle">InvestLink</text>
   <text x="600" y="400" font-family="system-ui, -apple-system, sans-serif" font-size="32" fill="rgba(255,255,255,0.9)" text-anchor="middle">AI Investment Tool Reviews 2026</text>
 </svg>

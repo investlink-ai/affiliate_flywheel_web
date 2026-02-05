@@ -170,7 +170,7 @@ interface AffiliateClickParams {
  * trackAffiliateClick({
  *   toolName: 'QuantConnect',
  *   toolSlug: 'quantconnect',
- *   affiliateUrl: 'https://quantconnect.com?ref=linkinvest',
+ *   affiliateUrl: 'https://quantconnect.com?ref=investlink',
  *   position: 'hero',
  *   ctaVariant: 'gradient',
  *   urgencyVariant: 'limited-offer',
