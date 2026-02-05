@@ -1,0 +1,21 @@
+# Rebase all open PRs onto main when main is updated.
+# Only succeeds when there are no conflicts; PRs with conflicts are skipped.
+name: Rebase PRs
+
+on:
+  push:
+    branches: [main]
+  # Backup: run daily in case any PRs fell behind (e.g. direct pushes, force-pushes)
+  schedule:
+    - cron: "0 12 * * *"
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/rebase@v4
+        with:
+          base: main
+          # Optional: exclude PRs with these labels (e.g. if you want to skip Dependabot)
+          # exclude-labels: |
+          #   no-rebase
