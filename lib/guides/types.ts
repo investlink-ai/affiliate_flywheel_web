@@ -9,4 +9,6 @@ export interface Guide {
   howThisFails: string[];
   demoDisclaimer: true;
   sections: { heading: string; body: string }[];
+  /** Set while the copy is placeholder; renders a visible banner at the top of the guide. */
+  placeholderNotice?: string;
 }

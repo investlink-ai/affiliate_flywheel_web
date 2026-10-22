@@ -31,7 +31,9 @@ The committed list is `lib/attribution/tag-list.mjs`. Rules, each tested in
 
 ## Attribution modes and fallback setup
 
-Try **`hidden-tags` first**. `NEXT_PUBLIC_KIT_ATTRIBUTION` defaults to
+Try **`hidden-tags` first**. CTO decision (22 Oct 2026): if the COO has not verified
+hidden-tags against live Kit by Fri 23 Oct 2026 17:00 AEDT, the default flips to
+`form-per-source`. `NEXT_PUBLIC_KIT_ATTRIBUTION` defaults to
 `hidden-tags` only when unset. In this mode all placements post to
 `NEXT_PUBLIC_KIT_FORM_ID`, sending the full page URL as `referrer` and one
 `tags[]` ID per source/campaign tag. Behaviour is unchanged. Every listed tag ID

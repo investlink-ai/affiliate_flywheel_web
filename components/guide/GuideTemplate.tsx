@@ -7,6 +7,7 @@ export const formatAud = (aud: number): string => `A$${aud.toFixed(2)}`;
 export function GuideTemplate({ guide }: { guide: Guide }) {
   return (
     <article className="mx-auto max-w-3xl space-y-8 px-6 py-12 text-slate-800 dark:text-slate-200">
+      {guide.placeholderNotice && <p role="note" data-block="placeholder-notice" className="rounded border-2 border-amber-500 bg-amber-50 p-4 font-semibold text-amber-900">{guide.placeholderNotice}</p>}
       <header className="space-y-4"><h1 className="text-3xl font-bold">{guide.title}</h1><p>{guide.summary}</p></header>
       {guide.demoDisclaimer && <DemoDisclaimer />}
       <section data-block="last-tested"><h2 className="text-xl font-semibold">Last tested</h2><time dateTime={guide.lastTestedOn}>{guide.lastTestedOn}</time></section>

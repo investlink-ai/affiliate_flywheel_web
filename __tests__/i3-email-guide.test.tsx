@@ -169,6 +169,14 @@ describe('guide contract', () => {
     expect(generateStaticParams()).toEqual([{ slug: guide.slug }]);
     expect(metadata.robots).toMatchObject({ index: false });
   });
+  it('marks placeholder copy with a visible banner until the CPO copy lands', () => {
+    const html = renderToStaticMarkup(<GuideTemplate guide={guide} />);
+    expect(guide.placeholderNotice).toMatch(/PLACEHOLDER COPY/);
+    expect(html).toContain('data-block="placeholder-notice"');
+    expect(html).toContain('[Placeholder]');
+    const { placeholderNotice: _omit, ...finalGuide } = guide;
+    expect(renderToStaticMarkup(<GuideTemplate guide={finalGuide} />)).not.toContain('placeholder-notice');
+  });
   it('validates during both static generation and page rendering', async () => {
     const original = guide.summary;
     try {
