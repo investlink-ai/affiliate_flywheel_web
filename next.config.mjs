@@ -127,7 +127,17 @@ const securityHeaders = [
   },
 ];
 
+/**
+ * Build-time env for the client bundle. Only the numeric Kit form ID is exposed
+ * (it is public: it is in the form's action URL). The Kit API key is never read here.
+ */
+const kitFormIdEnv = (process.env.KIT_FORM_ID ?? '').trim();
+export const publicBuildEnv = {
+  KIT_FORM_ID: /^[1-9]\d*$/.test(kitFormIdEnv) ? kitFormIdEnv : '',
+};
+
 const nextConfig = {
+  env: publicBuildEnv,
   images: {
     remotePatterns: [
       {

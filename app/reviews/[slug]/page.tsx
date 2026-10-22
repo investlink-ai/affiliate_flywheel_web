@@ -8,6 +8,7 @@ import { DisclosureNote } from '@/components/DisclosureNote';
 import { ToolCard } from '@/components/ToolCard';
 import { AuthorByline } from '@/components/AuthorByline';
 import { SignupForm } from '@/components/SignupForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { Breadcrumb, getReviewBreadcrumbs } from '@/components/Breadcrumb';
 import { ScreenshotGallery } from '@/components/ScreenshotGallery';
 import { VideoReviewSection } from '@/components/VideoEmbed';
@@ -287,7 +288,8 @@ export default async function ReviewPage({ params }: PageProps) {
         </div>
       </article>
 
-      {/* Newsletter Signup */}
+      {/* Newsletter Signup (hidden when signup isn't configured on this build) */}
+      {isSignupAvailable() && (
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <SignupForm
@@ -299,6 +301,7 @@ export default async function ReviewPage({ params }: PageProps) {
           />
         </div>
       </section>
+      )}
 
       {/* Bottom padding for sticky CTA on mobile */}
       <div className="h-24 lg:hidden" aria-hidden="true" />

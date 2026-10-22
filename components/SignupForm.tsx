@@ -17,7 +17,7 @@ interface SignupFormProps {
   description?: string;
   /** Custom CTA text */
   ctaText?: string;
-  /** Email provider (defaults to the Kit hosted form when configured, else an offline mock) */
+  /** Email provider (defaults to the Kit hosted form when configured; see lib/email/provider.ts) */
   provider?: EmailProvider;
   /** Additional class names */
   className?: string;
@@ -34,8 +34,9 @@ export const MOCK_SIGNUP_MESSAGE = "Email signup isn't connected on this build, 
  *
  * The browser posts straight to the Kit hosted form (double opt-in), with a hidden
  * `referrer` field holding the full page URL so Kit can attribute UTM parameters.
- * The site never creates subscribers through an API route. Without public Kit
- * configuration the form is an offline mock that sends nothing.
+ * The site never creates subscribers through an API route. Without a Kit form ID,
+ * a production build renders nothing; dev/test builds use an offline mock that
+ * sends nothing.
  */
 export function SignupForm({
   location,
@@ -97,6 +98,9 @@ export function SignupForm({
     onSubmit: handleSubmit,
     'data-provider': provider.id,
   };
+
+  // Signup isn't configured on this production build: render nothing.
+  if (provider.id === 'off') return null;
 
   if (status === 'mock') {
     return (

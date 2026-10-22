@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { ConsentBanner } from '@/components/ConsentBanner';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
@@ -114,7 +115,7 @@ export default function RootLayout({
         <ConsentBanner />
 
         {/* Exit Intent Popup - Newsletter capture */}
-        <ExitIntentPopup />
+        {isSignupAvailable() && <ExitIntentPopup />}
       </body>
     </html>
   );

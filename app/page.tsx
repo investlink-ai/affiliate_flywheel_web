@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ToolCard } from '@/components/ToolCard';
 import { SignupForm } from '@/components/SignupForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { getFeaturedTools } from '@/lib/data';
 
 export default function HomePage() {
@@ -232,7 +233,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Newsletter Signup Section */}
+      {/* Newsletter Signup Section (hidden when signup isn't configured on this build) */}
+      {isSignupAvailable() && (
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-2xl">
@@ -246,6 +248,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }
