@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ToolCard } from '@/components/ToolCard';
@@ -22,16 +23,26 @@ interface CategoryConfig {
 
 const categoryConfigs: CategoryConfig[] = [
   {
+    name: 'Research Workflow',
+    slug: 'research-workflow',
+    title: 'Research Workflow Tools',
+    description: 'Explore tools for organising notes, research logs and checklists.',
+    longDescription: 'Research workflow tools help keep notes, research logs and checklists organised. Compare the listed tools to find a way to structure your research materials.',
+    benefits: ['Organise notes', 'Keep research logs', 'Maintain checklists'],
+    useCases: ['Research notes', 'Research logs', 'Checklists'],
+    icon: '📝',
+  },
+  {
     name: 'AI Investment Signals',
     slug: 'ai-investment-signals',
-    title: 'Best AI Investment Signal Tools 2026',
-    description: 'Discover top AI-powered investment signal platforms. Compare tools for trading signals, market analysis, and quantitative insights.',
+    title: 'AI Investment Signal Tools',
+    description: 'Explore AI-powered investment signal platforms. Compare tools for trading signals, market analysis, and quantitative insights.',
     longDescription: 'AI investment signal tools leverage machine learning and data analysis to surface actionable insights for traders and investors. From sentiment analysis to pattern recognition, these platforms help bridge information asymmetries and enhance decision efficiency.',
     benefits: [
       'Real-time market sentiment analysis',
       'Pattern recognition and signal generation',
       'Reduce information asymmetry',
-      'Data-backed trading insights',
+      'Data-driven trading insights',
       'Streamline research workflows',
     ],
     useCases: [
@@ -46,8 +57,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Quantitative Platforms',
     slug: 'quantitative-platforms',
-    title: 'Best Quantitative Analysis Platforms 2026',
-    description: 'Explore top quantitative platforms for backtesting, algorithmic trading, and data-driven investment strategies.',
+    title: 'Quantitative Analysis Platforms',
+    description: 'Explore quantitative platforms for backtesting, algorithmic trading, and data-driven investment strategies.',
     longDescription: 'Quantitative platforms empower investors and traders with robust backtesting, strategy development, and execution tools. These platforms combine historical data, statistical models, and automation for systematic investment approaches.',
     benefits: [
       'Backtest strategies with historical data',
@@ -68,8 +79,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Fintech Infrastructure',
     slug: 'fintech-infrastructure',
-    title: 'Best Fintech Infrastructure Tools 2026',
-    description: 'Find the top fintech infrastructure platforms for integrations, APIs, and financial data connectivity.',
+    title: 'Fintech Infrastructure Tools',
+    description: 'Explore fintech infrastructure platforms for integrations, APIs, and financial data connectivity.',
     longDescription: 'Fintech infrastructure tools provide the building blocks for financial applications—from account aggregation and payments to compliance and data connectivity. Essential for developers and financial professionals building or integrating financial services.',
     benefits: [
       'Seamless API integrations',
@@ -90,19 +101,19 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Crypto Tools',
     slug: 'crypto-tools',
-    title: 'Best Crypto & Prediction Market Tools 2026',
-    description: 'Compare top crypto trading platforms and prediction markets. Find tools for digital assets and event-driven trading.',
-    longDescription: 'Crypto and prediction market tools enable access to digital assets, decentralized finance, and event-driven markets. From exchanges to prediction platforms, these tools serve traders and investors seeking exposure to emerging asset classes.',
+    title: 'Crypto Tools',
+    description: 'Compare crypto tools for digital assets, market data and portfolio tracking.',
+    longDescription: 'Crypto tools cover digital assets and decentralized finance. This category includes tools for crypto market research, portfolio tracking and exchange access.',
     benefits: [
-      'Access to crypto and prediction markets',
-      'Event-driven trading opportunities',
+      'Access to crypto markets',
+      'Digital asset research',
       'Diversified asset exposure',
       'Real-time market data',
       'Innovative trading instruments',
     ],
     useCases: [
       'Crypto trading and custody',
-      'Prediction market participation',
+      'Digital asset tracking',
       'DeFi integrations',
       'Portfolio tracking',
       'Market research',
@@ -112,8 +123,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Portfolio Management',
     slug: 'portfolio-management',
-    title: 'Best Portfolio Management Tools 2026',
-    description: 'Discover top portfolio management and robo-advisor platforms. Compare tools for automated investing and wealth management.',
+    title: 'Portfolio Management Tools',
+    description: 'Explore portfolio management and robo-advisor platforms. Compare tools for automated investing and wealth management.',
     longDescription: 'Portfolio management tools help investors build, monitor, and optimize portfolios. From robo-advisors to advanced analytics, these platforms support both individual investors and financial advisors in delivering data-driven wealth management.',
     benefits: [
       'Automated portfolio rebalancing',
@@ -173,7 +184,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${config.title} | InvestLink`,
       description: config.description,
       type: 'website',
-      url: `https://investlink.com/${config.slug}`,
+      url: `${SITE_URL}/${config.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -181,7 +192,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.description,
     },
     alternates: {
-      canonical: `https://investlink.com/${config.slug}`,
+      canonical: `${SITE_URL}/${config.slug}`,
     },
   };
 }
@@ -197,14 +208,9 @@ export default async function CategoryPage({ params }: PageProps) {
   // Get tools in this category
   const categoryTools = tools.filter((t) => t.category === config.name);
   
-  // Sort by rating, then by exclusive deals
-  const sortedTools = [...categoryTools].sort((a, b) => {
-    if (a.hasExclusiveDeal && !b.hasExclusiveDeal) return -1;
-    if (!a.hasExclusiveDeal && b.hasExclusiveDeal) return 1;
-    return b.rating - a.rating;
-  });
+  // Alphabetical: the site publishes no ratings or rankings.
+  const sortedTools = [...categoryTools].sort((a, b) => a.name.localeCompare(b.name));
 
-  // Featured tool (highest rated with exclusive deal, or just highest rated)
   const featuredTool = sortedTools[0];
   const otherTools = sortedTools.slice(1);
 
@@ -214,7 +220,7 @@ export default async function CategoryPage({ params }: PageProps) {
     '@type': 'CollectionPage',
     name: config.title,
     description: config.description,
-    url: `https://investlink.com/${config.slug}`,
+    url: `${SITE_URL}/${config.slug}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: categoryTools.length,
@@ -225,12 +231,7 @@ export default async function CategoryPage({ params }: PageProps) {
           '@type': 'SoftwareApplication',
           name: tool.name,
           description: tool.tagline,
-          url: `https://investlink.com/reviews/${tool.slug}`,
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: tool.rating,
-            ratingCount: tool.ratingCount,
-          },
+          url: `${SITE_URL}/reviews/${tool.slug}`,
         },
       })),
     },
@@ -282,14 +283,6 @@ export default async function CategoryPage({ params }: PageProps) {
               </svg>
               <span>Updated January 2026</span>
             </div>
-            {categoryTools.some(t => t.hasExclusiveDeal) && (
-              <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                  <path fillRule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clipRule="evenodd" />
-                </svg>
-                <span><strong>Exclusive deals</strong> available</span>
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -299,11 +292,8 @@ export default async function CategoryPage({ params }: PageProps) {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Editor&apos;s Choice
+              Featured
             </h2>
-            <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
-              Top Rated
-            </span>
           </div>
           
           <div className="mt-6 rounded-2xl border-2 border-primary-200 bg-gradient-to-br from-primary-50 to-white p-6 shadow-sm dark:border-primary-800 dark:from-primary-900/20 dark:to-slate-800 sm:p-8">
@@ -313,11 +303,6 @@ export default async function CategoryPage({ params }: PageProps) {
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                     {featuredTool.name}
                   </h3>
-                  {featuredTool.hasExclusiveDeal && (
-                    <span className="rounded-full bg-amber-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                      Exclusive Deal
-                    </span>
-                  )}
                   {featuredTool.isNew && (
                     <span className="rounded-full bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white">
                       New
@@ -339,12 +324,12 @@ export default async function CategoryPage({ params }: PageProps) {
                     Read Full Review
                   </Link>
                   <a
-                    href={featuredTool.affiliateUrl}
+                    href={featuredTool.websiteUrl}
                     target="_blank"
-                    rel="sponsored noopener"
+                    rel="noopener noreferrer nofollow"
                     className="btn-secondary"
                   >
-                    Try {featuredTool.name}
+                    Visit {featuredTool.name} website
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                     </svg>
@@ -353,29 +338,15 @@ export default async function CategoryPage({ params }: PageProps) {
               </div>
               
               <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-700/50">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-                    {featuredTool.rating.toFixed(1)}
-                  </div>
-                  <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    out of 5 ({featuredTool.ratingCount.toLocaleString()} reviews)
-                  </div>
-                </div>
-                <div className="mt-4 space-y-2 text-sm">
+                <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Pricing</span>
                     <span className="font-medium text-slate-900 dark:text-white">{featuredTool.pricing}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Best for</span>
+                    <span className="text-slate-500 dark:text-slate-400">May suit</span>
                     <span className="font-medium text-slate-900 dark:text-white">{featuredTool.bestFor}</span>
                   </div>
-                  {featuredTool.commissionRate && featuredTool.commissionRate > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-slate-500 dark:text-slate-400">Commission</span>
-                      <span className="font-medium text-green-600 dark:text-green-400">Up to {featuredTool.commissionRate}%</span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -451,7 +422,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   Need help choosing?
                 </h3>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">
-                  Take our quick quiz to find the perfect {config.name.toLowerCase()} tool for your needs.
+                  Take our quick quiz for {config.name.toLowerCase()} tool suggestions based on your answers.
                 </p>
                 <Link href="/comparisons" className="btn-secondary mt-4 inline-flex">
                   Take the Quiz

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ToolCard } from '@/components/ToolCard';
 import { SignupForm } from '@/components/SignupForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { getFeaturedTools } from '@/lib/data';
 
 export default function HomePage() {
@@ -14,12 +15,12 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
-              Best AI Investment Tools{' '}
-              <span className="text-gradient">for Traders & Investors</span> 2026
+              AI Investment Tools{' '}
+              <span className="text-gradient">for Traders & Investors</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Honest, in-depth reviews of AI investment tools that actually work. For individual
-              investors, traders, and fintech professionals who want data-driven decisions.
+              Plain-English reviews of AI investment tools: what each does, who it may suit and where
+              it falls short. For individual investors, traders, and fintech professionals.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/reviews" className="btn-primary w-full sm:w-auto">
@@ -54,7 +55,7 @@ export default function HomePage() {
               Featured Investment Tools
             </h2>
             <p className="mt-2 text-slate-600 dark:text-slate-400">
-              Our top picks for trading, quantitative analysis, and portfolio management
+              Tools we review for trading, quantitative analysis, and research workflow
             </p>
           </div>
           <Link
@@ -89,7 +90,7 @@ export default function HomePage() {
             Explore by Category
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-center text-slate-600 dark:text-slate-400">
-            Find the perfect AI tool for your specific needs
+            Find AI tools that may suit your needs
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -178,16 +179,15 @@ export default function HomePage() {
             Why Trust Our Reviews?
           </h2>
           <p className="mt-4 text-slate-600 dark:text-slate-400">
-            Every tool on this site has been personally tested. I pay for subscriptions, use them in
-            real workflows, and share what actually works (and what doesn&apos;t).
+            We explain what each tool does in plain English. This is general information, not financial advice.
           </p>
         </div>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-3">
           {[
             {
-              title: 'Hands-On Testing',
-              description: 'Every review is based on real-world usage, not press releases or marketing claims.',
+              title: 'Plain-English explanations',
+              description: 'What each tool does, who it suits and where it falls short, without jargon or marketing claims.',
               icon: (
                 <path
                   strokeLinecap="round"
@@ -197,9 +197,9 @@ export default function HomePage() {
               ),
             },
             {
-              title: 'Transparent Affiliate Links',
+              title: 'Independent Reviews',
               description:
-                'I clearly disclose all affiliate relationships. My opinions remain honest regardless of partnerships.',
+                "InvestLink isn't paid by any product it mentions and uses no referral links. Everything here is general information, not financial advice.",
               icon: (
                 <path
                   strokeLinecap="round"
@@ -233,9 +233,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* UserTestimonials: Add when we have real curated testimonials (outreach, permission). Use SocialProof on review pages for research-driven quotes. */}
-
-      {/* Newsletter Signup Section */}
+      {/* Newsletter Signup Section (hidden when signup isn't configured on this build) */}
+      {isSignupAvailable() && (
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-2xl">
@@ -243,13 +242,13 @@ export default function HomePage() {
               location="homepage"
               variant="card"
               headline="Get Weekly AI Tool Insights"
-              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, exclusive deals, and market insights."
-              showToolPreference={true}
+              description="Get one practical lesson a week on investing tools. Free, confirm by email, unsubscribe anytime."
               ctaText="Subscribe Free"
             />
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }

@@ -31,13 +31,13 @@ In the Vercel project **Settings → Environment Variables**, add:
 
 | Variable                         | Required | Description                                     | Example               |
 | -------------------------------- | -------- | ----------------------------------------------- | --------------------- |
-| `NEXT_PUBLIC_SITE_URL`           | Yes      | Canonical site URL (sitemap, schema)            | `https://investlink.com` |
+| `NEXT_PUBLIC_SITE_URL`           | Yes      | Canonical site URL (sitemap, schema)            | `https://www.investlink.ai` |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID`  | Yes      | GA4 Measurement ID                              | `G-XXXXXXXXXX`        |
 | `NEXT_PUBLIC_GA_FORCE_ENABLE`    | No       | Set `true` to enable GA in dev                  | (leave unset in prod) |
-| `KIT_API_KEY`                   | Yes*     | Kit API v4 key for newsletter signups           | Kit > Account Settings > Developer > Add new key |
-| `KIT_FORM_ID`                   | Yes*     | Kit form ID to subscribe new signups            | From form URL (e.g. /forms/123456/edit → 123456) |
+| `KIT_API_KEY`                   | No       | Not used by the site or its build (ops scripts only); never expose it | Kit > Account Settings > Developer |
+| `KIT_FORM_ID`                   | Yes*     | Kit hosted form ID; inlined at build so signup forms post to Kit (signup hidden if unset) | From form URL (e.g. /forms/123456/edit → 123456) |
 
-*Required for newsletter to actually collect emails. Without these, signups are logged only and not stored.
+*Required for signup. Without a valid `KIT_FORM_ID`, production builds hide every signup form.
 
 - Apply to **Production** (and Preview if you want GA in preview deployments).
 - Get **GA4 Measurement ID**: [Google Analytics](https://analytics.google.com/) → Admin → Data Streams → your Web stream → Measurement ID (`G-...`).
@@ -65,7 +65,7 @@ In the Vercel project **Settings → Environment Variables**, add:
 
 ## 5. Custom domain (optional)
 
-1. **Settings → Domains** → Add your domain (e.g. `investlink.com`).
+1. **Settings → Domains** → Add your domain (e.g. `www.investlink.ai`).
 2. Add the DNS records Vercel shows (A/CNAME).
 3. After DNS propagates, Vercel will issue SSL and the site will be served on your domain.
 4. Update `NEXT_PUBLIC_SITE_URL` to your production domain and redeploy.
@@ -77,7 +77,7 @@ In the Vercel project **Settings → Environment Variables**, add:
 - [x] Production URL loads and navigation works.
 - [x] GA4 Realtime shows your visit.
 - [x] Affiliate link click sends `affiliate_click` (or equivalent) in GA4.
-- [x] Newsletter signup: Kit (ConvertKit) integrated — set `KIT_API_KEY` and `KIT_FORM_ID` in Vercel env vars.
+- [x] Newsletter signup: Kit (ConvertKit) integrated — set `KIT_FORM_ID` in Vercel env vars (the site itself never uses a Kit API key).
 - [x] Sitemap: `https://your-domain.com/sitemap.xml` returns the expected URLs.
 - [x] Optional: Connect a custom domain and set `NEXT_PUBLIC_SITE_URL`.
 

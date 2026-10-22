@@ -10,7 +10,7 @@ import {
   type SortingState,
   type ColumnDef,
 } from '@tanstack/react-table';
-import { AffiliateLink } from './AffiliateLink';
+import { OutboundLink } from './OutboundLink';
 import type { Tool } from '@/lib/data';
 
 interface ComparisonRow {
@@ -221,20 +221,19 @@ export function ComparisonTableSortable({
           {/* CTA Row */}
           <tr>
             <td className="px-4 py-4 text-sm font-semibold text-slate-900 dark:text-white">
-              Try Now
+              Websites
             </td>
             {tools.map((tool) => (
               <td key={tool.slug} className="px-4 py-4 text-center">
-                <AffiliateLink
-                  href={tool.affiliateUrl}
+                <OutboundLink
+                  href={tool.websiteUrl}
                   className="btn-primary inline-flex text-sm"
-                  showDisclosure={false}
                   toolName={tool.name}
                   toolSlug={tool.slug}
                   position="comparison-table"
                 >
-                  Try {tool.name}
-                </AffiliateLink>
+                  Visit {tool.name} website
+                </OutboundLink>
               </td>
             ))}
           </tr>

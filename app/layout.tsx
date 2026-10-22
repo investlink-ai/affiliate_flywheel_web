@@ -4,16 +4,18 @@ import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { ConsentBanner } from '@/components/ConsentBanner';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { isSignupAvailable } from '@/lib/email/provider';
+import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://investlink.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'InvestLink | AI Investment Tool Reviews 2026',
     template: '%s | InvestLink',
   },
   description:
-    'Honest, in-depth reviews of the best AI investment tools for traders and investors. Data-driven comparisons of quantitative platforms, robo-advisors, and fintech tools.',
+    'Reviews of AI investment tools for traders and investors, with comparisons of quantitative platforms, robo-advisors, and fintech tools.',
   keywords: [
     'AI investment tools',
     'quantitative platforms',
@@ -24,8 +26,8 @@ export const metadata: Metadata = {
     'QuantConnect',
     'TradingView',
   ],
-  authors: [{ name: 'Sam Xu', url: 'https://investlink.com/about' }],
-  creator: 'Sam Xu',
+  authors: [{ name: 'InvestLink', url: `${SITE_URL}/about` }],
+  creator: 'InvestLink',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -38,11 +40,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://investlink.com',
+    url: SITE_URL,
     siteName: 'InvestLink',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
     description:
-      'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
+      'Reviews of AI investment tools for traders and investors.',
     images: [
       {
         url: '/og-image.png',
@@ -55,8 +57,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
-    description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
-    creator: '@FeynmanXu',
+    description: 'Reviews of AI investment tools for traders and investors.',
+    creator: '@investlink_ai',
     images: ['/og-image.png'],
   },
   robots: {
@@ -113,7 +115,7 @@ export default function RootLayout({
         <ConsentBanner />
 
         {/* Exit Intent Popup - Newsletter capture */}
-        <ExitIntentPopup />
+        {isSignupAvailable() && <ExitIntentPopup />}
       </body>
     </html>
   );

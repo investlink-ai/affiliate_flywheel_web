@@ -4,13 +4,12 @@ import {
   isGAAvailable,
   trackPageView,
   trackEvent,
-  trackAffiliateClick,
+  trackOutboundClick,
   trackNewsletterSignup,
   trackABTestAssignment,
   trackABTestConversion,
   trackComparisonView,
   trackReviewEngagement,
-  trackEPCData,
 } from '@/lib/analytics';
 
 describe('analytics', () => {
@@ -129,7 +128,7 @@ describe('analytics', () => {
     });
   });
 
-  describe('trackAffiliateClick', () => {
+  describe('trackOutboundClick', () => {
     beforeEach(() => {
       window.gtag = vi.fn();
       vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -139,56 +138,54 @@ describe('analytics', () => {
       vi.restoreAllMocks();
     });
 
-    it('calls gtag with affiliate_click event and params', () => {
-      trackAffiliateClick({
+    it('calls gtag with outbound_click event and params', () => {
+      trackOutboundClick({
         toolName: 'Jasper AI',
         toolSlug: 'jasper-ai',
-        affiliateUrl: 'https://jasper.ai?ref=example',
+        websiteUrl: 'https://jasper.ai',
         position: 'hero',
       });
-      const affiliateClickPayload = (window.gtag as ReturnType<typeof vi.fn>).mock
+      const outboundClickPayload = (window.gtag as ReturnType<typeof vi.fn>).mock
         .calls[0]?.[2] as Record<string, unknown> | undefined;
-      expect(affiliateClickPayload).toBeDefined();
-      expect(affiliateClickPayload).toMatchObject({
-        event_category: 'Affiliate',
+      expect(window.gtag).toHaveBeenCalledWith('event', 'outbound_click', expect.any(Object));
+      expect(outboundClickPayload).toBeDefined();
+      expect(outboundClickPayload).toMatchObject({
+        event_category: 'Outbound',
         event_label: 'Jasper AI',
         tool_name: 'Jasper AI',
         tool_slug: 'jasper-ai',
-        affiliate_url: 'https://jasper.ai?ref=example',
+        website_url: 'https://jasper.ai',
         click_position: 'hero',
         cta_variant: 'default',
-        urgency_variant: 'none',
       });
-      expect(affiliateClickPayload!.timestamp).toBeDefined();
-      expect(affiliateClickPayload!.timestamp).toMatch(
+      expect(outboundClickPayload!.timestamp).toBeDefined();
+      expect(outboundClickPayload!.timestamp).toMatch(
         /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/
       );
     });
 
-    it('includes optional ctaVariant and urgencyVariant', () => {
-      trackAffiliateClick({
+    it('includes optional ctaVariant', () => {
+      trackOutboundClick({
         toolName: 'Jasper AI',
         toolSlug: 'jasper-ai',
-        affiliateUrl: 'https://jasper.ai',
+        websiteUrl: 'https://jasper.ai',
         position: 'sticky-cta',
         ctaVariant: 'gradient',
-        urgencyVariant: 'limited-offer',
       });
       expect(window.gtag).toHaveBeenCalledWith(
         'event',
-        'affiliate_click',
+        'outbound_click',
         expect.objectContaining({
           cta_variant: 'gradient',
-          urgency_variant: 'limited-offer',
         })
       );
     });
 
     it('calls gtag with click/outbound for compatibility', () => {
-      trackAffiliateClick({
+      trackOutboundClick({
         toolName: 'Jasper AI',
         toolSlug: 'jasper-ai',
-        affiliateUrl: 'https://jasper.ai',
+        websiteUrl: 'https://jasper.ai',
         position: 'hero',
       });
       expect(window.gtag).toHaveBeenCalledWith('event', 'click', {
@@ -201,10 +198,10 @@ describe('analytics', () => {
     it('does not call gtag when GA is not available', () => {
       const gtagMock = window.gtag;
       (window as unknown as { gtag: unknown }).gtag = undefined;
-      trackAffiliateClick({
+      trackOutboundClick({
         toolName: 'Jasper AI',
         toolSlug: 'jasper-ai',
-        affiliateUrl: 'https://jasper.ai',
+        websiteUrl: 'https://jasper.ai',
         position: 'hero',
       });
       expect(gtagMock).not.toHaveBeenCalled();
@@ -302,17 +299,17 @@ describe('analytics', () => {
       trackABTestConversion({
         testId: 'hero-cta-color',
         variantId: 'variant-b',
-        conversionType: 'affiliate_click',
+        conversionType: 'outbound_click',
       });
       expect(window.gtag).toHaveBeenCalledWith(
         'event',
         'ab_test_conversion',
         expect.objectContaining({
           event_category: 'Experiment',
-          event_label: 'hero-cta-color_affiliate_click',
+          event_label: 'hero-cta-color_outbound_click',
           test_id: 'hero-cta-color',
           variant_id: 'variant-b',
-          conversion_type: 'affiliate_click',
+          conversion_type: 'outbound_click',
         })
       );
     });
@@ -412,78 +409,6 @@ describe('analytics', () => {
         toolSlug: 'jasper-ai',
         scrollDepth: 50,
         timeOnPage: 60,
-      });
-      expect(gtagMock).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('trackEPCData', () => {
-    beforeEach(() => {
-      window.gtag = vi.fn();
-    });
-
-    it('calls gtag with epc_metric and computed epc_value', () => {
-      trackEPCData({
-        toolSlug: 'jasper-ai',
-        clicks: 1500,
-        conversions: 45,
-        revenue: 2250,
-      });
-      expect(window.gtag).toHaveBeenCalledWith(
-        'event',
-        'epc_metric',
-        expect.objectContaining({
-          event_category: 'Revenue',
-          event_label: 'jasper-ai',
-          tool_slug: 'jasper-ai',
-          total_clicks: 1500,
-          total_conversions: 45,
-          total_revenue: 2250,
-          epc_value: '1.50',
-        })
-      );
-    });
-
-    it('computes EPC as revenue / clicks', () => {
-      trackEPCData({
-        toolSlug: 'tool-x',
-        clicks: 100,
-        conversions: 10,
-        revenue: 250,
-      });
-      expect(window.gtag).toHaveBeenCalledWith(
-        'event',
-        'epc_metric',
-        expect.objectContaining({
-          epc_value: '2.50',
-        })
-      );
-    });
-
-    it('uses epc_value 0 when clicks is 0', () => {
-      trackEPCData({
-        toolSlug: 'tool-x',
-        clicks: 0,
-        conversions: 0,
-        revenue: 0,
-      });
-      expect(window.gtag).toHaveBeenCalledWith(
-        'event',
-        'epc_metric',
-        expect.objectContaining({
-          epc_value: '0.00',
-        })
-      );
-    });
-
-    it('does not call gtag when GA is not available', () => {
-      const gtagMock = window.gtag;
-      (window as unknown as { gtag: unknown }).gtag = undefined;
-      trackEPCData({
-        toolSlug: 'jasper-ai',
-        clicks: 100,
-        conversions: 5,
-        revenue: 100,
       });
       expect(gtagMock).not.toHaveBeenCalled();
     });

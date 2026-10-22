@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy & Disclosures',
   description:
-    'Privacy policy, affiliate disclosures, and terms of service for InvestLink - AI Investment Tool Reviews.',
+    'Privacy policy, disclosures, and terms of service for InvestLink - AI Investment Tool Reviews.',
 };
 
 export default function PrivacyPage() {
@@ -24,43 +24,12 @@ export default function PrivacyPage() {
       {/* Content */}
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="prose prose-slate max-w-none dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-primary-600 dark:prose-a:text-primary-400">
-          {/* Affiliate Disclosure */}
+          {/* Disclosures */}
           <section id="disclosure">
-            <h2>Affiliate Disclosure</h2>
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 not-prose dark:border-amber-900/50 dark:bg-amber-950/20">
-              <p className="text-slate-700 dark:text-slate-300">
-                <strong>This site contains affiliate links.</strong> I may earn a commission from
-                qualifying purchases at no extra cost to you. All opinions are my own and based on
-                genuine testing.
-              </p>
-            </div>
-            <p className="mt-4">
-              In accordance with the Federal Trade Commission&apos;s 16 CFR, Part 255: &quot;Guides
-              Concerning the Use of Endorsements and Testimonials in Advertising,&quot; I want to be
-              transparent about the commercial relationships that exist on this website.
-            </p>
-            <h3>What This Means</h3>
-            <ul>
-              <li>
-                Some links on this site are &quot;affiliate links.&quot; This means if you click on
-                the link and purchase the item, I may receive an affiliate commission.
-              </li>
-              <li>
-                I only recommend products or services that I believe will add value to my readers.
-              </li>
-              <li>
-                I am disclosing this in accordance with the Federal Trade Commission&apos;s 16 CFR,
-                Part 255: &quot;Guides Concerning the Use of Endorsements and Testimonials in
-                Advertising.&quot;
-              </li>
-            </ul>
-            <h3>Compensation Disclosure</h3>
+            <h2>Disclosures</h2>
             <p>
-              Affiliate commissions earned from this website help offset the costs of running the
-              site, including hosting, domain registration, and the time spent creating and
-              maintaining content. However, affiliate relationships never influence my reviews or
-              recommendations. I am committed to providing honest, unbiased reviews regardless of
-              any compensation received.
+              InvestLink does not use referral links and is not paid by the products it reviews.
+              Content is general information only, not personal financial advice.
             </p>
           </section>
 
@@ -76,16 +45,10 @@ export default function PrivacyPage() {
               <li>
                 <strong>Analytics (Google Analytics 4):</strong> We use Google Analytics 4 (GA4) to
                 understand how visitors use our site—for example, which pages are viewed, how long
-                visitors stay, and whether they click affiliate links or sign up for our newsletter.
-                This helps us improve our content and recommendations. GA4 collects anonymized,
+                visitors stay, and whether they click outbound links or sign up for our newsletter.
+                This helps us improve our content and suggestions. GA4 collects anonymized,
                 aggregated data; we do not collect or store your email or other personal identifiers
                 in our analytics.
-              </li>
-              <li>
-                <strong>Affiliate Links:</strong> When you click an affiliate link, the destination
-                site may use cookies to track that you came from this website. This is how they
-                attribute sales to us for commission purposes. We have no control over their cookies
-                or privacy practices.
               </li>
             </ul>
 
@@ -110,7 +73,7 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p>
-              Third-party sites you reach via affiliate links may set their own cookies when you
+              Third-party sites you reach via outbound links may set their own cookies when you
               visit them.
             </p>
 
@@ -180,14 +143,9 @@ export default function PrivacyPage() {
           <section className="mt-12">
             <h2>Contact</h2>
             <p>
-              If you have any questions about these policies, please contact me at{' '}
-              <a href="mailto:hello@investlink.com">hello@investlink.com</a> or via{' '}
-              <a
-                href="https://twitter.com/FeynmanXu"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter @FeynmanXu
+              If you have any questions about these policies, please contact InvestLink on X at{' '}
+              <a href="https://x.com/investlink_ai" target="_blank" rel="noopener noreferrer">
+                @investlink_ai
               </a>
               .
             </p>

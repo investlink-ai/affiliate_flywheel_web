@@ -1,4 +1,4 @@
-import { AffiliateLink } from './AffiliateLink';
+import { OutboundLink } from './OutboundLink';
 import type { Tool } from '@/lib/data';
 
 interface ComparisonTableProps {
@@ -87,17 +87,16 @@ export function ComparisonTable({ tools, features, featureMatrix, winnerId }: Co
           {/* CTA Row */}
           <tr>
             <td className="px-4 py-4 text-sm font-semibold text-slate-900 dark:text-white">
-              Try Now
+              Websites
             </td>
             {tools.map((tool) => (
               <td key={tool.slug} className="px-4 py-4 text-center">
-                <AffiliateLink
-                  href={tool.affiliateUrl}
+                <OutboundLink
+                  href={tool.websiteUrl}
                   className="btn-primary inline-flex text-sm"
-                  showDisclosure={false}
                 >
-                  Try {tool.name}
-                </AffiliateLink>
+                  Visit {tool.name} website
+                </OutboundLink>
               </td>
             ))}
           </tr>

@@ -152,7 +152,7 @@ Edit disclosure text in:
 
 1. **Import** your GitHub repo at [vercel.com/new](https://vercel.com/new).
 2. **Environment variables** (Settings → Environment Variables):
-   - `NEXT_PUBLIC_SITE_URL` — your production URL (e.g. `https://investlink.com`)
+   - `NEXT_PUBLIC_SITE_URL` — your production URL (`https://www.investlink.ai`; a missing, malformed or retired-domain value falls back to it)
    - `NEXT_PUBLIC_GA_MEASUREMENT_ID` — your GA4 Measurement ID (`G-...`)
 3. **Deploy** — Vercel runs `npm run build`; first deploy runs after you add env vars and save.
 
@@ -257,11 +257,11 @@ trackNewsletterSignup({
 
 ## Newsletter Integration
 
-**Kit (ConvertKit)** is used for email collection. Set `KIT_API_KEY` and `KIT_FORM_ID` in your environment (see `.env.example`). Without these, signups are logged only.
+**Kit** is used for email collection through its hosted form (double opt-in). A production build posts to Kit whenever `KIT_FORM_ID` (or `NEXT_PUBLIC_KIT_FORM_ID`) is a valid form ID, and hides every signup block when it isn't; the offline mock runs only in dev/test or with `NEXT_PUBLIC_SIGNUP_TEST_MODE=1` (see `.env.example`). The site holds no Kit API key, and `/api/newsletter` is retired (410 Gone).
 
 ### SignupForm Component
 
-The `SignupForm` component posts to `/api/newsletter`, which subscribes users to your Kit form when configured.
+The `SignupForm` component is a plain HTML form that the browser posts to `https://app.kit.com/forms/<id>/subscriptions`, with a hidden `referrer` field set to the full page URL so Kit can record UTM parameters (unverified until the R3 preview test).
 
 ```tsx
 <SignupForm

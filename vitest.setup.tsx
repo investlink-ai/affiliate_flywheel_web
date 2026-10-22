@@ -139,7 +139,7 @@ export const createMockTool = (overrides = {}) => ({
   category: 'Quantitative Platforms',
   pricing: 'From $29/mo',
   pricingDetails: 'Free tier available. Pro at $29/mo.',
-  affiliateUrl: 'https://test-tool.com',
+  websiteUrl: 'https://test-tool.com',
   features: ['Feature 1', 'Feature 2', 'Feature 3'],
   pros: ['Pro 1', 'Pro 2'],
   cons: ['Con 1', 'Con 2'],

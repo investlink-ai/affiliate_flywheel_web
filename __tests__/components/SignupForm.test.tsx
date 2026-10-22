@@ -2,7 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/react';
-import { SignupForm } from '@/components/SignupForm';
+import { SignupForm, MOCK_SIGNUP_MESSAGE } from '@/components/SignupForm';
+import { getEmailProvider } from '@/lib/email/provider';
+
+const mockProvider = getEmailProvider({});
+const kitProvider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' });
 
 const mockTrackNewsletterSignup = vi.fn();
 
@@ -33,7 +37,7 @@ describe('SignupForm', () => {
     });
 
     it('shows error for invalid email', async () => {
-      render(<SignupForm location="test" />);
+      render(<SignupForm location="test" provider={kitProvider} />);
 
       const emailInput = screen.getByPlaceholderText(/enter your email/i);
       fireEvent.change(emailInput, { target: { value: 'notanemail' } });
@@ -43,74 +47,43 @@ describe('SignupForm', () => {
       expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
     });
 
-    it('submits and tracks when email is valid', async () => {
+    it('mock provider: valid email sends nothing and says so', async () => {
       const user = userEvent.setup();
-      vi.mocked(global.fetch).mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ success: true }),
-        headers: new Headers(),
-      } as Response);
-
-      render(<SignupForm location="test-hero" />);
+      render(<SignupForm location="test-hero" provider={mockProvider} />);
 
       await user.type(screen.getByPlaceholderText(/enter your email/i), 'user@example.com');
       await user.click(screen.getByRole('button', { name: /subscribe free/i }));
 
-      await screen.findByRole('status');
-
-      expect(global.fetch).toHaveBeenCalledWith(
-        '/api/newsletter',
-        expect.objectContaining({
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: 'user@example.com',
-            toolPreference: undefined,
-            honeypot: '',
-          }),
-        })
-      );
-      expect(mockTrackNewsletterSignup).toHaveBeenCalledWith({ location: 'test-hero' });
-      expect(screen.getByText(/welcome aboard/i)).toBeInTheDocument();
+      expect(await screen.findByRole('status')).toHaveTextContent(MOCK_SIGNUP_MESSAGE);
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
     });
 
-    it('shows success message with custom text', async () => {
+    it('kit provider: posts natively to the hosted form with email_address and referrer, never /api/newsletter', () => {
+      render(<SignupForm location="test-kit" provider={kitProvider} />);
+      const form = screen.getByRole('button', { name: /subscribe free/i }).closest('form')!;
+
+      expect(form.getAttribute('action')).toBe('https://app.kit.com/forms/123/subscriptions');
+      expect(form.getAttribute('method')).toBe('post');
+      expect(form.querySelector('input[name="email_address"]')).not.toBeNull();
+      expect((form.querySelector('input[name="referrer"]') as HTMLInputElement).value).toBe(window.location.href);
+      expect(form.outerHTML).not.toContain('/api/newsletter');
+      // The honeypot stays out of the data posted to Kit (Reviewer P3-6).
+      expect(document.getElementById('website-test-kit')).not.toBeNull();
+      expect(document.getElementById('website-test-kit')!.hasAttribute('name')).toBe(false);
+      expect([...new FormData(form).keys()].sort()).toEqual(['email_address', 'referrer']);
+
+      fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
+      const submit = new Event('submit', { bubbles: true, cancelable: true });
+      form.dispatchEvent(submit);
+      expect(submit.defaultPrevented).toBe(false);
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(mockTrackNewsletterSignup).toHaveBeenCalledWith({ location: 'test-kit' });
+    });
+
+    it('does not track or submit when honeypot is filled (bot trap)', async () => {
       const user = userEvent.setup();
-      vi.mocked(global.fetch).mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ success: true }),
-        headers: new Headers(),
-      } as Response);
-
-      render(
-        <SignupForm
-          location="test"
-          successMessage="Custom success message"
-        />
-      );
-
-      await user.type(screen.getByPlaceholderText(/enter your email/i), 'user@example.com');
-      await user.click(screen.getByRole('button', { name: /subscribe free/i }));
-
-      await screen.findByRole('status');
-      expect(screen.getByText(/custom success message/i)).toBeInTheDocument();
-    });
-
-    it('shows tool preference select when showToolPreference is true', () => {
-      render(
-        <SignupForm
-          location="test"
-          showToolPreference
-        />
-      );
-
-      expect(screen.getByLabelText(/what tools are you most interested in/i)).toBeInTheDocument();
-      expect(screen.getByRole('combobox')).toHaveValue('all');
-    });
-
-    it('does not track when honeypot is filled (bot trap)', async () => {
-      const user = userEvent.setup();
-      render(<SignupForm location="test" />);
+      render(<SignupForm location="test" provider={kitProvider} />);
 
       const honeypot = document.getElementById('website-test');
       if (honeypot) {
@@ -121,7 +94,7 @@ describe('SignupForm', () => {
 
       expect(global.fetch).not.toHaveBeenCalled();
       expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
-      expect(screen.getByText(/welcome aboard/i)).toBeInTheDocument();
+      expect(screen.getByText(/check your email to confirm/i)).toBeInTheDocument();
     });
   });
 

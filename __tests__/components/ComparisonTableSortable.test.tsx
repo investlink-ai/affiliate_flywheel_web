@@ -14,8 +14,8 @@ vi.mock('@/lib/hooks', () => ({
 }));
 
 const tools = [
-  createMockTool({ slug: 'tool-a', name: 'Tool A', pricing: '$10/mo', affiliateUrl: 'https://tool-a.com' }),
-  createMockTool({ slug: 'tool-b', name: 'Tool B', pricing: '$20/mo', affiliateUrl: 'https://tool-b.com' }),
+  createMockTool({ slug: 'tool-a', name: 'Tool A', pricing: '$10/mo', websiteUrl: 'https://tool-a.com' }),
+  createMockTool({ slug: 'tool-b', name: 'Tool B', pricing: '$20/mo', websiteUrl: 'https://tool-b.com' }),
 ];
 
 const features = ['Feature X', 'Feature Y', 'Feature Z'];
@@ -61,7 +61,7 @@ describe('ComparisonTableSortable', () => {
     expect(featureHeader).toBeInTheDocument();
   });
 
-  it('renders Try Now row with affiliate links for each tool', () => {
+  it('renders Websites row with outbound links for each tool', () => {
     render(
       <ComparisonTableSortable
         tools={tools}
@@ -70,9 +70,9 @@ describe('ComparisonTableSortable', () => {
       />
     );
 
-    expect(screen.getByRole('link', { name: /try tool a/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /try tool b/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /try tool a/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /visit tool a website/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /visit tool b website/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /visit tool a website/i })).toHaveAttribute(
       'href',
       expect.stringContaining('tool-a.com')
     );

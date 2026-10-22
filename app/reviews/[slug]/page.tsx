@@ -3,15 +3,15 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ReviewHero } from '@/components/ReviewHero';
 import { ProsCons } from '@/components/ProsCons';
-import { AffiliateCTAButton } from '@/components/AffiliateLink';
+import { OutboundCTAButton } from '@/components/OutboundLink';
 import { DisclosureNote } from '@/components/DisclosureNote';
 import { ToolCard } from '@/components/ToolCard';
 import { AuthorByline } from '@/components/AuthorByline';
 import { SignupForm } from '@/components/SignupForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { Breadcrumb, getReviewBreadcrumbs } from '@/components/Breadcrumb';
 import { ScreenshotGallery } from '@/components/ScreenshotGallery';
 import { VideoReviewSection } from '@/components/VideoEmbed';
-import { SocialProof } from '@/components/SocialProof';
 import { ReviewPageCTAs, ReviewSidebarCTA } from '@/components/ReviewPageClient';
 import { getToolBySlug, getAllToolSlugs, tools } from '@/lib/data';
 import { generateReviewSchema } from '@/lib/schema';
@@ -29,13 +29,7 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-/**
- * Enhanced metadata generation with EEAT focus
- * - Expertise: Author credentials and experience
- * - Experience: Hands-on testing mentioned
- * - Authoritativeness: Clear author attribution
- * - Trustworthiness: Transparent, dated content
- */
+/** Review metadata with organisation attribution. */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
@@ -50,18 +44,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const authorByline = getAuthorByline();
   const currentYear = new Date().getFullYear();
 
-  // EEAT-optimized title and description
-  const title = `${tool.name} Review ${currentYear}: Honest Assessment by ${primaryAuthor.name}`;
-  const description = `Expert ${tool.name} review by ${primaryAuthor.name}, ${primaryAuthor.title}. After ${primaryAuthor.experience.split(' ')[0]} of hands-on testing: ${tool.rating}/5 rating. ${tool.tagline}. Pricing from ${tool.pricing}. Best for ${tool.bestFor}.`;
+  // Review title and description
+  const title = `${tool.name} Review ${currentYear} by ${primaryAuthor.name}`;
+  const description = `${tool.name} review by InvestLink. ${tool.tagline}. Pricing: ${tool.pricing}. May suit ${tool.bestFor}`;
 
   return {
     title,
     description,
-    authors: [{ name: primaryAuthor.name, url: primaryAuthor.socialProfiles.website }],
+    authors: [{ name: primaryAuthor.name, url: primaryAuthor.url }],
     creator: primaryAuthor.name,
     publisher: 'InvestLink',
     openGraph: {
-      title: `${tool.name} Review ${currentYear} | Expert Analysis`,
+      title: `${tool.name} Review ${currentYear} | InvestLink`,
       description: `${authorByline}. ${tool.verdict.slice(0, 150)}...`,
       type: 'article',
       publishedTime: tool.lastUpdated,
@@ -73,15 +67,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: `/og/reviews/${tool.slug}.png`,
           width: 1200,
           height: 630,
-          alt: `${tool.name} Review - ${tool.rating}/5 Stars`,
+          alt: `${tool.name} Review`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${tool.name} Review: ${tool.rating}/5 - ${authorByline}`,
+      title: `${tool.name} Review - ${authorByline}`,
       description: tool.tagline,
-      creator: '@FeynmanXu',
+      creator: '@investlink_ai',
     },
     alternates: {
       canonical: `/reviews/${tool.slug}`,
@@ -124,7 +118,7 @@ export default async function ReviewPage({ params }: PageProps) {
       </div>
 
       {/* Hero */}
-      <ReviewHero tool={tool} enableABTest={true} />
+      <ReviewHero tool={tool} />
 
       {/* Mobile Sticky CTA - Only renders on client */}
       <ReviewPageCTAs tool={tool} />
@@ -133,7 +127,7 @@ export default async function ReviewPage({ params }: PageProps) {
       <article className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Author Byline - EEAT Signal */}
         <div className="mb-8 border-b border-slate-200 pb-6 dark:border-slate-700">
-          <AuthorByline dateUpdated={tool.lastUpdated} dateVerified={tool.lastVerified} />
+          <AuthorByline dateUpdated={tool.lastUpdated} />
         </div>
 
         <div className="grid gap-12 lg:grid-cols-3">
@@ -201,11 +195,6 @@ export default async function ReviewPage({ params }: PageProps) {
               </div>
             </section>
 
-            {/* Social Proof - User quotes from public reviews (research-driven, FTC-safe) */}
-            <section className="mt-12">
-              <SocialProof tool={tool} headline={`What Users Say About ${tool.name}`} />
-            </section>
-
             {/* Pricing */}
             <section className="mt-12">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Pricing</h2>
@@ -213,13 +202,12 @@ export default async function ReviewPage({ params }: PageProps) {
                 <p className="text-lg font-semibold text-slate-900 dark:text-white">{tool.pricing}</p>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">{tool.pricingDetails}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-4">
-                  <AffiliateCTAButton
-                    href={tool.affiliateUrl}
+                  <OutboundCTAButton
+                    href={tool.websiteUrl}
                     size="md"
-                    enableABTest={true}
                   >
-                    Check Current Pricing
-                  </AffiliateCTAButton>
+                    Visit {tool.name} website
+                  </OutboundCTAButton>
                   <DisclosureNote variant="inline" />
                 </div>
               </div>
@@ -232,13 +220,12 @@ export default async function ReviewPage({ params }: PageProps) {
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">{tool.verdict}</p>
               </div>
               <div className="mt-6 flex flex-wrap items-center gap-4">
-                <AffiliateCTAButton
-                  href={tool.affiliateUrl}
+                <OutboundCTAButton
+                  href={tool.websiteUrl}
                   size="lg"
-                  enableABTest={true}
                 >
-                  Try {tool.name} Now
-                </AffiliateCTAButton>
+                  Visit {tool.name} website
+                </OutboundCTAButton>
                 <DisclosureNote />
               </div>
             </section>
@@ -246,12 +233,11 @@ export default async function ReviewPage({ params }: PageProps) {
             {/* Author Card - Full EEAT Signal */}
             <section className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-700">
               <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                About the Reviewer
+                About InvestLink
               </h2>
               <AuthorByline
                 variant="card"
                 showSocial={true}
-                showExpertise={true}
                 dateUpdated={tool.lastUpdated}
               />
             </section>
@@ -267,14 +253,13 @@ export default async function ReviewPage({ params }: PageProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:hidden">
                 <h3 className="font-semibold text-slate-900 dark:text-white">Quick Links</h3>
                 <div className="mt-4 space-y-3">
-                  <AffiliateCTAButton
-                    href={tool.affiliateUrl}
+                  <OutboundCTAButton
+                    href={tool.websiteUrl}
                     size="md"
-                    enableABTest={true}
                     className="w-full justify-center"
                   >
-                    Visit {tool.name}
-                  </AffiliateCTAButton>
+                    Visit {tool.name} website
+                  </OutboundCTAButton>
                   <Link
                     href="/comparisons"
                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
@@ -303,18 +288,20 @@ export default async function ReviewPage({ params }: PageProps) {
         </div>
       </article>
 
-      {/* Newsletter Signup */}
+      {/* Newsletter Signup (hidden when signup isn't configured on this build) */}
+      {isSignupAvailable() && (
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <SignupForm
             location={`review-${tool.slug}`}
             variant="banner"
             headline="Get More AI Investment Tool Insights"
-            description={`Enjoyed this ${tool.name} review? Get weekly recommendations, exclusive deals, and tips.`}
+            description={`Enjoyed this ${tool.name} review? Get a weekly email on investing tools.`}
             ctaText="Join Free"
           />
         </div>
       </section>
+      )}
 
       {/* Bottom padding for sticky CTA on mobile */}
       <div className="h-24 lg:hidden" aria-hidden="true" />

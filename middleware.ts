@@ -192,7 +192,6 @@ export function middleware(request: NextRequest): NextResponse | undefined {
   const method = request.method;
 
   const rateLimitedPaths = [
-    '/api/newsletter',
     '/api/subscribe',
     '/api/signup',
   ];
@@ -234,7 +233,6 @@ export function middleware(request: NextRequest): NextResponse | undefined {
 export const config = {
   matcher: [
     // API routes for rate limiting
-    '/api/newsletter/:path*',
     '/api/subscribe/:path*',
     '/api/signup/:path*',
     // Page requests for consent region cookie (exclude _next, static assets)

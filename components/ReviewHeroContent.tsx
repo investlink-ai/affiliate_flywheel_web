@@ -1,8 +1,6 @@
 'use client';
 
-import { useABTest } from '@/lib/hooks';
-import { AffiliateCTAButton, type CTAVariant, type UrgencyVariant } from './AffiliateLink';
-import { StarRating } from './StarRating';
+import { OutboundCTAButton } from './OutboundLink';
 import { DisclosureNote } from './DisclosureNote';
 import type { Tool } from '@/lib/data';
 
@@ -11,32 +9,9 @@ interface ReviewHeroContentProps {
 }
 
 /**
- * Client-side ReviewHero content with A/B testing
+ * Client-side ReviewHero content
  */
 export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
-  // A/B test for CTA variant
-  const { value: ctaVariant } = useABTest<CTAVariant>({
-    testId: 'review-hero-cta-variant',
-    variants: [
-      { id: 'control', value: 'default', weight: 40 },
-      { id: 'accent', value: 'accent', weight: 20 },
-      { id: 'gradient', value: 'gradient', weight: 20 },
-      { id: 'urgency', value: 'urgency', weight: 20 },
-    ],
-    persist: true,
-  });
-
-  // A/B test for urgency text
-  const { value: urgencyVariant } = useABTest<UrgencyVariant>({
-    testId: 'review-hero-urgency',
-    variants: [
-      { id: 'none', value: 'none', weight: 50 },
-      { id: 'limited', value: 'limited', weight: 25 },
-      { id: 'popular', value: 'popular', weight: 25 },
-    ],
-    persist: true,
-  });
-
   return (
     <section className="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white dark:border-slate-800 dark:from-slate-900 dark:to-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -58,41 +33,26 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
 
             <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">{tool.tagline}</p>
 
-            {/* Rating */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <StarRating rating={tool.rating} size="lg" />
-              <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                {tool.rating.toFixed(1)}
-              </span>
-              <span className="text-slate-500 dark:text-slate-400">
-                ({tool.ratingCount.toLocaleString()} reviews)
-              </span>
-            </div>
-
             {/* CTA - Hidden on mobile (shown in sticky bar instead) */}
             <div className="mt-8 hidden flex-wrap items-center gap-4 sm:flex">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
-                variant={ctaVariant}
-                urgency={urgencyVariant}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <DisclosureNote />
             </div>
 
             {/* Mobile CTA */}
             <div className="mt-8 sm:hidden">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
-                variant={ctaVariant}
-                urgency={urgencyVariant}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
                 className="w-full justify-center"
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <div className="mt-2">
                 <DisclosureNote variant="inline" className="text-center" />
               </div>
@@ -107,7 +67,7 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
               </h2>
               <dl className="mt-4 space-y-4">
                 <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Best For</dt>
+                  <dt className="text-slate-600 dark:text-slate-400">May suit</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.bestFor}</dd>
                 </div>
                 <div className="flex justify-between gap-8">
@@ -118,25 +78,17 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
                   <dt className="text-slate-600 dark:text-slate-400">Category</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.category}</dd>
                 </div>
-                <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Our Rating</dt>
-                  <dd className="font-medium text-slate-900 dark:text-white">
-                    {tool.rating.toFixed(1)}/5
-                  </dd>
-                </div>
               </dl>
 
               {/* Desktop quick CTA in stats card */}
               <div className="mt-6 hidden lg:block">
-                <AffiliateCTAButton
-                  href={tool.affiliateUrl}
-                  variant={ctaVariant}
-                  urgency={urgencyVariant}
+                <OutboundCTAButton
+                  href={tool.websiteUrl}
                   size="md"
                   className="w-full justify-center"
                 >
-                  Get Started
-                </AffiliateCTAButton>
+                  Visit {tool.name} website
+                </OutboundCTAButton>
               </div>
             </div>
           </div>

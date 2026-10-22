@@ -11,38 +11,25 @@ export interface Tool {
   tagline: string;
   description: string;
   logoUrl: string;
-  rating: number;
-  ratingCount: number;
   category: string;
   pricing: string;
   pricingDetails: string;
-  affiliateUrl: string;
+  websiteUrl: string;
   features: string[];
   pros: string[];
   cons: string[];
   verdict: string;
+  /** Who the tool may suit (rendered as "May suit"; no ranking claims) */
   bestFor: string;
   lastUpdated: string;
-  /** Date the review was last verified for accuracy */
-  lastVerified: string;
-  /** User types this tool is recommended for, with optional badge text */
+  /** User types this tool may suit, with badge text ("May suit …"; no ranking claims) */
   recommendations?: Partial<Record<UserType, string>>;
-  /** Affiliate cookie duration in days */
-  cookieDuration?: number;
-  /** Commission rate percentage */
-  commissionRate?: number;
-  /** Whether we have an exclusive deal or higher commission */
-  hasExclusiveDeal?: boolean;
   /** Tool is newly added (within 30 days) */
   isNew?: boolean;
   /** Screenshots of the tool interface */
   screenshots?: string[];
   /** YouTube video review URL */
   videoReviewUrl?: string;
-  /** User quotes from reviews (G2, Reddit, etc.); format: "quote – attribution". Research-driven, FTC-safe. */
-  socialProof?: string[];
-  /** Optional per-tool metrics (e.g., user-reported efficiency gains); flexible, not uniform across tools */
-  optionalMetrics?: string[];
 }
 
 /** All available categories */
@@ -53,6 +40,7 @@ export const categories = [
   'Fintech Infrastructure',
   'Crypto Tools',
   'Portfolio Management',
+  'Research Workflow',
 ] as const;
 export type Category = (typeof categories)[number];
 
@@ -70,156 +58,77 @@ export const tools: Tool[] = [
     slug: "quantconnect",
     name: "QuantConnect",
     tagline: "Open Source Algorithmic Trading Platform",
-    description: "QuantConnect is an open-source financial technology platform that provides a unified API for quantitative research, backtesting, and live trading. It supports a complete suite of cloud-based tools for researching investment approaches, assessing strategies with backtesting, and deploying them to maximize returns. The platform also offers on-premise replication for bespoke requirements and includes agentic AI capabilities through Mia for designing, backtesting, optimizing, and live-trading strategies.",
+    description: "QuantConnect is an open-source financial technology platform that provides a unified API for quantitative research, backtesting, and live trading. It supports a complete suite of cloud-based tools for researching investment approaches, assessing strategies with backtesting, and deploying them to live trading. The platform also offers on-premise replication for bespoke requirements and includes agentic AI capabilities through Mia for designing, backtesting, optimizing, and live-trading strategies.",
     logoUrl: "/images/tools/quantconnect-logo.svg",
-    rating: 4.5,
-    ratingCount: 63,
     category: "Quantitative Platforms",
     pricing: "See website",
     pricingDetails: "See official website for current pricing.",
-    affiliateUrl: "https://www.quantconnect.com",
-    features: ["Cloud-based research terminals with access to terabytes of financial, fundamental, and alternative data, preformatted and linked to securities via FIGI, CUSIP, and ISIN.","Backtesting with point-in-time adjustments for fees, slippage, and spreads, supporting multi-asset portfolios of thousands of securities with realistic margin modeling.","Parameter sensitivity testing that runs thousands of full backtests on scalable cloud compute, visualized through heatmaps for strategy robustness.","Institutional-grade live trading with over 375,000 strategies deployed since 2012, processing $45B in notional volume monthly via 20 integrations and low-latency infrastructure.","Agentic AI assistant Mia that enables natural-language strategies, auto backtesting, and smart code edits for streamlined workflows.","Multi-asset portfolio modeling including US stocks, ETFs, options, indexes, futures, forex, CFDs, and crypto with tick-to-daily resolutions.","Rich library of alternative data from over 40 vendors, processed with uniform timestamps and available for research or live trading.","Open-source LEAN engine for algorithmic trading, supporting local development, cloud backtesting, and custom modifications."],
-    pros: ["Best platform for developing trading strategies","Solid product if you're not doing HFT","Extremely stable and the tools very easy to learn and use","Very easy tool to use for creating, backtesting, optimizing and going live with a trading strategy","Improves the efficiency and reduces the time between idea and feasibility testing","Platform provides its users many tools that improve the efficiency"],
+    websiteUrl: "https://www.quantconnect.com",
+    features: ["Cloud-based research terminals with financial, fundamental, and alternative data, preformatted and linked to securities via FIGI, CUSIP, and ISIN.","Backtesting with point-in-time adjustments for fees, slippage, and spreads, supporting multi-asset portfolios with margin modeling.","Parameter sensitivity testing that runs many full backtests on cloud compute, visualized through heatmaps for strategy robustness.","Live trading through brokerage integrations.","Agentic AI assistant Mia that enables natural-language strategies, auto backtesting, and smart code edits for streamlined workflows.","Multi-asset portfolio modeling including US stocks, ETFs, options, indexes, futures, forex, CFDs, and crypto with tick-to-daily resolutions.","Alternative data from multiple vendors, processed with uniform timestamps and available for research or live trading.","Open-source LEAN engine for algorithmic trading, supporting local development, cloud backtesting, and custom modifications."],
+    pros: ["Solid product if you're not doing HFT","Extremely stable and the tools very easy to learn and use","Very easy tool to use for creating, backtesting, optimizing and going live with a trading strategy","Improves the efficiency and reduces the time between idea and feasibility testing","Platform provides its users many tools that improve the efficiency"],
     cons: ["Full of problems, holes, and bugs","Clients end up hating it within days","Not recommend it for day-trading type","Daunting and the documentation may seem cumbersome at first","Engine is slower as the data points increases","Uses <7M data for just 3 months"],
     verdict: "QuantConnect stands out as a robust open-source platform for algorithmic trading, particularly suited for quantitative research and backtesting with extensive data access. While it excels in stability and tool efficiency for non-HFT strategies, users should be aware of potential bugs and performance issues with large datasets. This is not financial advice; always conduct thorough due diligence.",
-    bestFor: "Quantitative research teams and professional quants seeking an open-source platform for building, testing, and deploying algorithmic trading strategies with AI assistance, multi-asset support, and a vast community for sharing research.",
+    bestFor: "Quantitative research teams and professional quants seeking an open-source platform for building, testing, and deploying algorithmic trading strategies with AI assistance, multi-asset support, and a community for sharing research.",
     lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"quantitative_analyst":"Best for backtesting strategies","trader":"Top for algorithmic trading"},
-    cookieDuration: 0,
-    commissionRate: 10,
-    hasExclusiveDeal: true,
+    recommendations: {"quantitative_analyst":"May suit backtesting strategies","trader":"May suit algorithmic trading"},
     videoReviewUrl: "https://www.youtube.com/watch?v=T1XCZpozvLE",
-    socialProof: ["'Overall great platform.' – User, Trustpilot, Nov 8, 2025","'Very easy tool to use for creating, backtesting, optimizing and going live with a trading strategy. I went from concept to live trading in less than a month' – User, Trustpilot","'I've traded on quantconnect.com for the better part of a year now and find the platform extremely stable and the tools very easy to learn and use.' – Reddit user","'I use quantconnect sporadically. I find it to be the best platform for developing trading strategies' – Reddit user","'The full QuantConnect platform provides its users many tools that improve the efficiency and most importantly reduce the time between idea and feasibility testing.' – Trustpilot user","'Overall great platform.' – User, Trustpilot"],
-    optionalMetrics: ["Complete a 10-year equity backtest in just 33 seconds","Processing $45B in notional volume monthly","Over 15,000 parallel backtests daily","Over 375,000 strategies deployed since 2012"],
   },
   {
     slug: "etoro",
     name: "eToro",
-    tagline: "Invest in thousands of stocks, crypto, ETFs… all in one easy-to-use app.",
-    description: "eToro offers a platform for investing in a variety of asset classes, including 20 global stock exchanges and 100 cryptocurrencies, all managed in one place. It features low fees with flat rates per trade for US, UK & EU stocks, no commission on certain ETFs, and fixed fees for cryptoassets. Users can earn up to 3.55% annual interest on cash balances with monthly payments and no commitment, while also accessing educational resources like courses, podcasts, and webinars through eToro Academy.",
+    tagline: "Invest in stocks, crypto and ETFs in one app.",
+    description: "eToro offers a platform for investing in a variety of asset classes, including stocks, ETFs and cryptoassets, all managed in one place. It charges a flat fee per trade for US, UK & EU stocks, no commission on certain ETFs, and fixed fees for cryptoassets. Users can also access educational resources like courses, podcasts, and webinars through eToro Academy.",
     logoUrl: "/images/tools/etoro-logo.svg",
-    rating: 4.2,
-    ratingCount: 30427,
     category: "Quantitative Platforms",
-    pricing: "Low fees with flat fee per trade for stocks, no commission on select ETFs, fixed fees for crypto; earn up to 3.55% annual interest on cash.",
-    pricingDetails: "Flat fee per trade for US, UK & EU stocks (no matter how many shares); no commission on ETFs tracking S&P 500, Nasdaq & more; fixed fee on any cryptoasset position (over 100 cryptos); additional costs may apply for other asset types (see fees page). Interest up to 3.55% annually on cash balance, monthly payments, no commitment (credit and other risks apply; read Terms and Conditions). No specific plan names or tiered limits detailed.",
-    affiliateUrl: "https://www.etoro.com",
-    features: ["Invest in thousands of stocks, crypto, ETFs in one app.","Flat fee per trade for US, UK & EU stocks, no matter how many shares.","No commission on ETFs that track the S&P 500, Nasdaq & more.","Trade over 100 leading cryptoassets with fixed transparent fees.","Earn up to 3.55% annual interest on cash balances, paid monthly.","Copy top investors' moves in real time using CopyTrader™.","Access free investing courses, podcasts, and webinars via eToro Academy.","Diversify across 20 global stock exchanges and 100 cryptocurrencies.","Manage holdings in GBP and USD accounts for local and global trading.","Funds held in top-tier institutions with best security practices."],
-    pros: ["Easy-to-use platform","High visibility into other investors' trades and social network capabilities","Great educational materials","High interest rate on uninvested cash","Copy trading service available","A variety of cryptocurrencies to choose from"],
-    cons: ["No IRAs","No bonds, futures or forex","High fees","Slow customer support","$5 withdrawal fee","Can only trade and invest in USD"],
+    pricing: "Flat fee per trade for stocks, no commission on select ETFs, fixed fees for crypto. See website for current fees.",
+    pricingDetails: "Flat fee per trade for US, UK & EU stocks (no matter how many shares); no commission on ETFs tracking S&P 500, Nasdaq & more; fixed fee on cryptoasset positions; additional costs may apply for other asset types (see eToro's fees page for current fees).",
+    websiteUrl: "https://www.etoro.com",
+    features: ["Invest in stocks, crypto and ETFs in one app.","Flat fee per trade for US, UK & EU stocks, no matter how many shares.","No commission on ETFs that track the S&P 500, Nasdaq & more.","Trade cryptoassets with fixed fees.","Copy other investors' moves using CopyTrader™.","Access free investing courses, podcasts, and webinars via eToro Academy.","Manage holdings in GBP and USD accounts for local and global trading."],
+    pros: ["Easy-to-use platform","High visibility into other investors' trades and social network capabilities","Educational materials","Copy trading service available","A variety of cryptocurrencies to choose from"],
+    cons: ["No IRAs","No bonds, futures or forex","High fees","Slow customer support","Withdrawal fee","Can only trade and invest in USD"],
     verdict: "eToro stands out for its social trading features like CopyTrader and a user-friendly platform suitable for beginners, with a wide range of assets including stocks and crypto. However, it has limitations such as higher fees, lack of certain account types like IRAs, and occasional support issues. This is not financial advice; users should conduct their own due diligence and consider personal financial situations.",
     bestFor: "Beginners and social traders interested in copying experienced investors across stocks, crypto, and ETFs.",
     lastUpdated: "2026-02-05",
-    lastVerified: "2026-02-05",
-    recommendations: {"trader":"Best for social and copy trading","individual_investor":"Top for beginner-friendly platform"},
-    cookieDuration: 30,
-    hasExclusiveDeal: false,
+    recommendations: {"trader":"May suit social and copy trading","individual_investor":"May suit beginners"},
     videoReviewUrl: "https://www.youtube.com/watch?v=d9x662EaBuE",
-    socialProof: ["'Great app for investment' – User, Capterra","'Very available app for trading. Simple to use and for non expert people.' – User, Capterra","'Good service but the fees could be smaller.' – User, Capterra","'Best by far has the most volume and realistic odds and most outcomes to bet on.' – Reddit user","'Platform is simple, the markets move fast, and the prices shift entirely based on what traders believe.' – Reddit user","'Go-to platform for crypto-savvy users who want a fast, flexible, and global way to trade predictions.' – Reddit user"],
-  },
-  {
-    slug: "polymarket",
-    name: "Polymarket",
-    tagline: "The World's Largest Prediction Market™",
-    description: "Polymarket is a prediction market platform where users trade on the outcomes of real-world events using cryptocurrency. It features markets on topics like sports, politics, finance, and crypto price movements, with live betting options such as BTC 15-minute up or down. The platform operates globally through separate legal entities, with Polymarket US regulated by the CFTC as a Designated Contract Market.",
-    logoUrl: "/images/tools/polymarket-logo.svg",
-    rating: 1.3,
-    ratingCount: 0,
-    category: "Crypto Tools",
-    pricing: "See website",
-    pricingDetails: "See official website for current pricing.",
-    affiliateUrl: "https://polymarket.com",
-    features: ["Markets on sports outcomes (e.g., Seahawks vs. Patriots NFL game with 69% chance for Seahawks).","Crypto-related predictions (e.g., Bitcoin price targets like ↑90,000 with 20% chance or ↓70,000 with 51% chance).","Political and geopolitical events (e.g., US strikes Iran by February 13 with 9% yes chance or Russia-Ukraine ceasefire by end of 2026 with 46% chance).","Financial markets (e.g., Fed decision in March with 91% chance of no change or S&P 500 opens up or down on February 4 with 57% up).","Entertainment and awards (e.g., Oscars 2026 Best Picture winner like 'One Battle After Another' with 70% chance).","Live trading with volume indicators (e.g., $10m volume on NFL game or $13m on Bitcoin February price).","Binary yes/no outcomes (e.g., Will anyone be jailed over Epstein disclosures with 15% yes chance).","Multi-outcome markets (e.g., Where will Giannis be traded with options like Not Traded at 49% or Minnesota Timberwolves at 27%).","Event timing markets (e.g., Kevin Warsh confirmed as Fed Chair by May 1 with 58% chance).","Global election predictions (e.g., Thailand Legislative Election Winner with People’s Party at 66%)."],
-    pros: ["Good website for those interested in this type of betting","Best by far has the most volume and realistic odds and most outcomes to bet on","Platform is simple, the markets move fast, and the prices shift entirely based on what traders believe","Go-to platform for crypto-savvy users who want a fast, flexible, and global way to trade predictions","Best betting platform at the moment. Really good prices. Fast/instant pay outs on crypto","Very good app!!! I like the breakdown of the individual categories and the graphs are a very nice touch !!!"],
-    cons: ["Huge waste of time, mainly because of the terrible customer support","Easy for scammers to cheat you","Super slow to execute orders","Delay in submitting orders","Platform is subject to manipulation, with outcomes influenced by individuals holding substantial amounts of tokens","Rigged or arbitrary resolutions"],
-    verdict: "Polymarket offers a unique decentralized platform for prediction markets with high liquidity in popular events, but faces criticism for potential manipulation and poor customer support. It may suit crypto users comfortable with blockchain risks, but caution is advised. This is not financial advice.",
-    bestFor: "Crypto users to trade on prediction markets involving Bitcoin prices, financial decisions, and geopolitical events using cryptocurrency.",
-    lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"trader":"Best for prediction markets","individual_investor":"Top for crypto-focused betting"},
-    cookieDuration: 30,
-    hasExclusiveDeal: false,
-    socialProof: ["'A good website for those interested in this type of betting' – User, Trustpilot","'Best betting platform at the moment. Really good prices. Fast/instant pay outs on crypto.' – User, Trustpilot","'Very good app!!! I like the breakdown of the individual categories and the graphs are a very nice touch !!!' – User, Trustpilot","'Polymarket is the best by far has the most volume and realistic odds and most outcomes to bet on.' – Reddit user","'Polymarket is insider traders taking free money from other donators until it's more tightly regulated.' – Reddit user (negative, but real)","'I've been using Polymarket recently, and it clicked with me right away.' – PokerNews review"],
-    optionalMetrics: ["Generated more than $2 billion in total volume across major events this year","Some single questions now attract more than $10–20 million in wagers","Trading volume on major platforms surpassed $3 billion in Q3 2025","Hit approximately $474–510 million in November 2024"],
   },
   {
     slug: "notion",
     name: "Notion",
     tagline: "The AI workspace that works for you.",
-    description: "Notion is a single workspace where teams and AI agents capture knowledge, find answers, and automate projects, enabling a team of 7 to feel like 70. It introduces Notion 3.0 with features like Notion Agent for task assignment and execution, alongside upcoming Custom Agents. The platform emphasizes productivity by reducing busywork and consolidating tools.",
+    description: "Notion is a single workspace where teams and AI agents capture knowledge, find answers, and automate projects. It introduces Notion 3.0 with features like Notion Agent for task assignment and execution, alongside upcoming Custom Agents. The platform emphasizes productivity by reducing busywork and consolidating tools.",
     logoUrl: "/images/tools/notion-logo.svg",
-    rating: 4.7,
-    ratingCount: 2675,
-    category: "AI Investment Signals",
+    category: "Research Workflow",
     pricing: "See pricing plans",
     pricingDetails: "See official website for current pricing.",
-    affiliateUrl: "https://www.notion.so",
-    features: ["Notion Agent: Assign tasks and the AI agent performs the work.","Enterprise Search: One search across everything.","AI Meeting Notes: Generates perfect notes automatically.","Flexible workflows: Manages any project, big or small.","Automate repetitive tasks: AI handles busywork.","AI writing tools: Rated #1 by G2."],
-    pros: ["Flexibility and ease of use, allowing them to customize their workflows","Keep all their information organized in one place","Helps me stay organize and track many projects at once","Very positive one. This software helps me stay organize","Great AI tool for our resources within our organization","Multiple teams use this on a daily and is really changing the way we are interacting with productivity workflow"],
+    websiteUrl: "https://www.notion.so",
+    features: ["Notion Agent: Assign tasks and the AI agent performs the work.","Enterprise Search: One search across everything.","AI Meeting Notes: Generates meeting notes automatically.","Flexible workflows: Manages any project, big or small.","Automate repetitive tasks: AI handles busywork.","AI writing tools."],
+    pros: ["Flexibility and ease of use, allowing them to customize their workflows","Keep all their information organized in one place","Tracks many projects at once"],
     cons: ["Per seat pricing is getting expensive","Confusing UI for some users","Setup can be time-consuming","Low learnability, unintuitive design","Requires a lot of time and effort to become productive with","Feels extremely slow"],
-    verdict: "Notion excels as an all-in-one AI workspace for productivity and knowledge management, with high user praise for flexibility. However, pricing and learnability issues may deter some. This is not financial advice; evaluate for your needs.",
-    bestFor: "Teams seeking an AI everything app for productivity, knowledge management, and automation in a single platform, ideal for enterprises and startups (e.g., 62% of Fortune 100, over 50% of YC companies).",
+    verdict: "Notion excels as an all-in-one AI workspace for productivity and knowledge management, with user praise for flexibility. However, pricing and learnability issues may deter some. This is not financial advice; evaluate for your needs.",
+    bestFor: "Teams seeking an AI everything app for productivity, knowledge management, and automation in a single platform.",
     lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"fintech_professional":"Best for AI-powered tools","financial_advisor":"Top for portfolio management","quantitative_analyst":"Great for automation"},
-    cookieDuration: 90,
-    commissionRate: 20,
-    hasExclusiveDeal: false,
+    recommendations: {"individual_investor":"May suit research notes and checklists","financial_advisor":"May suit research notes and checklists"},
     videoReviewUrl: "https://www.youtube.com/watch?v=SiJpasKwEHs",
-    socialProof: ["'My overall experience with Notion has been a very positive one. This software helps me stay organize and track many projects at once' – User, Capterra","'Notion is ease to use' – User, Capterra","'Great visualization and some data analysis available' – User, Capterra","'We like using Notion for our company docs. Its easy to use' – User, Trustpilot","'Great AI tool for our resources within our organization' – User, Gartner","'I use Notion for everything, and it makes me incredibly productive' – Reddit user"],
-    optionalMetrics: ["79% of reviewers have rated Notion 5 stars on G2","Consistently ranks as the G2 industry leader","I've noticed my productivity with my own projects has exploded since I started using it","Done more projects since I started using Notion in the last two years than probably the previous 10 years"],
   },
   {
     slug: "tradingview",
     name: "TradingView",
     tagline: "TradingView",
-    description: "TradingView is highly regarded for its superior charting and community features, making it a top choice for market analysis. However, some users report performance issues. This is not financial advice; test for your use case.",
+    description: "TradingView is known for its charting and community features for market analysis. However, some users report performance issues. This is not financial advice; test for your use case.",
     logoUrl: "/images/tools/tradingview-logo.svg",
-    rating: 4.5,
-    ratingCount: 82,
     category: "AI Investment Signals",
     pricing: "See website",
     pricingDetails: "See official website for current pricing.",
-    affiliateUrl: "https://www.tradingview.com",
-    features: ["Over 400 indicators and 110+ drawing tools","Real-time data across stocks, forex, crypto, and more","Social community and idea sharing","Custom alerts and screening","Multi-timeframe analysis"],
-    pros: ["Powerful charting tools and customization options","Suitable for both beginners and experienced traders","Much more efficient, smoother, and intuitive platform","Best charting experience available today","Powerful charting tool with a massive selection of features","Delivers the best charting experience available today"],
+    websiteUrl: "https://www.tradingview.com",
+    features: ["Indicators and drawing tools","Real-time data across stocks, forex, crypto, and more","Social community and idea sharing","Custom alerts and screening","Multi-timeframe analysis"],
+    pros: ["Powerful charting tools and customization options","Suitable for both beginners and experienced traders","Intuitive platform","Charting tool with a wide selection of features"],
     cons: ["Slow and failing to close positions","Taking forever to enter positions","Lately it has been slow","Overly complicated and doesn't work offline","Occasional platform instability and crashes","Connection keeps dropping"],
-    verdict: "TradingView is highly regarded for its superior charting and community features, making it a top choice for market analysis. However, some users report performance issues. This is not financial advice; test for your use case.",
+    verdict: "TradingView is known for its charting and community features for market analysis. However, some users report performance issues. This is not financial advice; test for your use case.",
     bestFor: "See verdict for details.",
     lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"individual_investor":"Best for charting","trader":"Top for market analysis"},
-    cookieDuration: 90,
-    hasExclusiveDeal: false,
+    recommendations: {"individual_investor":"May suit charting","trader":"May suit market analysis"},
     videoReviewUrl: "https://www.youtube.com/watch?v=ktuEYvVEm5I",
-    socialProof: ["'TradingView shows clean and responsive charts. It makes technical analysis easy even for novices.' – G2 user","'Tradingview is a much more efficient, smoother, and intuitive platform, especially for more technical traders.' – Reddit user","'Users consistently praise TradingView for its powerful charting tools and customization options' – G2","'Powerful charting tool with a massive selection of features, such as over 400 indicators and over 110 drawing tools.' – StockBrokers review","'I used to like tradingview but lately it has been slow' – Reddit user (mixed)","'Argubly delivers the best charting experience available today' – StockBrokers"],
-  },
-  {
-    slug: "binance",
-    name: "Binance",
-    tagline: "The World’s Most Trusted Cryptocurrency Exchange to Buy, Trade & Invest in Crypto",
-    description: "Binance is the world's leading cryptocurrency exchange, catering to over 270 million registered users in over 180 countries. It offers low fees and over 500 cryptocurrencies to trade, including Bitcoin, altcoins, and other virtual assets. Users can trade on Spot, Margin, and Futures markets, buy and sell via P2P, earn interest through Binance Earn, and access token launches via Launchpool, Airdrop, and Megadrop.",
-    logoUrl: "/images/tools/binance-logo.svg",
-    rating: 4,
-    ratingCount: 0,
-    category: "Crypto Tools",
-    pricing: "See website",
-    pricingDetails: "See official website for current pricing.",
-    affiliateUrl: "https://www.binance.com",
-    features: ["Deep liquidity and low fees for trading.","Complete range of products including Spot, Futures, Earn, and P2P markets.","Ability to track crypto live prices, explore new cryptocurrencies, and discover top gaining or losing cryptos.","Exclusive early access to token launches through Binance MegaDrop and innovative pre-listing projects via Binance Alpha.","Strong security with the Security of User Assets Fund (SAFU) established in 2018, holding a reserve of 1,000,000,000 USDC as of September 2025.","Over 500 cryptocurrencies available for trade.","Earn interest on more than 180+ cryptocurrencies via Binance Earn products.","Trade, stake, and loan NFTs on Binance NFT marketplace.","Mobile trading available on iOS and Android apps.","Identity verification required for buying crypto and trading."],
-    pros: ["Deep liquidity and low fees","500+ cryptocurrencies","Strong security with SAFU fund","Global reach in 180+ countries","Earn products and staking"],
-    cons: ["Huge waste of time, mainly because of the terrible customer support.","Easy for scammers to cheat you.","Super slow to execute orders.","Delay in submitting orders.","Platform is subject to manipulation, with outcomes influenced by individuals holding substantial amounts of tokens.","Rigged or arbitrary resolutions."],
-    verdict: "Binance is a dominant cryptocurrency exchange with extensive features and global reach, praised for liquidity and variety. However, concerns about customer support and potential manipulation persist. This is not financial advice; users should verify compliance and risks.",
-    bestFor: "Cryptocurrency traders seeking low fees, diverse assets, and advanced trading options.",
-    lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"trader":"Best for crypto trading","individual_investor":"Top for global access"},
-    cookieDuration: 30,
-    commissionRate: 50,
-    hasExclusiveDeal: false,
-    socialProof: ["'I've been using Binance for quite a while now' – Reddit user.","'Deep liquidity and low fees' – User, Trustpilot.","'Largest crypto exchange by trade volume' – Binance.","'Over 270 million registered users in 180+ countries' – Binance.","'Strong security with SAFU fund' – User review.","'500+ cryptocurrencies available' – User, Trustpilot."],
-    optionalMetrics: ["$65 billion average daily volume","Over 270 million registered users","300 billion spot transactions in 2022","24/7 customer support in 40 languages","SAFU fund: 1,000,000,000 USDC reserve as of September 2025"],
   },
 ];
 
@@ -236,12 +145,8 @@ export function getToolsByCategory(category: string): Tool[] {
 }
 
 export function getFeaturedTools(count: number = 3): Tool[] {
-  // Prioritize tools with exclusive deals or high commission
-  const sorted = [...tools].sort((a, b) => {
-    if (a.hasExclusiveDeal && !b.hasExclusiveDeal) return -1;
-    if (!a.hasExclusiveDeal && b.hasExclusiveDeal) return 1;
-    return (b.commissionRate ?? 0) - (a.commissionRate ?? 0);
-  });
+  // Alphabetical: the site publishes no ratings or rankings.
+  const sorted = [...tools].sort((a, b) => a.name.localeCompare(b.name));
   return sorted.slice(0, count);
 }
 

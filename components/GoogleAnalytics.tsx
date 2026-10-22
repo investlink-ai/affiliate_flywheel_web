@@ -85,27 +85,25 @@ export function GoogleAnalytics() {
                 outbound_clicks: true,
                 file_downloads: true,
               },
-              // Custom dimensions for affiliate tracking
+              // Custom dimensions for outbound tracking
               custom_map: {
                 dimension1: 'tool_name',
                 dimension2: 'tool_slug',
                 dimension3: 'click_position',
                 dimension4: 'cta_variant',
-                dimension5: 'urgency_variant',
                 dimension6: 'user_type',
-                metric1: 'epc_value',
               },
             });
 
-            // Track affiliate clicks globally
+            // Track outbound clicks globally
             document.addEventListener('click', function(e) {
-              const link = e.target.closest('a[rel*="sponsored"]');
+              const link = e.target.closest('a[target="_blank"][rel~="nofollow"]');
               if (link) {
                 const href = link.getAttribute('href');
-                gtag('event', 'affiliate_click_global', {
-                  event_category: 'Affiliate',
+                gtag('event', 'outbound_click_global', {
+                  event_category: 'Outbound',
                   event_label: href,
-                  affiliate_url: href,
+                  website_url: href,
                   page_location: window.location.href,
                   timestamp: new Date().toISOString(),
                 });
@@ -127,13 +125,13 @@ export function GoogleAnalytics() {
 }
 
 /**
- * Affiliate click tracking hook integration
- * Use this to enhance AffiliateLink with automatic tracking
+ * Outbound click tracking hook integration
+ * Use this to enhance OutboundLink with automatic tracking
  */
-export function useAffiliateTracking() {
+export function useOutboundTracking() {
   useEffect(() => {
-    // Listen for affiliate click custom events
-    const handleAffiliateClick = (e: CustomEvent) => {
+    // Listen for outbound click custom events
+    const handleOutboundClick = (e: CustomEvent) => {
       const { testId, variantId, eventName } = e.detail;
       
       if (typeof window !== 'undefined' && window.gtag) {
@@ -147,9 +145,9 @@ export function useAffiliateTracking() {
       }
     };
 
-    window.addEventListener('ab_test_conversion', handleAffiliateClick as EventListener);
+    window.addEventListener('ab_test_conversion', handleOutboundClick as EventListener);
     return () => {
-      window.removeEventListener('ab_test_conversion', handleAffiliateClick as EventListener);
+      window.removeEventListener('ab_test_conversion', handleOutboundClick as EventListener);
     };
   }, []);
 }

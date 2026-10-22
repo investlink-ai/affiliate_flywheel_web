@@ -1,15 +1,12 @@
-import { AffiliateCTAButton } from './AffiliateLink';
-import { StarRating } from './StarRating';
+import { OutboundCTAButton } from './OutboundLink';
 import { DisclosureNote } from './DisclosureNote';
 import type { Tool } from '@/lib/data';
 
 interface ReviewHeroProps {
   tool: Tool;
-  /** Enable A/B testing for CTA */
-  enableABTest?: boolean;
 }
 
-export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
+export function ReviewHero({ tool }: ReviewHeroProps) {
   return (
     <section className="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white dark:border-slate-800 dark:from-slate-900 dark:to-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -31,39 +28,26 @@ export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
 
             <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">{tool.tagline}</p>
 
-            {/* Rating */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <StarRating rating={tool.rating} size="lg" />
-              <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                {tool.rating.toFixed(1)}
-              </span>
-              <span className="text-slate-500 dark:text-slate-400">
-                ({tool.ratingCount.toLocaleString()} reviews)
-              </span>
-            </div>
-
             {/* CTA - Hidden on mobile (shown in sticky bar instead) */}
             <div className="mt-8 hidden flex-wrap items-center gap-4 sm:flex">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
-                enableABTest={enableABTest}
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <DisclosureNote />
             </div>
 
             {/* Mobile CTA - Visible only on small screens, above the fold */}
             <div className="mt-8 sm:hidden">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
-                enableABTest={enableABTest}
                 className="w-full justify-center"
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <div className="mt-2">
                 <DisclosureNote variant="inline" className="text-center" />
               </div>
@@ -78,7 +62,7 @@ export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
               </h2>
               <dl className="mt-4 space-y-4">
                 <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Best For</dt>
+                  <dt className="text-slate-600 dark:text-slate-400">May suit</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.bestFor}</dd>
                 </div>
                 <div className="flex justify-between gap-8">
@@ -89,24 +73,17 @@ export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
                   <dt className="text-slate-600 dark:text-slate-400">Category</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.category}</dd>
                 </div>
-                <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Our Rating</dt>
-                  <dd className="font-medium text-slate-900 dark:text-white">
-                    {tool.rating.toFixed(1)}/5
-                  </dd>
-                </div>
               </dl>
 
               {/* Desktop quick CTA in stats card */}
               <div className="mt-6 hidden lg:block">
-                <AffiliateCTAButton
-                  href={tool.affiliateUrl}
+                <OutboundCTAButton
+                  href={tool.websiteUrl}
                   size="md"
-                  enableABTest={enableABTest}
                   className="w-full justify-center"
                 >
-                  Get Started
-                </AffiliateCTAButton>
+                  Visit {tool.name} website
+                </OutboundCTAButton>
               </div>
             </div>
           </div>

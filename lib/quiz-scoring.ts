@@ -7,7 +7,7 @@
  * @module lib/quiz-scoring
  */
 
-import type { Tool } from './data';
+import type { Tool, UserType } from './data';
 
 /**
  * Quiz option structure
@@ -17,6 +17,8 @@ export interface QuizOption {
   label: string;
   description?: string;
   tags: string[];
+  /** User type association */
+  userType?: UserType;
 }
 
 /**
@@ -38,18 +40,29 @@ export interface QuizResult {
 }
 
 /**
- * Tag-based scoring weights for each tool.
+ * Tag-based scoring weights for each tool. Quiz scores reflect fit only;
+ * commission and former partner status have no effect.
  * Higher values = stronger match for that tag.
  * 
- * Score meanings:
+ * Score meanings (NOTES_WORKFLOW_FIT is the one exception):
  * - 3: Excellent match
  * - 2: Good match  
  * - 1: Partial match
  */
+/**
+ * Fit weight for a direct match on the notes workflow answer. Picking "Notes,
+ * research logs and checklists" says the primary need is a notes tool, so that
+ * single fit tag must outweigh what the other tools collect incidentally from the
+ * other four answers (up to 23 points on a notes path; 3 for each tag plus the
+ * category bonus). 24 puts Notion strictly in the top 3 on every notes path; the
+ * margin is tested in __tests__/quiz-scoring.test.ts. It does not change any
+ * path without the notes answer, because no other option carries this tag.
+ */
+export const NOTES_WORKFLOW_FIT = 24;
+
 export const toolScoring: Record<string, Record<string, number>> = {
   quantconnect: {
     'Quantitative Platforms': 3,
-    'AI Investment Signals': 2,
     'idea-generation-research': 3,
     'data-fundamentals': 3,
     'technical-quantitative': 3,
@@ -72,23 +85,10 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'budget-friendly': 3,
     'free-tier': 2,
   },
-  polymarket: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    'prediction-markets': 3,
-    active: 3,
-    aggressive: 2,
-    'budget-friendly': 2,
-    'free-tier': 2,
-  },
+  // Research Workflow: selected only via the notes option. No research, AI,
+  // signals, execution or pricing weights, and no category bonus.
   notion: {
-    'AI Investment Signals': 3,
-    'Fintech Infrastructure': 2,
-    'ai-powered-tools': 3,
-    'idea-generation-research': 2,
-    'budget-friendly': 2,
-    'moderate-budget': 2,
-    'pro-features': 2,
+    'notes-organisation': NOTES_WORKFLOW_FIT,
   },
   tradingview: {
     'AI Investment Signals': 3,
@@ -99,21 +99,15 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'moderate-budget': 3,
     'pro-features': 3,
   },
-  binance: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    crypto: 3,
-    active: 2,
-    aggressive: 2,
-    'budget-friendly': 2,
-    'pro-features': 2,
-  },
 };
 
 /**
  * Base score bonus when tool category matches a selected tag
  */
 export const CATEGORY_MATCH_BONUS = 5;
+
+/** Categories that never earn the category bonus; their tools score on fit tags only. */
+export const NO_BONUS_CATEGORIES: readonly string[] = ['Research Workflow'];
 
 /**
  * Collects all tags from selected quiz answers
@@ -163,8 +157,12 @@ export function generateMatchReasons(
   const reasons: string[] = [];
 
   // Category match reason
-  if (selectedTags.includes(toolCategory)) {
+  if (selectedTags.includes(toolCategory) && !NO_BONUS_CATEGORIES.includes(toolCategory)) {
     reasons.push(`Matches your ${toolCategory.toLowerCase()} needs`);
+  }
+
+  if (scoring['notes-organisation'] && selectedTags.includes('notes-organisation')) {
+    reasons.push('Notes & research organisation');
   }
 
   // Specific feature match reasons
@@ -212,7 +210,7 @@ export function calculateToolScore(
   let score = 0;
 
   // Base score from category match
-  if (selectedTags.includes(tool.category)) {
+  if (selectedTags.includes(tool.category) && !NO_BONUS_CATEGORIES.includes(tool.category)) {
     score += CATEGORY_MATCH_BONUS;
   }
 

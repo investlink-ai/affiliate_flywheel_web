@@ -28,9 +28,8 @@ export function ReviewPageCTAs({ tool }: ReviewPageCTAsProps) {
       {/* Mobile Sticky CTA */}
       <StickyCTA
         toolName={tool.name}
-        href={tool.affiliateUrl}
+        href={tool.websiteUrl}
         price={tool.pricing}
-        enableABTest={true}
         scrollThreshold={500}
         mobileOnly={true}
       />
@@ -45,9 +44,8 @@ export function ReviewSidebarCTA({ tool }: ReviewPageCTAsProps) {
   return (
     <SidebarStickyCTA
       toolName={tool.name}
-      href={tool.affiliateUrl}
+      href={tool.websiteUrl}
       price={tool.pricing}
-      enableABTest={true}
     />
   );
 }
