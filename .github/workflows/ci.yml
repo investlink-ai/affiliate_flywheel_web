@@ -91,3 +91,6 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://example.com
           NEXT_PUBLIC_GA_MEASUREMENT_ID: G-XXXXXXXXXX
         run: npm run build
+
+      - name: Check no commercial content (source + build output)
+        run: npm run check:commercial
