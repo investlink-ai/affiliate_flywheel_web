@@ -33,7 +33,7 @@ describe('email providers and native opt-in', () => {
     expect(getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: id }).id).toBe('mock');
   });
   it('renders the direct Kit form, the complete referrer URL and subscribe-time tags', () => {
-    window.history.replaceState({}, '', '/guides/preview-ai-research-checklist?utm_source=x&utm_campaign=i3-preview');
+    window.history.replaceState({}, '', '/guides/check-ai-company-summary?utm_source=x&utm_campaign=i3-preview');
     const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' },
       (url) => kitTagFields(url, TEST_TAG_IDS));
     const { container } = render(<OptInForm provider={provider} />);
@@ -49,7 +49,7 @@ describe('email providers and native opt-in', () => {
     expect(screen.getByText(KIT_SUBMIT_NOTICE)).toBeInTheDocument();
   });
   it('kit mode without committed tag IDs refuses to submit (no untagged signup)', () => {
-    window.history.replaceState({}, '', '/guides/preview-ai-research-checklist?utm_source=x');
+    window.history.replaceState({}, '', '/guides/check-ai-company-summary?utm_source=x');
     const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' }, undefined, { sources: { 'src-x': null }, campaigns: {} });
     const { container } = render(<OptInForm provider={provider} />);
     expect(container.querySelector('input[name="tags[]"]')).toBeNull();
@@ -102,7 +102,7 @@ describe('form-per-source signup placements', () => {
     ['?utm_source=newsletter', 'src-newsletter'], ['', 'src-unattributed'],
     ['?utm_source=unknown', 'src-unattributed'],
   ])('resolves the source action and only campaign tags for %s', (query, source) => {
-    window.history.replaceState({}, '', `/guides/preview-ai-research-checklist${query}${query ? '&' : '?'}utm_campaign=i3-preview`);
+    window.history.replaceState({}, '', `/guides/check-ai-company-summary${query}${query ? '&' : '?'}utm_campaign=i3-preview`);
     const provider = getEmailProvider(fallbackEnv, undefined, fallbackList);
     const { container } = render(<OptInForm provider={provider} />);
     expect(container.querySelector('form')).toHaveAttribute('action', `https://app.kit.com/forms/${FORM_IDS[source]}/subscriptions`);

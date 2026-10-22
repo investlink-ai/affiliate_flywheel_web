@@ -8,7 +8,7 @@ import {
   attributionMode, sourceFormProblems, attributionProblems,
 } from '../lib/attribution/source-tags.mjs';
 
-const GUIDE = 'https://investlink.ai/guides/preview-ai-research-checklist';
+const GUIDE = 'https://investlink.ai/guides/check-ai-company-summary';
 const LIST_WITH_IDS = {
   sources: Object.fromEntries(SOURCE_TAGS.map((t, i) => [t, String(100 + i)])),
   campaigns: Object.fromEntries(CAMPAIGN_TAGS.map((t, i) => [t, String(200 + i)])),

@@ -8,7 +8,7 @@ const page = (n: number) => ({ label: `Page ${n}`, url: `${RELEASE}#page=${n}` }
 
 export const guides: Guide[] = [{
   title: 'Check an AI company summary against the original announcement',
-  slug: 'preview-ai-research-checklist',
+  slug: 'check-ai-company-summary',
   summary: "In 15 minutes, check whether an AI summary of a company's results is actually supported by the company's own announcement.",
   illustrationNote: '**Illustration only:** This guide uses Wesfarmers’ 2026 full-year results to show a checking process. We picked it because it is a large, well-known ASX-listed company with a recent results release. It is not a view on Wesfarmers or its shares, and nothing here suggests you buy, sell or hold anything.',
   whyAiGoesWrong: {

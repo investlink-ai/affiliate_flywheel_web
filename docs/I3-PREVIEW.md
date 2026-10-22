@@ -1,6 +1,6 @@
 # I3 preview path
 
-Open `/guides/preview-ai-research-checklist?utm_source=x&utm_campaign=i3-preview`.
+Open `/guides/check-ai-company-summary?utm_source=x&utm_campaign=i3-preview`.
 The path is guide → browser POST to Kit hosted form, carrying the page's
 source/campaign tags → Kit double opt-in → incentive email with checklist.
 A read-only report then checks the tags; this repo never writes tags by API.

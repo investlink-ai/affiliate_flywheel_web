@@ -23,6 +23,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Unknown review slugs are a real 404 at routing time (no soft 404 through loading.tsx).
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const slugs = getAllToolSlugs();
   return slugs.map((slug) => ({ slug }));
