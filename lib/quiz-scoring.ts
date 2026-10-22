@@ -53,10 +53,13 @@ export interface QuizResult {
  * Fit weight for a direct match on the notes workflow answer. Picking "Notes,
  * research logs and checklists" says the primary need is a notes tool, so that
  * single fit tag must outweigh what the other tools collect incidentally from the
- * other four answers (up to 23 points on a notes path; 3 for each tag plus the
- * category bonus). 24 puts Notion strictly in the top 3 on every notes path; the
- * margin is tested in __tests__/quiz-scoring.test.ts. It does not change any
- * path without the notes answer, because no other option carries this tag.
+ * other four answers. On a notes path the best other tool can reach 41 points
+ * (tag weights plus the category bonus), but the third-best other tool reaches at
+ * most 23, so 24 puts Notion strictly ahead of the fourth tool and in the top 3 on
+ * all 54 notes paths (first on 8). Notion can tie at 24 with a higher-placed tool on
+ * some paths; ties keep array order, which doesn't affect top-3 membership. The
+ * 54/54 result is what __tests__/quiz-scoring.test.ts guarantees. It does not change
+ * any path without the notes answer, because no other option carries this tag.
  */
 export const NOTES_WORKFLOW_FIT = 24;
 

@@ -16,11 +16,22 @@ describe('site URL (CTO ruling d)', () => {
     'https://www.investlink.com/',
     'http://INVESTLINK.COM/path',
     'investlink.com',
+    'https://investlink.com.au',
+  ])('fails the build for the retired domain: %s (Reviewer P3-2)', (raw) => {
+    expect(() => resolveSiteUrl(raw)).toThrow(/retired \.com domain/);
+  });
+
+  it.each([
     'not a url',
     'ftp://www.investlink.ai',
     'javascript:alert(1)',
   ])('falls back to https://www.investlink.ai for %s', (raw) => {
     expect(resolveSiteUrl(raw)).toBe('https://www.investlink.ai');
+  });
+
+  it('accepts the Vercel production value, the apex https://investlink.ai', () => {
+    expect(() => resolveSiteUrl('https://investlink.ai')).not.toThrow();
+    expect(resolveSiteUrl('https://investlink.ai')).toBe('https://investlink.ai');
   });
 
   it.each([

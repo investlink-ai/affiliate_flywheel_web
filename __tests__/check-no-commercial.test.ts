@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { maskRoot, scan, scanText } from '../scripts/check-no-commercial.mjs';
+import { decodeLine, maskRoot, scan, scanText } from '../scripts/check-no-commercial.mjs';
 
 type Hit = { rule: string };
 const rules = (text: string) => (scanText(text) as Hit[]).map((h) => h.rule);
@@ -91,4 +91,12 @@ describe('check-no-commercial', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  it.each(['&#x110000;', '&#1114112;', '&#99999999999999999999;', '&#xFFFFFFFFFF;'])(
+    'leaves an out-of-range entity %s undecoded instead of throwing (Reviewer P3-3)', (entity) => {
+      expect(() => scanText(`a ${entity} b`)).not.toThrow();
+      expect(decodeLine(`x${entity}`)).toBe(`x${entity}`);
+      // Decoding still works around it.
+      expect(rules(`${entity} https://x.com/?a=1&amp;ref=abc`)).toContain('referral-param');
+    });
 });

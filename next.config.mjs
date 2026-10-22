@@ -129,11 +129,15 @@ const securityHeaders = [
 
 /**
  * Build-time env for the client bundle. Only the numeric Kit form ID is exposed
- * (it is public: it is in the form's action URL). The Kit API key is never read here.
+ * (it is public: it is in the form's action URL) plus the Vercel environment name,
+ * so the signup test flag can be ignored on Vercel production. The Kit API key is
+ * never read here. These are fixed at build time: changing KIT_FORM_ID needs a redeploy.
  */
 const kitFormIdEnv = (process.env.KIT_FORM_ID ?? '').trim();
+const vercelEnv = process.env.VERCEL_ENV ?? process.env.NEXT_PUBLIC_VERCEL_ENV ?? '';
 export const publicBuildEnv = {
   KIT_FORM_ID: /^[1-9]\d*$/.test(kitFormIdEnv) ? kitFormIdEnv : '',
+  VERCEL_ENV: ['production', 'preview', 'development'].includes(vercelEnv) ? vercelEnv : '',
 };
 
 const nextConfig = {

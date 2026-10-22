@@ -37,8 +37,14 @@ describe('email provider is fail-safe (CTO ruling c)', () => {
       }
     });
 
-    it('allows the mock only behind the explicit test flag', () => {
+    it('allows the mock only behind the explicit test flag, and never on Vercel production (Reviewer P3-1)', () => {
       expect(getEmailProvider({ NODE_ENV: 'production', NEXT_PUBLIC_SIGNUP_TEST_MODE: '1' }).id).toBe('mock');
+      expect(getEmailProvider({ NODE_ENV: 'production', NEXT_PUBLIC_SIGNUP_TEST_MODE: '1', VERCEL_ENV: 'preview' }).id).toBe('mock');
+      const prod = getEmailProvider({ NODE_ENV: 'production', NEXT_PUBLIC_SIGNUP_TEST_MODE: '1', VERCEL_ENV: 'production' });
+      expect(prod.id).toBe('off');
+      expect(isSignupAvailable(prod)).toBe(false);
+      // A valid form ID still wins on Vercel production.
+      expect(getEmailProvider({ NODE_ENV: 'production', NEXT_PUBLIC_SIGNUP_TEST_MODE: '1', VERCEL_ENV: 'production', KIT_FORM_ID: '9042473' }).id).toBe('kit');
     });
   });
 
@@ -71,12 +77,13 @@ describe('email provider is fail-safe (CTO ruling c)', () => {
   });
 
   describe('build wiring', () => {
-    it('next.config.mjs inlines only a numeric KIT_FORM_ID and never reads KIT_API_KEY', async () => {
+    it('next.config.mjs inlines only a numeric KIT_FORM_ID and the Vercel env name, and never reads KIT_API_KEY', async () => {
       const src = readFileSync(resolve(__dirname, '../next.config.mjs'), 'utf8');
       expect(src).not.toMatch(/KIT_API_KEY|KIT_SECRET/);
       const { publicBuildEnv } = await import('../next.config.mjs');
-      expect(Object.keys(publicBuildEnv)).toEqual(['KIT_FORM_ID']);
+      expect(Object.keys(publicBuildEnv)).toEqual(['KIT_FORM_ID', 'VERCEL_ENV']);
       expect(publicBuildEnv.KIT_FORM_ID).toMatch(/^(|[1-9]\d*)$/);
+      expect(publicBuildEnv.VERCEL_ENV).toMatch(/^(|production|preview|development)$/);
     });
 
     it('the homepage, review pages and exit popup hide their signup block when signup is off', () => {
