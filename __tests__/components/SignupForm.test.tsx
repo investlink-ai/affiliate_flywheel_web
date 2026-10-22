@@ -68,6 +68,10 @@ describe('SignupForm', () => {
       expect(form.querySelector('input[name="email_address"]')).not.toBeNull();
       expect((form.querySelector('input[name="referrer"]') as HTMLInputElement).value).toBe(window.location.href);
       expect(form.outerHTML).not.toContain('/api/newsletter');
+      // The honeypot stays out of the data posted to Kit (Reviewer P3-6).
+      expect(document.getElementById('website-test-kit')).not.toBeNull();
+      expect(document.getElementById('website-test-kit')!.hasAttribute('name')).toBe(false);
+      expect([...new FormData(form).keys()].sort()).toEqual(['email_address', 'referrer']);
 
       fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
       const submit = new Event('submit', { bubbles: true, cancelable: true });

@@ -86,7 +86,7 @@ const ContentSecurityPolicy = `
   frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com;
   object-src 'none';
   base-uri 'self';
-  form-action 'self';
+  form-action 'self' https://app.kit.com;
   frame-ancestors 'none';
   upgrade-insecure-requests;
 `;

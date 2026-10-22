@@ -120,7 +120,8 @@ export function SignupForm({
     );
   }
 
-  // Honeypot field component (hidden from users, visible to bots)
+  // Honeypot field (hidden from users, visible to bots). It has no `name`, so it is
+  // never part of the form data posted to Kit; only its React state is checked.
   const honeypotField = (
     <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
       <label htmlFor={`website-${location}`}>
@@ -129,7 +130,6 @@ export function SignupForm({
       <input
         type="text"
         id={`website-${location}`}
-        name="website"
         value={honeypot}
         onChange={(e) => setHoneypot(e.target.value)}
         tabIndex={-1}

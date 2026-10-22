@@ -126,7 +126,7 @@ export const tools: Tool[] = [
     lastVerified: "2026-02-04",
     recommendations: {"fintech_professional":"Best for AI-powered tools","financial_advisor":"Top for portfolio management","quantitative_analyst":"Great for automation"},
     videoReviewUrl: "https://www.youtube.com/watch?v=SiJpasKwEHs",
-    optionalMetrics: ["79% of reviewers have rated Notion 5 stars on G2","Consistently ranks as the G2 industry leader","I've noticed my productivity with my own projects has exploded since I started using it","Done more projects since I started using Notion in the last two years than probably the previous 10 years"],
+    optionalMetrics: ["79% of reviewers have rated Notion 5 stars on G2","Consistently ranks as the G2 industry leader"],
   },
   {
     slug: "tradingview",
