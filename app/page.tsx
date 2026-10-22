@@ -178,8 +178,7 @@ export default function HomePage() {
             Why Trust Our Reviews?
           </h2>
           <p className="mt-4 text-slate-600 dark:text-slate-400">
-            Every tool on this site has been personally tested. I pay for subscriptions, use them in
-            real workflows, and share what actually works (and what doesn&apos;t).
+            We explain what each tool does in plain English. This is general information, not financial advice.
           </p>
         </div>
 

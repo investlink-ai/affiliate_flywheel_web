@@ -7,7 +7,7 @@
  * @module lib/quiz-scoring
  */
 
-import type { Tool } from './data';
+import type { Tool, UserType } from './data';
 
 /**
  * Quiz option structure
@@ -17,6 +17,8 @@ export interface QuizOption {
   label: string;
   description?: string;
   tags: string[];
+  /** User type association */
+  userType?: UserType;
 }
 
 /**
@@ -38,7 +40,8 @@ export interface QuizResult {
 }
 
 /**
- * Tag-based scoring weights for each tool.
+ * Tag-based scoring weights for each tool. Quiz scores reflect fit only;
+ * commission and former partner status have no effect.
  * Higher values = stronger match for that tag.
  * 
  * Score meanings:
@@ -71,13 +74,10 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'budget-friendly': 3,
     'free-tier': 2,
   },
+  // Research Workflow: selected only via the notes option. No research, AI,
+  // signals, execution or pricing weights.
   notion: {
-    'AI Investment Signals': 3,
-    'ai-powered-tools': 3,
-    'idea-generation-research': 2,
-    'budget-friendly': 2,
-    'moderate-budget': 2,
-    'pro-features': 2,
+    'notes-organisation': 3,
   },
   tradingview: {
     'AI Investment Signals': 3,
@@ -94,6 +94,9 @@ export const toolScoring: Record<string, Record<string, number>> = {
  * Base score bonus when tool category matches a selected tag
  */
 export const CATEGORY_MATCH_BONUS = 5;
+
+/** Categories that never earn the category bonus; their tools score on fit tags only. */
+export const NO_BONUS_CATEGORIES: readonly string[] = ['Research Workflow'];
 
 /**
  * Collects all tags from selected quiz answers
@@ -143,8 +146,12 @@ export function generateMatchReasons(
   const reasons: string[] = [];
 
   // Category match reason
-  if (selectedTags.includes(toolCategory)) {
+  if (selectedTags.includes(toolCategory) && !NO_BONUS_CATEGORIES.includes(toolCategory)) {
     reasons.push(`Matches your ${toolCategory.toLowerCase()} needs`);
+  }
+
+  if (scoring['notes-organisation'] && selectedTags.includes('notes-organisation')) {
+    reasons.push('Notes & research organisation');
   }
 
   // Specific feature match reasons
@@ -192,7 +199,7 @@ export function calculateToolScore(
   let score = 0;
 
   // Base score from category match
-  if (selectedTags.includes(tool.category)) {
+  if (selectedTags.includes(tool.category) && !NO_BONUS_CATEGORIES.includes(tool.category)) {
     score += CATEGORY_MATCH_BONUS;
   }
 

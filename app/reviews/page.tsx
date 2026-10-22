@@ -49,8 +49,7 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
             AI Investment Tool Reviews
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
-            Honest, in-depth reviews of the best AI investment tools for traders and investors. Every
-            tool has been personally tested.
+            Honest, in-depth reviews of the best AI investment tools for traders and investors.
           </p>
         </div>
       </section>

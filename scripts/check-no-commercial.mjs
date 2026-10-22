@@ -14,6 +14,7 @@ import { join, relative, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const RULES = [
+  { id: 'old-domain', re: /investlink\.com/i },
   { id: 'referral-param', re: /[?&](ref|referral|aff|affid|aff_id|partner)=/i },
   { id: 'feynmanxu-ref', re: /ref=feynmanxu/i },
   { id: 'sponsored', re: /\bsponsored\b/i },
@@ -22,8 +23,8 @@ export const RULES = [
   { id: 'go-redirect', re: /["'`(]\/go\//i },
 ];
 
-const SOURCE_ROOTS = ['app', 'components', 'lib', 'public', 'middleware.ts', 'next.config.mjs'];
-const SOURCE_EXT = new Set(['.ts', '.tsx', '.js', '.mjs', '.jsx', '.json', '.svg', '.css', '.html', '.txt', '.xml', '.md', '']);
+const SOURCE_ROOTS = ['app', 'components', 'lib', 'public', 'middleware.ts', 'next.config.mjs', '.env.example'];
+const SOURCE_EXT = new Set(['.ts', '.tsx', '.js', '.mjs', '.jsx', '.json', '.svg', '.css', '.html', '.txt', '.xml', '.md', '.example', '']);
 const BUILD_ROOTS = ['.next/server/app', '.next/static'];
 const BUILD_EXT = new Set(['.html', '.js', '.rsc', '.body', '.json', '.css', '.txt', '.xml']);
 

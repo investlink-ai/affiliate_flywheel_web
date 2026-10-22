@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getAllToolSlugs } from '@/lib/data';
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://investlink.com';
+import { SITE_URL } from '@/lib/site';
 
 /** Category page slugs */
 const categorySlugs = [
@@ -11,6 +10,7 @@ const categorySlugs = [
   'fintech-infrastructure',
   'crypto-tools',
   'portfolio-management',
+  'research-workflow',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -19,31 +19,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/reviews`,
+      url: `${SITE_URL}/reviews`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/comparisons`,
+      url: `${SITE_URL}/comparisons`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${SITE_URL}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/privacy`,
+      url: `${SITE_URL}/privacy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
@@ -52,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Category landing pages
   const categoryPages: MetadataRoute.Sitemap = categorySlugs.map((slug) => ({
-    url: `${baseUrl}/${slug}`,
+    url: `${SITE_URL}/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.85,
@@ -60,7 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Dynamic review pages
   const reviewPages: MetadataRoute.Sitemap = toolSlugs.map((slug) => ({
-    url: `${baseUrl}/reviews/${slug}`,
+    url: `${SITE_URL}/reviews/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.8,

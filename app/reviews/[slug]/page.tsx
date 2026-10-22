@@ -28,13 +28,7 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-/**
- * Enhanced metadata generation with EEAT focus
- * - Expertise: Author credentials and experience
- * - Experience: Hands-on testing mentioned
- * - Authoritativeness: Clear author attribution
- * - Trustworthiness: Transparent, dated content
- */
+/** Review metadata with organisation attribution. */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
@@ -49,18 +43,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const authorByline = getAuthorByline();
   const currentYear = new Date().getFullYear();
 
-  // EEAT-optimized title and description
+  // Review title and description
   const title = `${tool.name} Review ${currentYear}: Honest Assessment by ${primaryAuthor.name}`;
-  const description = `Expert ${tool.name} review by ${primaryAuthor.name}, ${primaryAuthor.title}. After ${primaryAuthor.experience.split(' ')[0]} of hands-on testing: ${tool.rating}/5 rating. ${tool.tagline}. Pricing from ${tool.pricing}. Best for ${tool.bestFor}.`;
+  const description = `${tool.name} review by InvestLink: ${tool.rating}/5. ${tool.tagline}. Pricing: ${tool.pricing}. Best for ${tool.bestFor}.`;
 
   return {
     title,
     description,
-    authors: [{ name: primaryAuthor.name, url: primaryAuthor.socialProfiles.website }],
+    authors: [{ name: primaryAuthor.name, url: primaryAuthor.url }],
     creator: primaryAuthor.name,
     publisher: 'InvestLink',
     openGraph: {
-      title: `${tool.name} Review ${currentYear} | Expert Analysis`,
+      title: `${tool.name} Review ${currentYear} | InvestLink`,
       description: `${authorByline}. ${tool.verdict.slice(0, 150)}...`,
       type: 'article',
       publishedTime: tool.lastUpdated,
@@ -238,12 +232,11 @@ export default async function ReviewPage({ params }: PageProps) {
             {/* Author Card - Full EEAT Signal */}
             <section className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-700">
               <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                About the Reviewer
+                About InvestLink
               </h2>
               <AuthorByline
                 variant="card"
                 showSocial={true}
-                showExpertise={true}
                 dateUpdated={tool.lastUpdated}
               />
             </section>

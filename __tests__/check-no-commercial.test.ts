@@ -13,6 +13,8 @@ describe('check-no-commercial', () => {
   });
 
   it.each([
+    ['https://investlink.com/x', 'old-domain'],
+    ['hello@investlink.com', 'old-domain'],
     ['https://www.notion.so/?ref=feynmanxu', 'feynmanxu-ref'],
     ['https://example.com/?aff_id=12', 'referral-param'],
     ['<a rel="noopener sponsored">', 'sponsored'],
@@ -25,6 +27,7 @@ describe('check-no-commercial', () => {
   });
 
   it.each([
+    'https://www.investlink.ai/x',
     'Not affiliated with xAI.',
     'https://www.notion.so',
     'Commission-free trading',

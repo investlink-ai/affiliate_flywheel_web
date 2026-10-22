@@ -46,6 +46,7 @@ export const categories = [
   'Fintech Infrastructure',
   'Crypto Tools',
   'Portfolio Management',
+  'Research Workflow',
 ] as const;
 export type Category = (typeof categories)[number];
 
@@ -112,7 +113,7 @@ export const tools: Tool[] = [
     logoUrl: "/images/tools/notion-logo.svg",
     rating: 4.7,
     ratingCount: 2675,
-    category: "AI Investment Signals",
+    category: "Research Workflow",
     pricing: "See pricing plans",
     pricingDetails: "See official website for current pricing.",
     websiteUrl: "https://www.notion.so",

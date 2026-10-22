@@ -4,10 +4,11 @@ import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { ConsentBanner } from '@/components/ConsentBanner';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://investlink.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'InvestLink | AI Investment Tool Reviews 2026',
     template: '%s | InvestLink',
@@ -24,8 +25,8 @@ export const metadata: Metadata = {
     'QuantConnect',
     'TradingView',
   ],
-  authors: [{ name: 'Sam Xu', url: 'https://investlink.com/about' }],
-  creator: 'Sam Xu',
+  authors: [{ name: 'InvestLink', url: `${SITE_URL}/about` }],
+  creator: 'InvestLink',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://investlink.com',
+    url: SITE_URL,
     siteName: 'InvestLink',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
     description:

@@ -25,6 +25,7 @@
  */
 
 import type { Tool } from './data';
+import { SITE_URL } from './site';
 import { primaryAuthor, getAuthorSchema } from './author';
 
 /**
@@ -35,7 +36,6 @@ import { primaryAuthor, getAuthorSchema } from './author';
  * - Organization name and URL
  * - Logo for knowledge panel
  * - Social media profiles (sameAs)
- * - Founder information
  * 
  * @constant
  * @type {object}
@@ -44,13 +44,12 @@ import { primaryAuthor, getAuthorSchema } from './author';
 export const organizationSchema = {
   '@type': 'Organization',
   name: 'InvestLink',
-  url: 'https://investlink.com',
-  logo: 'https://investlink.com/icon.svg',
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.svg`,
   description: 'AI Investment Tool Reviews - Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
   sameAs: [
     'https://x.com/investlink_ai',
   ],
-  founder: getAuthorSchema(),
 };
 
 /**
@@ -91,8 +90,7 @@ export const organizationSchema = {
  * @see {@link https://developers.google.com/search/docs/appearance/structured-data/review-snippet} Google Review Snippets
  */
 export function generateReviewSchema(tool: Tool) {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://investlink.com';
+  const siteUrl = SITE_URL;
   const reviewUrl = `${siteUrl}/reviews/${tool.slug}`;
   const authorSchema = getAuthorSchema();
 
@@ -108,8 +106,8 @@ export function generateReviewSchema(tool: Tool) {
         '@type': 'WebPage',
         '@id': `${reviewUrl}#webpage`,
         url: reviewUrl,
-        name: `${tool.name} Review 2026 - Expert Analysis by ${primaryAuthor.name}`,
-        description: `In-depth ${tool.name} review by ${primaryAuthor.name}, ${primaryAuthor.title}. Comprehensive analysis of features, pricing, pros & cons based on hands-on testing.`,
+        name: `${tool.name} Review 2026 by ${primaryAuthor.name}`,
+        description: `${tool.name} review by ${primaryAuthor.name}: ${tool.rating}/5. ${tool.tagline}. Pricing: ${tool.pricing}. Best for ${tool.bestFor}.`,
         isPartOf: {
           '@type': 'WebSite',
           '@id': `${siteUrl}#website`,
@@ -326,6 +324,7 @@ function getCategoryType(category: string): string {
     'Fintech Infrastructure': 'FinanceApplication',
     'Crypto Tools': 'FinanceApplication',
     'Portfolio Management': 'FinanceApplication',
+    'Research Workflow': 'BusinessApplication',
   };
   return categoryMap[category] ?? 'FinanceApplication';
 }
@@ -388,8 +387,8 @@ interface ArticleSchemaParams {
  * const articleSchema = generateArticleSchema({
  *   title: 'Best AI Writing Tools for 2026',
  *   description: 'A comprehensive guide to the top AI investment tools...',
- *   url: 'https://investlink.com/blog/best-ai-investment-tools',
- *   image: 'https://investlink.com/images/blog/ai-investment-guide.jpg',
+ *   url: 'https://www.investlink.ai/blog/best-ai-investment-tools',
+ *   image: 'https://www.investlink.ai/images/blog/ai-investment-guide.jpg',
  *   datePublished: '2026-01-15',
  *   dateModified: '2026-01-20',
  * });

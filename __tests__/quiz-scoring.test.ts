@@ -11,58 +11,7 @@ import {
 } from '@/lib/quiz-scoring';
 import { tools, type Tool } from '@/lib/data';
 
-// Test questions matching investment-focused quiz structure
-const testQuestions: QuizQuestion[] = [
-  {
-    id: 'investment-style',
-    question: 'What best describes your investment style?',
-    options: [
-      { id: 'passive', label: 'Passive / Long-term', tags: ['passive', 'portfolio-risk-management', 'Portfolio Management'] },
-      { id: 'active', label: 'Active / Short-term', tags: ['active', 'execution-trading', 'Quantitative Platforms'] },
-      { id: 'hybrid', label: 'Hybrid', tags: ['passive', 'active', 'portfolio-risk-management', 'execution-trading'] },
-    ],
-  },
-  {
-    id: 'risk-tolerance',
-    question: 'What is your risk tolerance?',
-    options: [
-      { id: 'conservative', label: 'Conservative', tags: ['conservative', 'portfolio-risk-management', 'Portfolio Management'] },
-      { id: 'moderate', label: 'Moderate', tags: ['moderate-risk', 'Portfolio Management', 'AI Investment Signals'] },
-      { id: 'aggressive', label: 'Aggressive', tags: ['aggressive', 'execution-trading', 'Crypto Tools', 'Quantitative Platforms'] },
-    ],
-  },
-  {
-    id: 'asset-focus',
-    question: 'Where do you focus your investments?',
-    options: [
-      { id: 'stocks-etfs', label: 'Stocks & ETFs', tags: ['stocks-etfs', 'Quantitative Platforms', 'Portfolio Management', 'AI Investment Signals'] },
-      { id: 'crypto', label: 'Crypto', tags: ['crypto', 'Crypto Tools', 'execution-trading'] },
-      { id: 'multi-asset', label: 'Multi-asset', tags: ['multi-asset', 'Quantitative Platforms', 'data-fundamentals', 'technical-quantitative'] },
-      { id: 'prediction-markets', label: 'Prediction markets', tags: ['prediction-markets', 'Crypto Tools', 'execution-trading'] },
-    ],
-  },
-  {
-    id: 'budget',
-    question: "What's your monthly budget for tools?",
-    options: [
-      { id: 'free', label: 'Free / Minimal', tags: ['free-tier', 'budget-friendly'] },
-      { id: 'moderate', label: '$20–100/month', tags: ['moderate-budget', 'pro-features'] },
-      { id: 'premium', label: '$100+/month', tags: ['premium', 'pro-features'] },
-    ],
-  },
-  {
-    id: 'workflow-stage',
-    question: "What's your primary workflow stage right now?",
-    options: [
-      { id: 'idea-research', label: 'Idea generation & research', tags: ['idea-generation-research', 'data-fundamentals', 'Quantitative Platforms', 'AI Investment Signals'] },
-      { id: 'data-fundamentals', label: 'Data & fundamentals', tags: ['data-fundamentals', 'technical-quantitative', 'Quantitative Platforms', 'Fintech Infrastructure'] },
-      { id: 'technical-quant', label: 'Technical & quantitative analysis', tags: ['technical-quantitative', 'Quantitative Platforms', 'AI Investment Signals'] },
-      { id: 'execution', label: 'Execution & trading', tags: ['execution-trading', 'Quantitative Platforms', 'Crypto Tools'] },
-      { id: 'ai-tools', label: 'AI-powered tools', tags: ['ai-powered-tools', 'AI Investment Signals', 'Fintech Infrastructure'] },
-      { id: 'portfolio-risk', label: 'Portfolio & risk management', tags: ['portfolio-risk-management', 'Portfolio Management'] },
-    ],
-  },
-];
+import { quizQuestions as testQuestions } from '@/lib/quiz-questions';
 
 // Helper to get a tool by slug
 function getToolBySlug(slug: string): Tool {
@@ -664,7 +613,7 @@ describe('Quiz Scoring Algorithm', () => {
       expect(quantconnectResult!.score).toBeGreaterThan(0);
     });
 
-    it('should recommend Notion for AI-powered tools workflow', () => {
+    it('does not select Notion for the AI-powered tools workflow (notes option only)', () => {
       const answers = {
         'investment-style': 'hybrid',
         'risk-tolerance': 'moderate',
@@ -676,7 +625,7 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const notionResult = results.find((r) => r.tool.slug === 'notion');
       expect(notionResult).toBeDefined();
-      expect(notionResult!.score).toBeGreaterThan(0);
+      expect(notionResult!.score).toBe(0);
     });
 
   });
@@ -715,20 +664,15 @@ describe('Quiz Scoring Algorithm', () => {
       expect(scores.every((s) => s === firstScore)).toBe(true);
     });
 
-    it('should rank Notion highly for AI-powered workflow users', () => {
-      const answers = {
-        'investment-style': 'hybrid',
-        'risk-tolerance': 'moderate',
-        'asset-focus': 'stocks-etfs',
-        'budget': 'moderate',
-        'workflow-stage': 'ai-tools',
-      };
-      
-      const results = calculateQuizResults(tools, answers, testQuestions);
-      const notionResult = results.find((r) => r.tool.slug === 'notion');
-      
-      expect(notionResult).toBeDefined();
-      expect(notionResult!.score).toBeGreaterThan(5);
+    it('selects Notion only via the notes option', () => {
+      const notion = getToolBySlug('notion');
+      for (const q of testQuestions) {
+        for (const o of q.options) {
+          const { score } = calculateToolScore(notion, o.tags);
+          if (o.id === 'notes-research') expect(score).toBeGreaterThan(0);
+          else expect(`${q.id}/${o.id}:${score}`).toBe(`${q.id}/${o.id}:0`);
+        }
+      }
     });
   });
 
@@ -765,5 +709,57 @@ describe('Quiz Scoring Algorithm', () => {
       
       expect(score).toBeGreaterThan(0);
     });
+  });
+});
+
+
+describe('CPO quiz decisions', () => {
+  for (const question of testQuestions) {
+    for (const option of question.options) {
+      it(`${question.id}/${option.id} matches at least one reviewed tool`, () => {
+        expect(tools.some((tool) => calculateToolScore(tool, option.tags).score > 0)).toBe(true);
+      });
+    }
+  }
+
+  it('Research Workflow never receives a category bonus or category reason', () => {
+    const researchTools = tools.filter((tool) => tool.category === 'Research Workflow');
+    expect(researchTools.length).toBeGreaterThan(0);
+    for (const tool of researchTools) {
+      expect(calculateToolScore(tool, ['Research Workflow'])).toEqual({ score: 0, matchReasons: [] });
+      const fitTags = ['notes-organisation', 'idea-generation-research'];
+      expect(calculateToolScore(tool, [...fitTags, 'Research Workflow'])).toEqual(
+        calculateToolScore(tool, fitTags)
+      );
+    }
+    expect(generateMatchReasons({}, ['Research Workflow'], 'Research Workflow')).toEqual([]);
+  });
+
+  it('Notion has only the approved research workflow weights', () => {
+    const categories = new Set([
+      ...tools.map((tool) => tool.category),
+      'AI Investment Signals', 'Quantitative Platforms', 'Fintech Infrastructure',
+      'Crypto Tools', 'Portfolio Management', 'Research Workflow',
+    ]);
+    const forbidden = [...categories, 'execution-trading', 'technical-quantitative',
+      ...testQuestions.flatMap((q) => q.options.flatMap((o) => o.tags)).filter((tag) => /signal/i.test(tag)),
+    ];
+    for (const tag of forbidden) expect(toolScoring.notion).not.toHaveProperty(tag);
+    expect(toolScoring.notion).toEqual({ 'notes-organisation': 3 });
+    expect(calculateToolScore(getToolBySlug('notion'), ['notes-organisation']).matchReasons)
+      .toEqual(['Notes & research organisation']);
+  });
+
+  it('has no crypto option or crypto tag, and the notes option label is exact', () => {
+    const options = testQuestions.flatMap((q) => q.options);
+    expect(options.map((o) => o.id)).not.toContain('crypto');
+    expect(options.flatMap((o) => o.tags)).not.toContain('crypto');
+    expect(Object.values(toolScoring).some((w) => 'crypto' in w)).toBe(false);
+    expect(options.find((o) => o.id === 'notes-research')?.label).toBe('Notes, research logs and checklists');
+  });
+
+  it('has no prediction-markets option, tag or copy', () => {
+    expect(JSON.stringify(testQuestions)).not.toMatch(/prediction[- ]markets?/i);
+    expect(JSON.stringify(toolScoring)).not.toContain('prediction-markets');
   });
 });

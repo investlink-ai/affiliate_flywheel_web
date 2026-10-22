@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ToolCard } from '@/components/ToolCard';
@@ -21,6 +22,16 @@ interface CategoryConfig {
 }
 
 const categoryConfigs: CategoryConfig[] = [
+  {
+    name: 'Research Workflow',
+    slug: 'research-workflow',
+    title: 'Research Workflow Tools',
+    description: 'Explore tools for organising notes, research logs and checklists.',
+    longDescription: 'Research workflow tools help keep notes, research logs and checklists organised. Compare the listed tools to find a way to structure your research materials.',
+    benefits: ['Organise notes', 'Keep research logs', 'Maintain checklists'],
+    useCases: ['Research notes', 'Research logs', 'Checklists'],
+    icon: '📝',
+  },
   {
     name: 'AI Investment Signals',
     slug: 'ai-investment-signals',
@@ -90,19 +101,19 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Crypto Tools',
     slug: 'crypto-tools',
-    title: 'Best Crypto & Prediction Market Tools 2026',
-    description: 'Compare top crypto trading platforms and prediction markets. Find tools for digital assets and event-driven trading.',
-    longDescription: 'Crypto and prediction market tools enable access to digital assets, decentralized finance, and event-driven markets. From exchanges to prediction platforms, these tools serve traders and investors seeking exposure to emerging asset classes.',
+    title: 'Best Crypto Tools 2026',
+    description: 'Compare crypto tools for digital assets, market data and portfolio tracking.',
+    longDescription: 'Crypto tools cover digital assets and decentralized finance. This category includes tools for crypto market research, portfolio tracking and exchange access.',
     benefits: [
-      'Access to crypto and prediction markets',
-      'Event-driven trading opportunities',
+      'Access to crypto markets',
+      'Digital asset research',
       'Diversified asset exposure',
       'Real-time market data',
       'Innovative trading instruments',
     ],
     useCases: [
       'Crypto trading and custody',
-      'Prediction market participation',
+      'Digital asset tracking',
       'DeFi integrations',
       'Portfolio tracking',
       'Market research',
@@ -173,7 +184,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${config.title} | InvestLink`,
       description: config.description,
       type: 'website',
-      url: `https://investlink.com/${config.slug}`,
+      url: `${SITE_URL}/${config.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -181,7 +192,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.description,
     },
     alternates: {
-      canonical: `https://investlink.com/${config.slug}`,
+      canonical: `${SITE_URL}/${config.slug}`,
     },
   };
 }
@@ -209,7 +220,7 @@ export default async function CategoryPage({ params }: PageProps) {
     '@type': 'CollectionPage',
     name: config.title,
     description: config.description,
-    url: `https://investlink.com/${config.slug}`,
+    url: `${SITE_URL}/${config.slug}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: categoryTools.length,
@@ -220,7 +231,7 @@ export default async function CategoryPage({ params }: PageProps) {
           '@type': 'SoftwareApplication',
           name: tool.name,
           description: tool.tagline,
-          url: `https://investlink.com/reviews/${tool.slug}`,
+          url: `${SITE_URL}/reviews/${tool.slug}`,
           aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: tool.rating,
