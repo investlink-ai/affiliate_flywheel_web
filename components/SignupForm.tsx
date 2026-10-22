@@ -36,7 +36,7 @@ export function SignupForm({
   location,
   variant = 'card',
   headline = 'Get the Best AI Tool Recommendations',
-  description = 'Join 5,000+ investors and traders receiving weekly insights on the best AI investment tools, exclusive deals, and market analysis.',
+  description = 'Join 5,000+ investors and traders receiving weekly insights on the best AI investment tools and market analysis.',
   showToolPreference = false,
   ctaText = 'Subscribe Free',
   successMessage = "You're in! Check your email to confirm your subscription.",

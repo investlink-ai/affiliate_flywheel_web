@@ -1,15 +1,13 @@
-import { AffiliateCTAButton } from './AffiliateLink';
+import { OutboundCTAButton } from './OutboundLink';
 import { StarRating } from './StarRating';
 import { DisclosureNote } from './DisclosureNote';
 import type { Tool } from '@/lib/data';
 
 interface ReviewHeroProps {
   tool: Tool;
-  /** Enable A/B testing for CTA */
-  enableABTest?: boolean;
 }
 
-export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
+export function ReviewHero({ tool }: ReviewHeroProps) {
   return (
     <section className="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white dark:border-slate-800 dark:from-slate-900 dark:to-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -44,26 +42,24 @@ export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
 
             {/* CTA - Hidden on mobile (shown in sticky bar instead) */}
             <div className="mt-8 hidden flex-wrap items-center gap-4 sm:flex">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
-                enableABTest={enableABTest}
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <DisclosureNote />
             </div>
 
             {/* Mobile CTA - Visible only on small screens, above the fold */}
             <div className="mt-8 sm:hidden">
-              <AffiliateCTAButton
-                href={tool.affiliateUrl}
+              <OutboundCTAButton
+                href={tool.websiteUrl}
                 size="lg"
-                enableABTest={enableABTest}
                 className="w-full justify-center"
               >
-                Try {tool.name} Free
-              </AffiliateCTAButton>
+                Visit {tool.name} website
+              </OutboundCTAButton>
               <div className="mt-2">
                 <DisclosureNote variant="inline" className="text-center" />
               </div>
@@ -99,14 +95,13 @@ export function ReviewHero({ tool, enableABTest = true }: ReviewHeroProps) {
 
               {/* Desktop quick CTA in stats card */}
               <div className="mt-6 hidden lg:block">
-                <AffiliateCTAButton
-                  href={tool.affiliateUrl}
+                <OutboundCTAButton
+                  href={tool.websiteUrl}
                   size="md"
-                  enableABTest={enableABTest}
                   className="w-full justify-center"
                 >
-                  Get Started
-                </AffiliateCTAButton>
+                  Visit {tool.name} website
+                </OutboundCTAButton>
               </div>
             </div>
           </div>

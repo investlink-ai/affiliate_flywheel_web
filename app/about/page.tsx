@@ -134,8 +134,8 @@ export default function AboutPage() {
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Hands-On Testing</h3>
                 <p className="mt-1 text-slate-600 dark:text-slate-400">
-                  I pay for subscriptions and use tools in real projects. No sponsored content, no
-                  press release rewrites. Every review reflects genuine, extended usage.
+                  I pay for subscriptions and use tools in real projects. Every review reflects
+                  independent testing and extended usage.
                 </p>
               </div>
             </div>
@@ -146,9 +146,7 @@ export default function AboutPage() {
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Honest Opinions</h3>
                 <p className="mt-1 text-slate-600 dark:text-slate-400">
-                  Affiliate relationships never influence my recommendations. I&apos;ll happily
-                  tell you when a tool isn&apos;t worth it — even if it has a great affiliate
-                  program.
+                  I recommend tools based on their merits and explain their limitations.
                 </p>
               </div>
             </div>
@@ -167,22 +165,13 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Affiliate Disclosure */}
+        {/* Disclosures */}
         <section className="mt-12">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Affiliate Disclosure</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Disclosures</h2>
           <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-6 dark:border-amber-900/50 dark:bg-amber-950/20">
             <DisclosureNote variant="full" />
           </div>
           <div className="mt-4 space-y-4 text-slate-600 dark:text-slate-400">
-            <p>
-              Some links on this site are affiliate links. This means I may earn a small commission
-              if you make a purchase through my link, at no extra cost to you.
-            </p>
-            <p>
-              These commissions help support the site and allow me to continue testing and reviewing
-              tools. However, they never influence my reviews. I recommend tools based solely on
-              their merit, and I&apos;m upfront about limitations regardless of affiliate status.
-            </p>
             <p>
               For full details, please read my{' '}
               <Link href="/privacy" className="text-primary-600 hover:underline dark:text-primary-400">

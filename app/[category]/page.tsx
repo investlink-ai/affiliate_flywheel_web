@@ -197,14 +197,9 @@ export default async function CategoryPage({ params }: PageProps) {
   // Get tools in this category
   const categoryTools = tools.filter((t) => t.category === config.name);
   
-  // Sort by rating, then by exclusive deals
-  const sortedTools = [...categoryTools].sort((a, b) => {
-    if (a.hasExclusiveDeal && !b.hasExclusiveDeal) return -1;
-    if (!a.hasExclusiveDeal && b.hasExclusiveDeal) return 1;
-    return b.rating - a.rating;
-  });
+  // Rank by rating, then name for ties.
+  const sortedTools = [...categoryTools].sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name));
 
-  // Featured tool (highest rated with exclusive deal, or just highest rated)
   const featuredTool = sortedTools[0];
   const otherTools = sortedTools.slice(1);
 
@@ -282,14 +277,6 @@ export default async function CategoryPage({ params }: PageProps) {
               </svg>
               <span>Updated January 2026</span>
             </div>
-            {categoryTools.some(t => t.hasExclusiveDeal) && (
-              <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                  <path fillRule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clipRule="evenodd" />
-                </svg>
-                <span><strong>Exclusive deals</strong> available</span>
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -313,11 +300,6 @@ export default async function CategoryPage({ params }: PageProps) {
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                     {featuredTool.name}
                   </h3>
-                  {featuredTool.hasExclusiveDeal && (
-                    <span className="rounded-full bg-amber-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                      Exclusive Deal
-                    </span>
-                  )}
                   {featuredTool.isNew && (
                     <span className="rounded-full bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white">
                       New
@@ -339,12 +321,12 @@ export default async function CategoryPage({ params }: PageProps) {
                     Read Full Review
                   </Link>
                   <a
-                    href={featuredTool.affiliateUrl}
+                    href={featuredTool.websiteUrl}
                     target="_blank"
-                    rel="sponsored noopener"
+                    rel="noopener noreferrer nofollow"
                     className="btn-secondary"
                   >
-                    Try {featuredTool.name}
+                    Visit {featuredTool.name} website
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                     </svg>
@@ -370,12 +352,6 @@ export default async function CategoryPage({ params }: PageProps) {
                     <span className="text-slate-500 dark:text-slate-400">Best for</span>
                     <span className="font-medium text-slate-900 dark:text-white">{featuredTool.bestFor}</span>
                   </div>
-                  {featuredTool.commissionRate && featuredTool.commissionRate > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-slate-500 dark:text-slate-400">Commission</span>
-                      <span className="font-medium text-green-600 dark:text-green-400">Up to {featuredTool.commissionRate}%</span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

@@ -27,8 +27,6 @@ export interface ToolFilterOptions {
   userType?: UserType;
   /** Search query for name/description/features */
   searchQuery?: string;
-  /** Only return tools with exclusive deals */
-  hasExclusiveDeal?: boolean;
   /** Only return newly added tools */
   isNew?: boolean;
   /** Limit number of results */
@@ -36,7 +34,7 @@ export interface ToolFilterOptions {
   /** Offset for pagination */
   offset?: number;
   /** Sort field */
-  sortBy?: 'rating' | 'name' | 'lastUpdated' | 'commissionRate';
+  sortBy?: 'rating' | 'name' | 'lastUpdated';
   /** Sort direction */
   sortOrder?: 'asc' | 'desc';
 }
@@ -136,10 +134,6 @@ export class LocalToolRepository implements ToolRepository {
       );
     }
 
-    if (options?.hasExclusiveDeal) {
-      result = result.filter((t) => t.hasExclusiveDeal);
-    }
-
     if (options?.isNew) {
       result = result.filter((t) => t.isNew);
     }
@@ -157,9 +151,6 @@ export class LocalToolRepository implements ToolRepository {
             break;
           case 'lastUpdated':
             comparison = new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime();
-            break;
-          case 'commissionRate':
-            comparison = (a.commissionRate ?? 0) - (b.commissionRate ?? 0);
             break;
         }
         return options.sortOrder === 'desc' ? -comparison : comparison;
@@ -198,12 +189,8 @@ export class LocalToolRepository implements ToolRepository {
   }
 
   async getFeatured(count: number = 3): Promise<Tool[]> {
-    // Prioritize tools with exclusive deals or high commission
-    const sorted = [...this.tools].sort((a, b) => {
-      if (a.hasExclusiveDeal && !b.hasExclusiveDeal) return -1;
-      if (!a.hasExclusiveDeal && b.hasExclusiveDeal) return 1;
-      return (b.commissionRate ?? 0) - (a.commissionRate ?? 0);
-    });
+    // Rank by rating, then name for ties.
+    const sorted = [...this.tools].sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name));
     return sorted.slice(0, count);
   }
 

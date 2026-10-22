@@ -99,15 +99,6 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'moderate-budget': 3,
     'pro-features': 3,
   },
-  binance: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    crypto: 3,
-    active: 2,
-    aggressive: 2,
-    'budget-friendly': 2,
-    'pro-features': 2,
-  },
 };
 
 /**

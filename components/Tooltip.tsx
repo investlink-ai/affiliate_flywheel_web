@@ -157,15 +157,14 @@ export function Tooltip({
 }
 
 /**
- * Disclosure tooltip specifically for affiliate links
+ * General information disclosure tooltip
  */
 export function DisclosureTooltip({ children }: { children: React.ReactNode }) {
   return (
     <Tooltip
       content={
         <span className="block">
-          <strong className="font-semibold">Affiliate link.</strong>{' '}
-          I may earn a commission at no extra cost to you.
+          InvestLink does not use referral links and is not paid by the products it reviews. Content is general information only, not personal financial advice.
         </span>
       }
       position="top"

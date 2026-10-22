@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ReviewHero } from '@/components/ReviewHero';
 import { ProsCons } from '@/components/ProsCons';
-import { AffiliateCTAButton } from '@/components/AffiliateLink';
+import { OutboundCTAButton } from '@/components/OutboundLink';
 import { DisclosureNote } from '@/components/DisclosureNote';
 import { ToolCard } from '@/components/ToolCard';
 import { AuthorByline } from '@/components/AuthorByline';
@@ -124,7 +124,7 @@ export default async function ReviewPage({ params }: PageProps) {
       </div>
 
       {/* Hero */}
-      <ReviewHero tool={tool} enableABTest={true} />
+      <ReviewHero tool={tool} />
 
       {/* Mobile Sticky CTA - Only renders on client */}
       <ReviewPageCTAs tool={tool} />
@@ -213,13 +213,12 @@ export default async function ReviewPage({ params }: PageProps) {
                 <p className="text-lg font-semibold text-slate-900 dark:text-white">{tool.pricing}</p>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">{tool.pricingDetails}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-4">
-                  <AffiliateCTAButton
-                    href={tool.affiliateUrl}
+                  <OutboundCTAButton
+                    href={tool.websiteUrl}
                     size="md"
-                    enableABTest={true}
                   >
-                    Check Current Pricing
-                  </AffiliateCTAButton>
+                    Visit {tool.name} website
+                  </OutboundCTAButton>
                   <DisclosureNote variant="inline" />
                 </div>
               </div>
@@ -232,13 +231,12 @@ export default async function ReviewPage({ params }: PageProps) {
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">{tool.verdict}</p>
               </div>
               <div className="mt-6 flex flex-wrap items-center gap-4">
-                <AffiliateCTAButton
-                  href={tool.affiliateUrl}
+                <OutboundCTAButton
+                  href={tool.websiteUrl}
                   size="lg"
-                  enableABTest={true}
                 >
-                  Try {tool.name} Now
-                </AffiliateCTAButton>
+                  Visit {tool.name} website
+                </OutboundCTAButton>
                 <DisclosureNote />
               </div>
             </section>
@@ -267,14 +265,13 @@ export default async function ReviewPage({ params }: PageProps) {
               <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:hidden">
                 <h3 className="font-semibold text-slate-900 dark:text-white">Quick Links</h3>
                 <div className="mt-4 space-y-3">
-                  <AffiliateCTAButton
-                    href={tool.affiliateUrl}
+                  <OutboundCTAButton
+                    href={tool.websiteUrl}
                     size="md"
-                    enableABTest={true}
                     className="w-full justify-center"
                   >
-                    Visit {tool.name}
-                  </AffiliateCTAButton>
+                    Visit {tool.name} website
+                  </OutboundCTAButton>
                   <Link
                     href="/comparisons"
                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
@@ -310,7 +307,7 @@ export default async function ReviewPage({ params }: PageProps) {
             location={`review-${tool.slug}`}
             variant="banner"
             headline="Get More AI Investment Tool Insights"
-            description={`Enjoyed this ${tool.name} review? Get weekly recommendations, exclusive deals, and tips.`}
+            description={`Enjoyed this ${tool.name} review? Get weekly recommendations, tips.`}
             ctaText="Join Free"
           />
         </div>

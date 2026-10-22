@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { AffiliateLink } from './AffiliateLink';
+import { OutboundLink } from './OutboundLink';
 import { StarRating } from './StarRating';
 import { PersonalizationBadge } from './PersonalizationBadge';
 import type { Tool, UserType } from '@/lib/data';
@@ -35,9 +35,6 @@ export function ToolCard({
     gradient: 'inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary-600 to-accent-500 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:from-primary-700 hover:to-accent-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
   };
 
-  // Show commission badge for high-value programs
-  const showCommissionBadge = tool.commissionRate && tool.commissionRate >= 25;
-
   return (
     <article className="card group relative flex flex-col">
       {/* Badges - Absolute positioned */}
@@ -48,14 +45,8 @@ export function ToolCard({
             New
           </span>
         )}
-        {/* Exclusive Deal Badge */}
-        {tool.hasExclusiveDeal && (
-          <span className="rounded-full bg-amber-500 px-2.5 py-0.5 text-xs font-medium text-white shadow-sm">
-            Exclusive Deal
-          </span>
-        )}
         {/* Personalization Badge */}
-        {personalizationBadge && !tool.isNew && !tool.hasExclusiveDeal && (
+        {personalizationBadge && !tool.isNew && (
           <PersonalizationBadge text={personalizationBadge} userType={userType} />
         )}
       </div>
@@ -88,15 +79,6 @@ export function ToolCard({
             <span className="rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-400">
               {tool.category}
             </span>
-            {/* Commission Badge */}
-            {showCommissionBadge && (
-              <span 
-                className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                title={`Up to ${tool.commissionRate}% commission${tool.cookieDuration ? `, ${tool.cookieDuration}-day cookie` : ''}`}
-              >
-                Up to {tool.commissionRate}%
-              </span>
-            )}
           </div>
           <h3 className="mt-1 text-lg font-semibold text-slate-900 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
             <Link href={`/reviews/${tool.slug}`} className="hover:underline">
@@ -132,14 +114,14 @@ export function ToolCard({
 
       {/* Actions */}
       <div className="mt-4 flex gap-3" role="group" aria-label={`Actions for ${tool.name}`}>
-        <AffiliateLink
-          href={tool.affiliateUrl}
+        <OutboundLink
+          href={tool.websiteUrl}
           className={`${ctaClasses[ctaVariant]} flex-1 text-center`}
           toolName={tool.name}
           toolSlug={tool.slug}
           position="tool-card"
         >
-          Try {tool.name}
+          Visit {tool.name} website
           <svg
             className="h-4 w-4"
             fill="none"
@@ -154,7 +136,7 @@ export function ToolCard({
               d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
             />
           </svg>
-        </AffiliateLink>
+        </OutboundLink>
         <Link 
           href={`/reviews/${tool.slug}`} 
           className="btn-secondary"

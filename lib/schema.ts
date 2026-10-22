@@ -136,7 +136,7 @@ export function generateReviewSchema(tool: Tool) {
         description: tool.description,
         applicationCategory: getCategoryType(tool.category),
         operatingSystem: 'Web, iOS, Android',
-        url: tool.affiliateUrl,
+        url: tool.websiteUrl,
         image: tool.logoUrl.startsWith('http') ? tool.logoUrl : `${siteUrl}${tool.logoUrl}`,
         offers: {
           '@type': 'Offer',

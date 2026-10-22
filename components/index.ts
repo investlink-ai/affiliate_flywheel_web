@@ -2,9 +2,8 @@
 export { Header } from './Header';
 export { Footer } from './Footer';
 
-// Affiliate components
-export { AffiliateLink, AffiliateLinkSimple, AffiliateCTAButton } from './AffiliateLink';
-export type { CTAVariant, UrgencyVariant } from './AffiliateLink';
+// Outbound links
+export { OutboundLink, OutboundLinkSimple, OutboundCTAButton } from './OutboundLink';
 export { DisclosureNote } from './DisclosureNote';
 export { Tooltip, DisclosureTooltip } from './Tooltip';
 export { StickyCTA, SidebarStickyCTA } from './StickyCTA';

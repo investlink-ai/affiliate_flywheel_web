@@ -26,7 +26,7 @@ interface QuizResult {
   matchReasons: string[];
 }
 
-/** Investment workflow stages – maps to high-priority affiliate partners */
+/** Investment workflow stages – maps to reviewed tools */
 const quizQuestions: QuizQuestion[] = [
   {
     id: 'investment-style',
@@ -190,7 +190,7 @@ const quizQuestions: QuizQuestion[] = [
   },
 ];
 
-/** Tag-based scoring: workflow stages + high-priority affiliates (QuantConnect, TradeStation, Polymarket, Notion) */
+/** Tag-based scoring: workflow stages + reviewed tools (QuantConnect, TradeStation, Polymarket, Notion) */
 const toolScoring: Record<string, Record<string, number>> = {
   quantconnect: {
     'Quantitative Platforms': 3,
@@ -257,15 +257,6 @@ const toolScoring: Record<string, Record<string, number>> = {
   plaid: {
     'Fintech Infrastructure': 3,
     'data-fundamentals': 2,
-    'pro-features': 2,
-  },
-  binance: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    'crypto': 3,
-    'active': 2,
-    'aggressive': 2,
-    'budget-friendly': 2,
     'pro-features': 2,
   },
   wealthfront: {

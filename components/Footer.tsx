@@ -9,7 +9,7 @@ const footerLinks = {
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Affiliate Disclosure', href: '/privacy#disclosure' },
+    { name: 'Disclosures', href: '/privacy#disclosure' },
     { name: 'Terms of Service', href: '/privacy#terms' },
   ],
 };
@@ -19,7 +19,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
-      {/* Affiliate Disclosure Banner */}
+      {/* Disclosures */}
       <div className="border-b border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-800/50">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <DisclosureNote variant="full" />

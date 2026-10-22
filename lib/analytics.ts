@@ -1,28 +1,4 @@
-/**
- * Google Analytics 4 Tracking Utilities
- * 
- * This module provides comprehensive analytics tracking for affiliate marketing,
- * focused on measuring affiliate click events and EPC (Earnings Per Click) metrics.
- * 
- * @module lib/analytics
- * @see {@link https://developers.google.com/analytics/devguides/collection/ga4} GA4 Documentation
- * 
- * @example
- * ```typescript
- * import { trackAffiliateClick, trackNewsletterSignup } from '@/lib/analytics';
- * 
- * // Track an affiliate click
- * trackAffiliateClick({
- *   toolName: 'Jasper AI',
- *   toolSlug: 'quantconnect',
- *   affiliateUrl: 'https://quantconnect.com?ref=example',
- *   position: 'hero',
- * });
- * 
- * // Track newsletter signup
- * trackNewsletterSignup({ location: 'homepage' });
- * ```
- */
+/** Google Analytics 4 utilities for site engagement and outbound clicks. */
 
 /**
  * Google Analytics 4 Measurement ID
@@ -128,83 +104,49 @@ export function trackEvent(
 }
 
 /**
- * Parameters for tracking affiliate link clicks
+ * Parameters for tracking outbound link clicks
  */
-interface AffiliateClickParams {
+interface OutboundClickParams {
   /** Display name of the tool (e.g., 'Jasper AI') */
   toolName: string;
   /** URL-friendly slug of the tool (e.g., 'quantconnect') */
   toolSlug: string;
-  /** The full affiliate URL being clicked */
-  affiliateUrl: string;
+  /** The full outbound URL being clicked */
+  websiteUrl: string;
   /** Position on page where click occurred (e.g., 'hero', 'sidebar', 'content', 'sticky-cta', 'tool-card') */
   position: string;
   /** Optional A/B test variant for CTA styling */
   ctaVariant?: string;
-  /** Optional A/B test variant for urgency messaging */
-  urgencyVariant?: string;
 }
 
-/**
- * Tracks affiliate link clicks for EPC (Earnings Per Click) analysis
- * 
- * This is the most critical tracking function for affiliate revenue optimization.
- * It captures detailed information about each affiliate click including:
- * - Which tool was clicked
- * - Where on the page the click occurred
- * - Which A/B test variants were active
- * 
- * The data is used to calculate EPC and optimize conversion rates.
- * 
- * @param {AffiliateClickParams} params - The affiliate click parameters
- * @param {string} params.toolName - Display name of the tool
- * @param {string} params.toolSlug - URL-friendly slug of the tool
- * @param {string} params.affiliateUrl - The full affiliate URL being clicked
- * @param {string} params.position - Position on page (e.g., 'hero', 'sidebar', 'content', 'sticky-cta')
- * @param {string} [params.ctaVariant] - A/B test variant for CTA styling
- * @param {string} [params.urgencyVariant] - A/B test variant for urgency messaging
- * @returns {void}
- * 
- * @example
- * ```typescript
- * trackAffiliateClick({
- *   toolName: 'QuantConnect',
- *   toolSlug: 'quantconnect',
- *   affiliateUrl: 'https://quantconnect.com?ref=investlink',
- *   position: 'hero',
- *   ctaVariant: 'gradient',
- *   urgencyVariant: 'limited-offer',
- * });
- * ```
- */
-export function trackAffiliateClick(params: AffiliateClickParams): void {
+/** Tracks which tool website was visited and where the click occurred. */
+export function trackOutboundClick(params: OutboundClickParams): void {
   if (!isGAAvailable()) return;
 
-  const { toolName, toolSlug, affiliateUrl, position, ctaVariant, urgencyVariant } = params;
+  const { toolName, toolSlug, websiteUrl, position, ctaVariant } = params;
 
-  // GA4 event for affiliate click
-  window.gtag('event', 'affiliate_click', {
-    event_category: 'Affiliate',
+  // GA4 event for outbound click
+  window.gtag('event', 'outbound_click', {
+    event_category: 'Outbound',
     event_label: toolName,
     tool_name: toolName,
     tool_slug: toolSlug,
-    affiliate_url: affiliateUrl,
+    website_url: websiteUrl,
     click_position: position,
     cta_variant: ctaVariant ?? 'default',
-    urgency_variant: urgencyVariant ?? 'none',
     timestamp: new Date().toISOString(),
   });
 
   // Also track as outbound link for compatibility
   window.gtag('event', 'click', {
     event_category: 'outbound',
-    event_label: affiliateUrl,
+    event_label: websiteUrl,
     transport_type: 'beacon',
   });
 
   // Log in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('[Analytics] Affiliate click:', params);
+    console.log('[Analytics] Outbound click:', params);
   }
 }
 
@@ -310,7 +252,7 @@ interface ABTestConversionParams {
   testId: string;
   /** Identifier for the variant that converted */
   variantId: string;
-  /** Type of conversion (e.g., 'affiliate_click', 'newsletter_signup') */
+  /** Type of conversion (e.g., 'outbound_click', 'newsletter_signup') */
   conversionType: string;
 }
 
@@ -323,7 +265,7 @@ interface ABTestConversionParams {
  * @param {ABTestConversionParams} params - The A/B test conversion parameters
  * @param {string} params.testId - Unique identifier for the test
  * @param {string} params.variantId - Identifier for the variant that converted
- * @param {string} params.conversionType - Type of conversion (e.g., 'affiliate_click', 'newsletter_signup')
+ * @param {string} params.conversionType - Type of conversion (e.g., 'outbound_click', 'newsletter_signup')
  * @returns {void}
  * 
  * @example
@@ -331,7 +273,7 @@ interface ABTestConversionParams {
  * trackABTestConversion({
  *   testId: 'hero-cta-color',
  *   variantId: 'variant-b',
- *   conversionType: 'affiliate_click',
+ *   conversionType: 'outbound_click',
  * });
  * ```
  */
@@ -414,64 +356,6 @@ export function trackReviewEngagement(params: ReviewEngagementParams): void {
     event_label: params.toolSlug,
     scroll_depth: params.scrollDepth,
     time_on_page: params.timeOnPage,
-  });
-}
-
-/**
- * Parameters for tracking EPC (Earnings Per Click) data
- */
-interface EPCDataParams {
-  /** URL slug of the tool */
-  toolSlug: string;
-  /** Total number of clicks */
-  clicks: number;
-  /** Total number of conversions */
-  conversions: number;
-  /** Total revenue in USD */
-  revenue: number;
-}
-
-/**
- * Tracks EPC (Earnings Per Click) metrics
- * 
- * This function is used for aggregated reporting of affiliate performance.
- * EPC is calculated as: revenue / clicks
- * 
- * Typically called from an admin dashboard or reporting system,
- * not from user-facing pages.
- * 
- * @param {EPCDataParams} params - The EPC data parameters
- * @param {string} params.toolSlug - URL slug of the tool
- * @param {number} params.clicks - Total number of clicks
- * @param {number} params.conversions - Total number of conversions
- * @param {number} params.revenue - Total revenue in USD
- * @returns {void}
- * 
- * @example
- * ```typescript
- * // Track monthly EPC for a tool
- * trackEPCData({
- *   toolSlug: 'quantconnect',
- *   clicks: 1500,
- *   conversions: 45,
- *   revenue: 2250.00,
- * });
- * // EPC = $2250 / 1500 = $1.50 per click
- * ```
- */
-export function trackEPCData(params: EPCDataParams): void {
-  if (!isGAAvailable()) return;
-
-  const epc = params.clicks > 0 ? params.revenue / params.clicks : 0;
-
-  window.gtag('event', 'epc_metric', {
-    event_category: 'Revenue',
-    event_label: params.toolSlug,
-    tool_slug: params.toolSlug,
-    total_clicks: params.clicks,
-    total_conversions: params.conversions,
-    total_revenue: params.revenue,
-    epc_value: epc.toFixed(2),
   });
 }
 

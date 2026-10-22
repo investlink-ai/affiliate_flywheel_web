@@ -197,9 +197,9 @@ export default function HomePage() {
               ),
             },
             {
-              title: 'Transparent Affiliate Links',
+              title: 'Independent Reviews',
               description:
-                'I clearly disclose all affiliate relationships. My opinions remain honest regardless of partnerships.',
+                'InvestLink is not paid by the products it reviews. Reviews reflect independent testing.',
               icon: (
                 <path
                   strokeLinecap="round"
@@ -243,7 +243,7 @@ export default function HomePage() {
               location="homepage"
               variant="card"
               headline="Get Weekly AI Tool Insights"
-              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, exclusive deals, and market insights."
+              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, market insights."
               showToolPreference={true}
               ctaText="Subscribe Free"
             />

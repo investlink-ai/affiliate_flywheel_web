@@ -260,7 +260,7 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topSlugs = results.slice(0, 3).map((r) => r.tool.slug);
       
-      expect(['quantconnect', 'etoro', 'polymarket', 'binance']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
+      expect(['quantconnect', 'etoro', 'polymarket']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
     });
 
     it('should recommend Polymarket for prediction market focus', () => {
@@ -275,7 +275,7 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topResult = results[0]!;
       
-      expect(['polymarket', 'binance']).toContain(topResult.tool.slug);
+      expect(['polymarket']).toContain(topResult.tool.slug);
     });
 
     it('should include match reasons in results', () => {
@@ -332,7 +332,7 @@ describe('Quiz Scoring Algorithm', () => {
   });
 
   describe('toolScoring weights', () => {
-    it('should have scoring weights for high-priority affiliate tools', () => {
+    it('should have scoring weights for reviewed tools', () => {
       const expectedTools = ['quantconnect', 'etoro', 'polymarket', 'notion'];
       
       expectedTools.forEach((slug) => {
@@ -493,10 +493,10 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should not give category bonus when category does not match tags', () => {
-      const binance = getToolBySlug('binance');
+      const tradingview = getToolBySlug('tradingview');
       const tags = ['Portfolio Management', 'passive'];
       
-      const { score } = calculateToolScore(binance, tags);
+      const { score } = calculateToolScore(tradingview, tags);
       
       expect(score).toBe(0);
     });
@@ -690,7 +690,7 @@ describe('Quiz Scoring Algorithm', () => {
       
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topSlugs = results.slice(0, 4).map((r) => r.tool.slug);
-      const cryptoTools = ['polymarket', 'binance', 'robinhood'];
+      const cryptoTools = ['polymarket', 'robinhood'];
       const hasCryptoTool = topSlugs.some((slug) => cryptoTools.includes(slug));
       expect(hasCryptoTool).toBe(true);
     });

@@ -1,22 +1,16 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { AffiliateCTAButton, type CTAVariant, type UrgencyVariant } from './AffiliateLink';
+import { OutboundCTAButton } from './OutboundLink';
 import { DisclosureNote } from './DisclosureNote';
 
 interface StickyCTAProps {
   /** Tool name for CTA text */
   toolName: string;
-  /** Affiliate URL */
+  /** Official website URL */
   href: string;
   /** Price display (optional) */
   price?: string;
-  /** CTA variant override */
-  ctaVariant?: CTAVariant;
-  /** Urgency variant override */
-  urgencyVariant?: UrgencyVariant;
-  /** Enable A/B testing */
-  enableABTest?: boolean;
   /** Scroll threshold to show sticky CTA (px) */
   scrollThreshold?: number;
   /** Hide on desktop */
@@ -37,9 +31,6 @@ export function StickyCTA({
   toolName,
   href,
   price,
-  ctaVariant,
-  urgencyVariant,
-  enableABTest = true,
   scrollThreshold = 400,
   mobileOnly = true,
 }: StickyCTAProps) {
@@ -128,16 +119,12 @@ export function StickyCTA({
 
           {/* Right: CTA Button */}
           <div className="flex-shrink-0">
-            <AffiliateCTAButton
+            <OutboundCTAButton
               href={href}
-              variant={ctaVariant}
-              urgency={urgencyVariant}
               size="sm"
-              enableABTest={enableABTest}
-              showDisclosure={false}
             >
-              Try Free
-            </AffiliateCTAButton>
+              Visit {toolName} website
+            </OutboundCTAButton>
           </div>
         </div>
 
@@ -161,9 +148,6 @@ export function SidebarStickyCTA({
   toolName,
   href,
   price,
-  ctaVariant,
-  urgencyVariant,
-  enableABTest = true,
 }: Omit<StickyCTAProps, 'scrollThreshold' | 'mobileOnly'>) {
   return (
     <aside className="hidden lg:block" aria-label={`Get started with ${toolName}`}>
@@ -180,16 +164,13 @@ export function SidebarStickyCTA({
         </div>
 
         <div className="mt-4">
-          <AffiliateCTAButton
+          <OutboundCTAButton
             href={href}
-            variant={ctaVariant}
-            urgency={urgencyVariant}
             size="lg"
-            enableABTest={enableABTest}
             className="w-full justify-center"
           >
-            Start Free Trial
-          </AffiliateCTAButton>
+            Visit {toolName} website
+          </OutboundCTAButton>
         </div>
 
         <div className="mt-3">

@@ -11,9 +11,10 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "ci": "npm run lint && npm run type-check && npm run test:run && npm run build",
+    "ci": "npm run lint && npm run type-check && npm run test:run && npm run build && npm run check:commercial",
     "prepare": "husky",
-    "generate:images": "node scripts/generate-images.mjs"
+    "generate:images": "node scripts/generate-images.mjs",
+    "check:commercial": "node scripts/check-no-commercial.mjs --build"
   },
   "engines": {
     "node": ">=20"

@@ -90,10 +90,11 @@ type UserType = 'individual_investor' | 'trader' | 'fintech_professional' | 'fin
 - **Props interfaces**: Define above component, named `{Component}Props`
 - **Exports**: Named exports; register in `components/index.ts`
 
-### Affiliate Links
-- Always use `AffiliateLink` component (auto-adds `?ref=feynmanxu`)
-- Include `rel="sponsored noopener"` (handled by component)
-- Track with `trackAffiliateClick()` from `lib/analytics.ts`
+### Outbound Links
+- Use the `OutboundLink` component: the href is used verbatim, `rel="noopener noreferrer nofollow"`
+- Never add referral/affiliate query params, `rel="sponsored"`, `/go/` redirects or Binance links;
+  `node scripts/check-no-commercial.mjs --build` enforces this
+- Track with `trackOutboundClick()` from `lib/analytics.ts`
 
 ### A/B Testing
 - Use `useABTest` hook for variant assignment
