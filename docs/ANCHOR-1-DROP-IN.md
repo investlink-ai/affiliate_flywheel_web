@@ -1,25 +1,23 @@
-# Anchor #1 copy drop-in contract
+# Anchor #1 copy: where each section lives
 
-Paste the CPO copy into the preview entry in `lib/guides/content.ts`. Copy is due
-Sat 24 Oct 2026 12:00. The field names below match `Guide` and R7 validation.
-Keep the placeholder notice, noindex and `[Placeholder]` title while this remains
-a preview. No real error or price verification is claimed by the example content.
+The canonical copy is `content/anchor-1/anchor-1-guide.md` (CPO). The site renders it from
+`lib/guides/content.ts`, structured per anchor-brief section 4 and validated by
+`lib/guides/validate.ts` (R7: a missing or malformed block fails the build and the page).
+Prose fields allow `**bold**` and `[label](https://...)` links only (`components/guide/RichText.tsx`).
 
-| Brief section | Exact fields | Contract |
+| Brief section | Field(s) | Rendered as |
 | --- | --- | --- |
-| 1. Why AI summaries go wrong | `whyAiGoesWrong: string[]` | Nonempty paragraphs. |
-| 2. Prompt used verbatim | `prompt: string` | Exact nonempty prompt including whitespace; rendered in `<pre>`. |
-| 3. Five-claim check table | `claimChecks: { claim, whatTheSourceSays, verdict, sourceUrl, sourceLocator }[]` | Exactly five rows. Nonempty text; verdict is `supported`, `not-supported` or `partly`. HTTP(S) link to exact source page/line, with locator such as `p. 3, line 12`. |
-| 4. How this fails | `howThisFails: { aiSaid, sourceSays, sourceUrl }` | One real caught error, exact AI statement, source evidence and HTTP(S) source link. Replace the illustrative error. |
-| 5. What still needs a human | `needsAHuman: string[]` | Nonempty paragraphs. |
-| 6. Checklist opt-in | `optIn: { heading }`; `defaultCampaign: 'cmp-anchor-1'` | Nonempty opt-in heading. Use the shared guide campaign map in `source-tags.mjs`; an optional listed `cmp-*` key. A listed URL campaign wins. The opt-in itself is supplied by the template; no delivery link in copy. |
-| 7. Sources, last tested, tools/prices | `sources: { title, url }[]`; `lastTestedOn: string`; `toolsPrices: { name, aud, checkedOn, source }[]` | Nonempty source/tool lists. HTTP(S) URLs. Dates are real `YYYY-MM-DD` values. `aud` is a finite nonnegative number rendered as `A$12.00`; `checkedOn` belongs to each tool's price source. |
+| Intro / illustration-only note | `title`, `summary`, `illustrationNote` | h1, lead, `demo-disclaimer` block (mandatory) |
+| 1. Why AI summaries go wrong | `whyAiGoesWrong { intro[], mistakes[{term,text}], outro[] }` | paragraphs + bulleted list |
+| 2. Prompt used, verbatim | `promptIntro`, `prompt`, `promptNotes[]` | `<pre><code>` (exact text) + notes |
+| 3. 5-claim check | `claimCheckIntro[]`, `claimChecks[5] {claim, verdict, where[{label,url}], whatTheSourceSays}`, `howToCheck[{step,text}]`, `claimCheckNotes[]` | table (verdict is `Supported`/`Unsupported`/`Not found`; page links), numbered steps, notes with inline page links |
+| 4. How this fails | `howThisFails { intro[], prompt, answerIntro, aiAnswer[], findings[{finding,check,where[]}], outro[] }` | `<pre><code>` prompt, verbatim answer list, findings table with page links |
+| 5. What still needs a human | `needsAHuman[]` | paragraphs |
+| 6. Checklist opt-in | `optIn { heading, body[], consent }`, `defaultCampaign: 'cmp-anchor-1'` | heading + copy + Kit form (campaign tag `cmp-anchor-1` unless a listed `utm_campaign` is present) |
+| 7. Sources, last tested | `sources[{title, link}]`, `lastTestedOn`, `lastTestedNote` | list; "Last tested on <date>." followed by the note |
+| 8. Tools used | `toolsPricesIntro`, `toolsPrices[{name, aud, checkedOn, source?}]`, `toolsNotes[]` | list with A$ prices |
 
-Also supply `title`, `summary`, and preserve the route `slug` of
-`preview-ai-research-checklist`. `demoDisclaimer: true` is mandatory.
-`placeholderNotice` is the visible banner; keep it for this placeholder round.
-The layout provides global disclosures. All current `[Placeholder]` paragraphs,
-example.com links, dates and illustrative numbers must be replaced with checked
-editorial evidence before publication. Keep the content free of commercial paths,
-referral parameters and stock views. Run `npm run type-check`, `npx vitest run`,
-`npm run build` and `npm run check:commercial` after pasting copy.
+`placeholderNotice` (optional) shows a visible banner; the final copy omits it. The global
+footer carries the general-information disclosure and "Not affiliated with xAI".
+After editing run `npm run lint`, `npm run type-check`, `npx vitest run`, `npm run build`
+and `npm run check:commercial`.

@@ -123,8 +123,8 @@ Exit 0 ok, 1 violations, 2 usage/config, 3 read failure.
 1. R1: with the default mock, visit the guide and submit a valid test address.
    Verify the mock confirmation, required/email validation, privacy link, all anchor-brief
    guide blocks, AUD prices, global disclosures and noindex metadata. No provider
-   request should occur. Content, price sources and dates are explicitly preview
-   placeholders pending CPO anchor #1 copy.
+   request should occur. The guide carries the CPO's final anchor #1 copy
+   (Wesfarmers FY2026 example, CIO-approved).
 2. Configure the public Kit provider and form ID for a separate preview build,
    trying hidden-tags first (leave NEXT_PUBLIC_KIT_ATTRIBUTION unset).
    Configure Kit double opt-in and the R11 incentive settings above. Use only
@@ -188,6 +188,6 @@ Download. The repository does not assume that either redirect is configured.
 The static noindex next-steps page tells readers to finish any security check and
 confirm by email, and inherits global disclosures from the site layout.
 
-CPO copy is due Sat 24 Oct 2026 12:00. See `docs/ANCHOR-1-DROP-IN.md` for the
-field contract. Keep the placeholder banner, `[Placeholder]` metadata title and
-noindex until the editorial publication decision.
+The CPO's final anchor #1 copy is in (canonical: `content/anchor-1/anchor-1-guide.md`).
+See `docs/ANCHOR-1-DROP-IN.md` for how each section maps to `lib/guides/content.ts`.
+The page stays noindex until the publication decision.

@@ -14,7 +14,8 @@ import { Footer } from '@/components/Footer';
 import { GuideTemplate, formatAud } from '@/components/guide/GuideTemplate';
 import { guides } from '@/lib/guides/content';
 import { assertValidGuide, validateGuide } from '@/lib/guides/validate';
-import GuidePage, { metadata, generateStaticParams } from '@/app/guides/[slug]/page';
+import GuidePage, { generateMetadata, generateStaticParams } from '@/app/guides/[slug]/page';
+import { richText } from '@/components/guide/RichText';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import SubscribeNextSteps, { metadata as nextStepsMetadata } from '@/app/subscribe/next-steps/page';
 import { UmamiAnalytics } from '@/components/UmamiAnalytics';
@@ -143,61 +144,107 @@ describe('form-per-source signup placements', () => {
 });
 
 describe('guide contract', () => {
-  it.each(['title', 'slug', 'summary', 'lastTestedOn', 'whyAiGoesWrong', 'prompt', 'claimChecks', 'needsAHuman', 'optIn', 'toolsPrices', 'sources', 'howThisFails', 'demoDisclaimer'])('reports missing %s', block => {
+  const BLOCKS = ['title', 'slug', 'summary', 'illustrationNote', 'lastTestedOn', 'whyAiGoesWrong', 'prompt', 'claimChecks', 'howToCheck', 'howThisFails', 'needsAHuman', 'optIn', 'toolsPrices', 'sources', 'demoDisclaimer'];
+  it.each(BLOCKS)('reports missing %s', block => {
     const copy: Record<string, unknown> = { ...guide };
     delete copy[block];
     expect(validateGuide(copy)).toContain(block);
   });
   it.each([
-    ['lastTestedOn', '2026-02-30'], ['toolsPrices', [{ ...guide.toolsPrices[0], checkedOn: 'yesterday' }]],
-    ['toolsPrices', [{ name: 'bad', aud: -1, source: 'javascript:bad' }]],
-    ['sources', []], ['howThisFails', ['']], ['whyAiGoesWrong', []], ['needsAHuman', ['']], ['prompt', ''], ['claimChecks', guide.claimChecks.slice(1)], ['claimChecks', [...guide.claimChecks, guide.claimChecks[0]]], ['claimChecks', [{ ...guide.claimChecks[0], verdict: 'unknown' }, ...guide.claimChecks.slice(1)]], ['defaultCampaign', 'cmp-unlisted'], ['optIn', { heading: '' }], ['demoDisclaimer', 'true'], ['demoDisclaimer', false],
+    ['lastTestedOn', '2026-02-30'], ['lastTestedNote', ' '],
+    ['toolsPrices', [{ ...guide.toolsPrices[0], checkedOn: 'yesterday' }]],
+    ['toolsPrices', [{ name: 'bad', aud: -1, checkedOn: '2026-10-22' }]],
+    ['sources', []], ['sources', [{ title: 'x', link: { label: 'x', url: 'javascript:bad' } }]],
+    ['whyAiGoesWrong', { ...guide.whyAiGoesWrong, mistakes: [] }], ['needsAHuman', ['']], ['prompt', ''],
+    ['claimChecks', guide.claimChecks.slice(1)], ['claimChecks', [...guide.claimChecks, guide.claimChecks[0]]],
+    ['claimChecks', [{ ...guide.claimChecks[0], verdict: 'supported' }, ...guide.claimChecks.slice(1)]],
+    ['claimChecks', [{ ...guide.claimChecks[0], where: [] }, ...guide.claimChecks.slice(1)]],
+    ['howToCheck', []], ['howThisFails', { ...guide.howThisFails, findings: [] }], ['howThisFails', { ...guide.howThisFails, aiAnswer: [] }],
+    ['defaultCampaign', 'cmp-unlisted'], ['optIn', { ...guide.optIn, heading: '' }], ['optIn', { ...guide.optIn, consent: '' }],
+    ['demoDisclaimer', 'true'], ['demoDisclaimer', false], ['illustrationNote', ''],
   ])('reports invalid %s', (block, value) => {
     expect(validateGuide({ ...guide, [block]: value })).toContain(block);
   });
-  it.each([
-    ['claim', ''], ['whatTheSourceSays', ''], ['verdict', 'unknown'],
-    ['sourceUrl', 'javascript:bad'], ['sourceLocator', ''],
-  ])('rejects an invalid claim-check %s', (field, value) => {
-    expect(validateGuide({ ...guide, claimChecks: [{ ...guide.claimChecks[0], [field]: value }, ...guide.claimChecks.slice(1)] })).toContain('claimChecks');
-  });
-  it.each(['aiSaid', 'sourceSays', 'sourceUrl'])('rejects a missing caught-error %s', field => {
-    expect(validateGuide({ ...guide, howThisFails: { ...guide.howThisFails, [field]: undefined } })).toContain('howThisFails');
-  });
-  it.each([
-    ['name', ''], ['aud', NaN], ['aud', Infinity], ['aud', -1],
-    ['checkedOn', '2026-02-30'], ['source', 'ftp://example.com'],
-  ])('rejects an invalid tool-price %s', (field, value) => {
-    expect(validateGuide({ ...guide, toolsPrices: [{ ...guide.toolsPrices[0], [field]: value }] })).toContain('toolsPrices');
-  });
   it('throws with every invalid block', () => {
-    for (const block of ['title', 'summary', 'slug', 'lastTestedOn', 'whyAiGoesWrong', 'prompt', 'claimChecks', 'howThisFails', 'needsAHuman', 'optIn', 'toolsPrices', 'sources', 'demoDisclaimer']) {
-      expect(() => assertValidGuide({})).toThrow(block);
-    }
+    for (const block of BLOCKS) expect(() => assertValidGuide({})).toThrow(block);
   });
-  it('renders all required sections and AUD prices without commercial links', async () => {
+  it('final CPO copy validates, carries no placeholder banner and uses cmp-anchor-1', async () => {
     expect(validateGuide(guide)).toEqual([]);
+    expect(guide.placeholderNotice).toBeUndefined();
+    expect(guide.defaultCampaign).toBe('cmp-anchor-1');
+    const html = renderToStaticMarkup(<GuideTemplate guide={guide} />);
+    expect(html).not.toContain('placeholder-notice');
+    expect(html).not.toMatch(/\[Placeholder\]|Preview content|placeholders/);
+    expect(html).not.toMatch(/\/go\/|#ad\b|checkout|[?&](?:ref|referral|aff)=/i);
+    const meta = await generateMetadata({ params: Promise.resolve({ slug: guide.slug }) });
+    expect(meta.title).toBe(guide.title);
+    expect(meta.robots).toMatchObject({ index: false });
+    expect(generateStaticParams()).toEqual([{ slug: guide.slug }]);
+  });
+  it('renders every R7 block', async () => {
     const { container } = render(await GuidePage({ params: Promise.resolve({ slug: guide.slug }) }));
-    for (const block of ['why-ai-goes-wrong', 'prompt', 'claim-checks', 'how-this-fails', 'needs-a-human', 'opt-in', 'sources', 'last-tested', 'tools-prices', 'demo-disclaimer', 'placeholder-notice']) {
+    for (const block of ['demo-disclaimer', 'why-ai-goes-wrong', 'prompt', 'claim-checks', 'how-this-fails', 'needs-a-human', 'opt-in', 'sources', 'last-tested', 'tools-prices']) {
       expect(container.querySelector(`[data-block="${block}"]`)).toBeInTheDocument();
     }
-    expect(container).toHaveTextContent('A$12.00');
-    expect(container.querySelector('pre')?.textContent).toBe(guide.prompt);
-    expect(container.querySelectorAll('tbody tr')).toHaveLength(5);
-    expect(metadata.title).toMatch(/^\[Placeholder\]/);
-    expect(formatAud(0)).toBe('A$0.00');
-    const html = renderToStaticMarkup(<GuideTemplate guide={guide} />);
-    expect(html).not.toMatch(/\/go\/|#ad|checkout|[?&](?:ref|referral)=/i);
-    expect(generateStaticParams()).toEqual([{ slug: guide.slug }]);
-    expect(metadata.robots).toMatchObject({ index: false });
+    expect(container.querySelector('[data-block="demo-disclaimer"]')).toHaveTextContent('Illustration only:');
   });
-  it('marks placeholder copy with a visible banner until the CPO copy lands', () => {
-    const html = renderToStaticMarkup(<GuideTemplate guide={guide} />);
-    expect(guide.placeholderNotice).toMatch(/PLACEHOLDER COPY/);
+  it('renders the 5-claim check as a table with verdicts and exact page links', () => {
+    const { container } = render(<GuideTemplate guide={guide} />);
+    const table = container.querySelector('[data-block="claim-checks"] table')!;
+    expect([...table.querySelectorAll('thead th')].map(th => th.textContent)).toEqual(['Claim (verbatim)', 'Verdict', 'Where to look', 'What the release says']);
+    const rows = table.querySelectorAll('tbody tr');
+    expect(rows).toHaveLength(5);
+    rows.forEach((row, i) => {
+      const cells = row.querySelectorAll('td');
+      expect(cells[0]).toHaveTextContent(guide.claimChecks[i]!.claim);
+      expect(cells[1]).toHaveTextContent(guide.claimChecks[i]!.verdict);
+      expect([...cells[2]!.querySelectorAll('a')].map(a => a.getAttribute('href'))).toEqual(guide.claimChecks[i]!.where.map(w => w.url));
+    });
+    expect(rows[3]!.querySelectorAll('a')).toHaveLength(2); // pages 1-2
+    expect(rows[0]!.querySelector('a')).toHaveAttribute('href', expect.stringMatching(/\.pdf#page=1$/));
+    expect(container.querySelectorAll('[data-block="claim-checks"] ol li')).toHaveLength(3);
+  });
+  it('shows both prompts verbatim in pre/code and the AI answer verbatim', () => {
+    const { container } = render(<GuideTemplate guide={guide} />);
+    expect(container.querySelector('[data-verbatim="prompt"] code')?.textContent).toBe(guide.prompt);
+    expect(container.querySelector('[data-verbatim="failure-prompt"] code')?.textContent).toBe(guide.howThisFails.prompt);
+    expect([...container.querySelectorAll('[data-verbatim="ai-answer"] li')].map(li => li.textContent)).toEqual(guide.howThisFails.aiAnswer);
+    const findings = container.querySelectorAll('[data-block="how-this-fails"] tbody tr');
+    expect(findings).toHaveLength(2);
+    expect(findings[1]!.querySelector('a')).toHaveAttribute('href', expect.stringMatching(/#page=25$/));
+  });
+  it('renders inline page links and bold in prose, and nothing else as markup', () => {
+    const { container } = render(<GuideTemplate guide={guide} />);
+    const notes = container.querySelector('[data-block="claim-checks"]')!;
+    expect([...notes.querySelectorAll('p a')].map(a => a.textContent)).toEqual(['page 3', 'page 2']);
+    expect([...notes.querySelectorAll('p strong')].map(b => b.textContent)).toEqual(['Supported', 'Unsupported', 'Not found']);
+    expect(renderToStaticMarkup(<>{richText('a [x](javascript:alert(1)) <b>y</b> **z**')}</>)).toBe('a [x](javascript:alert(1)) &lt;b&gt;y&lt;/b&gt; <strong>z</strong>');
+  });
+  it('shows the opt-in heading, CPO copy and the last-tested note next to the date', () => {
+    const { container } = render(<GuideTemplate guide={guide} />);
+    const optIn = container.querySelector('[data-block="opt-in"]')!;
+    expect(optIn.querySelector('h2')).toHaveTextContent('Get the 1-page AI answer check');
+    expect(optIn).toHaveTextContent(guide.optIn.consent);
+    const tested = container.querySelector('[data-block="last-tested"]')!;
+    expect(tested.querySelector('time')).toHaveAttribute('dateTime', '2026-10-22');
+    expect(tested).toHaveTextContent('Last tested on 22 October 2026.');
+    expect(tested.querySelector('[data-block="last-tested-note"]')).toHaveTextContent(guide.lastTestedNote!);
+    const { lastTestedNote: _n, ...noNote } = guide;
+    expect(renderToStaticMarkup(<GuideTemplate guide={noNote} />)).not.toContain('last-tested-note');
+  });
+  it('formats AUD prices and keeps tools without a link', () => {
+    expect(formatAud(0)).toBe('A$0');
+    expect(formatAud(12.5)).toBe('A$12.50');
+    const { container } = render(<GuideTemplate guide={guide} />);
+    const tools = container.querySelectorAll('[data-block="tools-prices"] li');
+    expect(tools).toHaveLength(3);
+    expect(tools[0]).toHaveTextContent('A$0');
+    expect(tools[2]!.querySelector('a')).toBeNull();
+    expect(tools[2]).toHaveAttribute('data-checked-on', '2026-10-22');
+  });
+  it('still shows a placeholder banner when a guide sets one', () => {
+    const html = renderToStaticMarkup(<GuideTemplate guide={{ ...guide, placeholderNotice: 'PLACEHOLDER COPY' }} />);
     expect(html).toContain('data-block="placeholder-notice"');
-    expect(html).toContain('[Placeholder]');
-    const { placeholderNotice: _omit, ...finalGuide } = guide;
-    expect(renderToStaticMarkup(<GuideTemplate guide={finalGuide} />)).not.toContain('placeholder-notice');
   });
   it('validates during both static generation and page rendering', async () => {
     const original = guide.summary;
