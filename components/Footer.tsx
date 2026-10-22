@@ -23,6 +23,8 @@ export function Footer() {
       <div className="border-b border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-800/50">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <DisclosureNote variant="full" />
+          <p className="mt-2 text-sm">General information only - not personal financial advice. Consider your own objectives, financial situation and needs before acting.</p>
+          <p className="mt-2 text-sm">Not affiliated with xAI.</p>
         </div>
       </div>
 

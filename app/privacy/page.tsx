@@ -33,12 +33,19 @@ export default function PrivacyPage() {
             </p>
           </section>
 
+          <section className="mt-12" id="email-and-analytics">
+            <h2>Email and analytics</h2>
+            <p>Kit stores your email after you confirm (double opt-in). Before confirmation,
+              Kit processes the address to send your confirmation link. Every email has an
+              unsubscribe link. Umami Cloud counts visits without cookies.</p>
+          </section>
+
           {/* Privacy Policy */}
           <section className="mt-12">
             <h2>Privacy Policy</h2>
             <h3>Information Collection</h3>
             <p>
-              This website does not directly collect personal information. However, third-party
+              Email signups are submitted directly to Kit. Third-party
               services used on this site may collect information as described below:
             </p>
             <ul>

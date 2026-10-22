@@ -78,15 +78,15 @@ const withPWA = withPWAInit({
 // Defines allowed sources for scripts, styles, images, etc.
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cloud.umami.is;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: blob: https://img.youtube.com https://i.ytimg.com https://*.githubusercontent.com https://images.unsplash.com;
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com;
+  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api-gateway.umami.dev https://cloud.umami.is;
   frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com;
   object-src 'none';
   base-uri 'self';
-  form-action 'self';
+  form-action 'self' https://app.kit.com;
   frame-ancestors 'none';
   upgrade-insecure-requests;
 `;
