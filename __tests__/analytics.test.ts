@@ -5,7 +5,7 @@ import {
   trackPageView,
   trackEvent,
   trackOutboundClick,
-  trackNewsletterSignup,
+  trackSignupSubmitted,
   trackABTestAssignment,
   trackABTestConversion,
   trackComparisonView,
@@ -208,16 +208,16 @@ describe('analytics', () => {
     });
   });
 
-  describe('trackNewsletterSignup', () => {
+  describe('trackSignupSubmitted', () => {
     beforeEach(() => {
       window.gtag = vi.fn();
     });
 
-    it('calls gtag with newsletter_signup event', () => {
-      trackNewsletterSignup({ location: 'homepage' });
+    it('calls gtag with signup_submitted event', () => {
+      trackSignupSubmitted({ location: 'homepage' });
       expect(window.gtag).toHaveBeenCalledWith(
         'event',
-        'newsletter_signup',
+        'signup_submitted',
         expect.objectContaining({
           event_category: 'Engagement',
           event_label: 'homepage',
@@ -226,17 +226,14 @@ describe('analytics', () => {
       );
     });
 
-    it('calls gtag with conversion event', () => {
-      trackNewsletterSignup({ location: 'exit-intent-popup' });
-      expect(window.gtag).toHaveBeenCalledWith('event', 'conversion', {
-        send_to: `${GA_MEASUREMENT_ID}/newsletter`,
-        event_category: 'Lead',
-        event_label: 'Newsletter Signup',
-      });
+    it('records submission without claiming a conversion', () => {
+      trackSignupSubmitted({ location: 'exit-intent-popup' });
+      expect(window.gtag).toHaveBeenCalledTimes(1);
+      expect(window.gtag).not.toHaveBeenCalledWith('event', 'conversion', expect.anything());
     });
 
     it('does not send email to GA (privacy)', () => {
-      trackNewsletterSignup({
+      trackSignupSubmitted({
         location: 'review-footer',
         email: 'user@example.com',
       });
@@ -249,7 +246,7 @@ describe('analytics', () => {
     it('does not call gtag when GA is not available', () => {
       const gtagMock = window.gtag;
       (window as unknown as { gtag: unknown }).gtag = undefined;
-      trackNewsletterSignup({ location: 'homepage' });
+      trackSignupSubmitted({ location: 'homepage' });
       expect(gtagMock).not.toHaveBeenCalled();
     });
   });

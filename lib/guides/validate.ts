@@ -1,4 +1,5 @@
 import type { Guide } from './types';
+import { CAMPAIGN_TAGS } from '@/lib/attribution/source-tags.mjs';
 
 const text = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 function url(value: unknown): boolean {
@@ -16,13 +17,20 @@ export function validateGuide(value: unknown): string[] {
   const errors: string[] = [];
   for (const key of ['title', 'summary']) if (!text(g[key])) errors.push(key);
   if (!text(g.slug) || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(g.slug)) errors.push('slug');
-  for (const key of ['lastTestedOn', 'pricesCheckedOn']) if (!date(g[key])) errors.push(key);
-  if (!Array.isArray(g.prices) || !g.prices.length || g.prices.some(p => !record(p) || !text(p.item) || typeof p.aud !== 'number' || !Number.isFinite(p.aud) || p.aud < 0 || !url(p.source))) errors.push('prices');
+  if (!date(g.lastTestedOn)) errors.push('lastTestedOn');
+  for (const key of ['whyAiGoesWrong', 'needsAHuman']) {
+    if (!Array.isArray(g[key]) || !g[key].length || g[key].some((p: unknown) => !text(p))) errors.push(key);
+  }
+  if (!text(g.prompt)) errors.push('prompt');
+  if (!Array.isArray(g.claimChecks) || g.claimChecks.length !== 5 || g.claimChecks.some(c => !record(c) || !text(c.claim) || !text(c.whatTheSourceSays) || !text(c.verdict) || !['supported', 'not-supported', 'partly'].includes(c.verdict) || !url(c.sourceUrl) || !text(c.sourceLocator))) errors.push('claimChecks');
+  const failure = g.howThisFails;
+  if (!record(failure) || !text(failure.aiSaid) || !text(failure.sourceSays) || !url(failure.sourceUrl)) errors.push('howThisFails');
+  if (!Array.isArray(g.toolsPrices) || !g.toolsPrices.length || g.toolsPrices.some(p => !record(p) || !text(p.name) || typeof p.aud !== 'number' || !Number.isFinite(p.aud) || p.aud < 0 || !date(p.checkedOn) || !url(p.source))) errors.push('toolsPrices');
   if (!Array.isArray(g.sources) || !g.sources.length || g.sources.some(s => !record(s) || !text(s.title) || !url(s.url))) errors.push('sources');
-  if (!Array.isArray(g.howThisFails) || !g.howThisFails.length || g.howThisFails.some(s => !text(s))) errors.push('howThisFails');
-  // R7: the demo disclaimer block is mandatory, so only `true` passes.
+  if (!record(g.optIn) || !text(g.optIn.heading)) errors.push('optIn');
+  if (g.defaultCampaign !== undefined && (!text(g.defaultCampaign) || !CAMPAIGN_TAGS.includes(g.defaultCampaign))) errors.push('defaultCampaign');
   if (g.demoDisclaimer !== true) errors.push('demoDisclaimer');
-  if (!Array.isArray(g.sections) || !g.sections.length || g.sections.some(s => !record(s) || !text(s.heading) || !text(s.body))) errors.push('sections');
+  if (g.placeholderNotice !== undefined && !text(g.placeholderNotice)) errors.push('placeholderNotice');
   return errors;
 }
 

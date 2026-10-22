@@ -32,7 +32,7 @@ describe('R1 rule: tags are lowercase kebab-case from the committed list', () =>
     expect(tagListProblems({ sources: { 'src-unattributed': '01' }, campaigns: {} })).toHaveLength(1);
     expect(tagListProblems({ sources: { 'src-unattributed': '5', 'src-x': '5' }, campaigns: {} })).toHaveLength(1);
     expect(tagListProblems({ sources: { 'src-x': null }, campaigns: {} })).toHaveLength(1);
-    expect(tagListProblems(undefined, { requireIds: true }).length).toBeGreaterThan(0); // IDs pending F5
+    expect(tagListProblems({ sources: { 'src-unattributed': null }, campaigns: {} }, { requireIds: true }).length).toBeGreaterThan(0); // deliberately missing fixture ID
     expect(tagListProblems(LIST_WITH_IDS, { requireIds: true })).toEqual([]);
   });
   it('never invents a tag: unlisted or non-kebab utm values do not become tags', () => {
@@ -62,7 +62,7 @@ describe('R1 rule: exactly one src-* and at most one cmp-* per signup', () => {
     expect(signupTagsForUrl('not a url')).toEqual({ source: UNATTRIBUTED_SOURCE, campaign: null });
   });
   it('refuses (null) rather than send a signup without its tag IDs', () => {
-    expect(kitTagFields(`${GUIDE}?utm_source=x`)).toBeNull(); // committed IDs are still null
+    expect(kitTagFields(`${GUIDE}?utm_source=x`, { sources: { 'src-x': null }, campaigns: {} })).toBeNull(); // deliberately missing fixture ID
     expect(kitTagFields(`${GUIDE}?utm_source=x&utm_campaign=i3-preview`,
       { ...LIST_WITH_IDS, campaigns: { 'cmp-i3-preview': null } })).toBeNull();
   });
@@ -77,7 +77,7 @@ describe('R1 rule: no cmp-* tag counts as cmp-none', () => {
 
 const subscriber = (id, utm, overrides = {}) => ({
   id, email_address: `reader${id}@example.com`, state: 'active', created_at: '2026-10-21T04:00:00Z',
-  referrer: GUIDE, referrer_utm_parameters: utm, ...overrides,
+  referrer: 'https://investlink.ai/', referrer_utm_parameters: utm, ...overrides,
 });
 const tag = (name, taggedAt = '2026-10-21T04:00:05Z') => ({ id: idOf(name), name, tagged_at: taggedAt });
 const page = (subscribers, cursor = null) => ({ subscribers, pagination: { has_next_page: !!cursor, end_cursor: cursor } });
@@ -195,7 +195,7 @@ describe('attribution configuration and offline checks', () => {
     if (mode === 'form-per-source') expect(attributionProblems(env, { ...TAG_LIST, sourceForms })).toEqual([]);
     const missingForms = { ...list, sourceForms: { ...sourceForms, 'src-x': null } };
     expect(attributionProblems(env, missingForms).some(p => p.includes('Kit form ID required'))).toBe(mode === 'form-per-source');
-    expect(attributionProblems(env).length).toBeGreaterThan(0);
+    expect(attributionProblems(env).length > 0).toBe(mode !== 'hidden-tags');
   });
 });
 
@@ -218,5 +218,38 @@ describe('form-per-source report', () => {
     const report = await tagReport({ api, mode: 'form-per-source', sourceForms });
     expect(report.ok).toBe(false);
     expect(report.violations.length).toBeGreaterThan(0);
+  });
+});
+
+describe('committed public Kit IDs', () => {
+  it('resolves anchor-1 to its public tag ID and passes the hidden-tags build gate', () => {
+    expect(kitTagFields(`${GUIDE}?utm_source=x&utm_campaign=anchor-1`)).toEqual([
+      ['tags[]', '24886135'], ['tags[]', '24886162'],
+    ]);
+    expect(attributionProblems({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '9042473' })).toEqual([]);
+    expect(Object.values(TAG_LIST.sourceForms).every(id => id === null)).toBe(true);
+  });
+});
+
+describe('report guide campaign evidence', () => {
+  it.each(['hidden-tags', 'form-per-source'])('%s uses the stored guide referrer and warns when ambiguous', async mode => {
+    for (const [referrer, campaign, tags, violation, warning] of [
+      [GUIDE, undefined, [tag('src-x'), tag('cmp-anchor-1')], false, false],
+      [GUIDE, 'unlisted', [tag('src-x'), tag('cmp-anchor-1')], false, false],
+      [GUIDE, 'i3-preview', [tag('src-x'), tag('cmp-i3-preview')], false, false],
+      [GUIDE, 'anchor-1', [tag('src-x'), tag('cmp-anchor-1')], false, false],
+      [GUIDE, undefined, [tag('src-x')], mode === 'hidden-tags', mode === 'form-per-source'],
+      [undefined, undefined, [tag('src-x'), tag('cmp-anchor-1')], false, true],
+      ['https://investlink.ai/', undefined, [tag('src-x')], false, false],
+      ['https://investlink.ai/', undefined, [tag('src-x'), tag('cmp-anchor-1')], true, false],
+    ]) {
+      const row = subscriber(90, { source: 'x', campaign }, { referrer });
+      const api = createMockKitApi({ pages: [page([row])],
+        formPages: Object.fromEntries(Object.values(sourceForms).map(id => [id, [page(id === sourceForms['src-x'] ? [row] : [])]])),
+        subscriberTags: { 90: tags } });
+      const report = await tagReport({ api, mode, formId: '123', sourceForms });
+      expect(report.violations.length > 0).toBe(violation);
+      expect(report.warnings.length > 0).toBe(warning);
+    }
   });
 });

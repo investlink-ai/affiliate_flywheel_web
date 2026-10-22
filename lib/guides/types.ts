@@ -2,13 +2,16 @@ export interface Guide {
   title: string;
   slug: string;
   summary: string;
-  lastTestedOn: string;
-  pricesCheckedOn: string;
-  prices: { item: string; aud: number; source: string }[];
+  whyAiGoesWrong: string[];
+  prompt: string;
+  claimChecks: { claim: string; whatTheSourceSays: string; verdict: 'supported' | 'not-supported' | 'partly'; sourceUrl: string; sourceLocator: string }[];
+  howThisFails: { aiSaid: string; sourceSays: string; sourceUrl: string };
+  needsAHuman: string[];
+  optIn: { heading: string };
+  defaultCampaign?: string;
   sources: { title: string; url: string }[];
-  howThisFails: string[];
+  lastTestedOn: string;
+  toolsPrices: { name: string; aud: number; checkedOn: string; source: string }[];
   demoDisclaimer: true;
-  sections: { heading: string; body: string }[];
-  /** Set while the copy is placeholder; renders a visible banner at the top of the guide. */
   placeholderNotice?: string;
 }

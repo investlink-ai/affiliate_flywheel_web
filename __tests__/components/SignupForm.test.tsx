@@ -10,12 +10,12 @@ const mockProvider = getEmailProvider({});
 const TEST_TAG_IDS = { sources: Object.fromEntries(SOURCE_TAGS.map((t, i) => [t, String(100 + i)])), campaigns: {} };
 const kitEnv = { NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' };
 const kitProvider = getEmailProvider(kitEnv, (url) => kitTagFields(url, TEST_TAG_IDS));
-const kitProviderNoIds = getEmailProvider(kitEnv);
+const kitProviderNoIds = getEmailProvider(kitEnv, undefined, { sources: { 'src-unattributed': null }, campaigns: {} });
 
-const mockTrackNewsletterSignup = vi.fn();
+const mockTrackSignupSubmitted = vi.fn();
 
 vi.mock('@/lib/analytics', () => ({
-  trackNewsletterSignup: (...args: unknown[]) => mockTrackNewsletterSignup(...args),
+  trackSignupSubmitted: (...args: unknown[]) => mockTrackSignupSubmitted(...args),
 }));
 
 describe('SignupForm', () => {
@@ -48,7 +48,7 @@ describe('SignupForm', () => {
       fireEvent.submit(screen.getByRole('button', { name: /subscribe free/i }).closest('form')!);
 
       expect(await screen.findByText(/please enter a valid email address/i)).toBeInTheDocument();
-      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
+      expect(mockTrackSignupSubmitted).not.toHaveBeenCalled();
     });
 
     it('mock provider: valid email sends nothing and says so', async () => {
@@ -60,7 +60,7 @@ describe('SignupForm', () => {
 
       expect(await screen.findByRole('status')).toHaveTextContent(MOCK_SIGNUP_MESSAGE);
       expect(global.fetch).not.toHaveBeenCalled();
-      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
+      expect(mockTrackSignupSubmitted).not.toHaveBeenCalled();
     });
 
     it('kit provider: posts natively to the hosted form with email_address and referrer, never /api/newsletter', () => {
@@ -77,11 +77,9 @@ describe('SignupForm', () => {
         .toEqual([TEST_TAG_IDS.sources['src-unattributed']]);
 
       fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
-      const submit = new Event('submit', { bubbles: true, cancelable: true });
-      form.dispatchEvent(submit);
-      expect(submit.defaultPrevented).toBe(false);
+      expect(fireEvent.submit(form)).toBe(true);
       expect(global.fetch).not.toHaveBeenCalled();
-      expect(mockTrackNewsletterSignup).toHaveBeenCalledWith({ location: 'test-kit' });
+      expect(mockTrackSignupSubmitted).toHaveBeenCalledWith({ location: 'test-kit' });
     });
 
     it('kit provider without committed tag IDs blocks the submit instead of sending an untagged signup', () => {
@@ -90,7 +88,7 @@ describe('SignupForm', () => {
       fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
       expect(fireEvent.submit(form)).toBe(false); // default prevented: nothing posted
       expect(screen.getByText(/isn't available right now/i)).toBeInTheDocument();
-      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
+      expect(mockTrackSignupSubmitted).not.toHaveBeenCalled();
     });
 
     it('does not track or submit when honeypot is filled (bot trap)', async () => {
@@ -105,8 +103,8 @@ describe('SignupForm', () => {
       await user.click(screen.getByRole('button', { name: /subscribe free/i }));
 
       expect(global.fetch).not.toHaveBeenCalled();
-      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
-      expect(screen.getByText(/check your email to confirm/i)).toBeInTheDocument();
+      expect(mockTrackSignupSubmitted).not.toHaveBeenCalled();
+      expect(screen.queryByText(/Thanks!|Check your email to confirm/i)).not.toBeInTheDocument();
     });
   });
 

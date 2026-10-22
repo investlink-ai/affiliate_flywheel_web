@@ -22,7 +22,9 @@ The committed list is `lib/attribution/tag-list.mjs`. Rules, each tested in
 - Every signup gets exactly one `src-*` tag: `src-<utm_source>` when that value
   is in the list, otherwise `src-unattributed` (missing, unknown or malformed).
 - At most one `cmp-*` tag: `cmp-<utm_campaign>` only when listed. No slugging;
-  an unlisted campaign never becomes a tag.
+  an unlisted campaign never becomes a tag. The preview guide explicitly defaults
+  to `cmp-anchor-1` when no listed UTM campaign is present; home, reviews and
+  exit popups have no default campaign. A listed UTM campaign wins.
 - A signup with no `cmp-*` tag counts as `cmp-none` (report bucket, not a tag).
 - Tags are lowercase kebab-case and come only from the committed list
   (`npm run check:tags`, also run before every build).
@@ -31,13 +33,14 @@ The committed list is `lib/attribution/tag-list.mjs`. Rules, each tested in
 
 ## Attribution modes and fallback setup
 
-Try **`hidden-tags` first**. CTO decision (22 Oct 2026): if the COO has not verified
-hidden-tags against live Kit by Fri 23 Oct 2026 17:00 AEDT, the default flips to
-`form-per-source`. `NEXT_PUBLIC_KIT_ATTRIBUTION` defaults to
-`hidden-tags` only when unset. In this mode all placements post to
-`NEXT_PUBLIC_KIT_FORM_ID`, sending the full page URL as `referrer` and one
-`tags[]` ID per source/campaign tag. Behaviour is unchanged. Every listed tag ID
-must be filled in `lib/attribution/tag-list.mjs` for a Kit build.
+The default stays **`hidden-tags`** when `NEXT_PUBLIC_KIT_ATTRIBUTION` is unset.
+The public live form ID is **9042473**: set `NEXT_PUBLIC_EMAIL_PROVIDER=kit` and
+`NEXT_PUBLIC_KIT_FORM_ID=9042473`. It is configuration, not hardcoded in the site.
+All public source/campaign tag IDs are committed in `lib/attribution/tag-list.mjs`.
+In this mode all placements post to the configured form, sending the full page
+URL as `referrer` and one `tags[]` ID per source/campaign tag. Whether Kit applies
+`tags[]` is verified in the R1/R3 live test; `form-per-source` remains the
+switchable fallback, with its source form IDs deliberately null until configured.
 
 **UNVERIFIED:** whether Kit honours undeclared `tags[]` IDs and whether tags are
 applied at signup or confirmation. Kit records UTM attribution but has no native
@@ -75,7 +78,7 @@ rebuild to switch back.
 ## Environment variable names
 
 - NEXT_PUBLIC_EMAIL_PROVIDER
-- NEXT_PUBLIC_KIT_FORM_ID
+- NEXT_PUBLIC_KIT_FORM_ID (public example: 9042473)
 - NEXT_PUBLIC_KIT_ATTRIBUTION
 - NEXT_PUBLIC_UMAMI_WEBSITE_ID
 - KIT_API_KEY (operator only, for the read-only report)
@@ -104,6 +107,10 @@ not exactly one `src-*`, more than one `cmp-*`, an unlisted src-/cmp- tag, tags
 that differ from what the form sets for the UTMs Kit stored, or a tag applied
 more than 24 h after signup (signs of a hand-added tag; `tagged_at` in the
 response is UNVERIFIED). A mismatch when Kit stored no UTMs is only a warning.
+The report expects `cmp-anchor-1` without a listed UTM campaign only when Kit's
+stored `referrer` identifies the preview guide URL. Missing or ambiguous referrers
+make campaign mismatches warnings, even with a stored source UTM; structural
+violations and source mismatches with stored UTMs still violate.
 In form-per-source, each confirmed subscriber must have exactly the source tag
 mapped to the form they joined, even if Kit stored no UTMs. Source checks use
 form membership. Missing expected campaign tags warn rather than violate;
@@ -114,7 +121,7 @@ Exit 0 ok, 1 violations, 2 usage/config, 3 read failure.
 ## Reviewer preview checks
 
 1. R1: with the default mock, visit the guide and submit a valid test address.
-   Verify the mock confirmation, required/email validation, privacy link, all six
+   Verify the mock confirmation, required/email validation, privacy link, all anchor-brief
    guide blocks, AUD prices, global disclosures and noindex metadata. No provider
    request should occur. Content, price sources and dates are explicitly preview
    placeholders pending CPO anchor #1 copy.
@@ -124,7 +131,11 @@ Exit 0 ok, 1 violations, 2 usage/config, 3 read failure.
    reviewer-owned test addresses. Inspect the form action and hidden `referrer`:
    it must include the full page URL, including UTM query parameters. Submit by
    browser POST, with no site API call or API-created subscriber.
-3. R3: make three signups from guide URLs with `utm_source=x`, `youtube`, and
+3. R3: also test guide URLs with `utm_source=x`, `youtube`, and `newsletter`
+   without a campaign: expect the corresponding source plus `cmp-anchor-1`.
+   Test `utm_campaign=anchor-1`, `i3-preview`, and an unlisted value: expect
+   `cmp-anchor-1`, `cmp-i3-preview`, and `cmp-anchor-1` respectively, always
+   at most one campaign tag. Then make three signups from guide URLs with `utm_source=x`, `youtube`, and
    `newsletter`, each with `utm_campaign=i3-preview`. Leave one additional signup
    unconfirmed; also confirm signups without UTM and with an unknown source.
    Before submitting, inspect the `tags[]` hidden fields (one src ID, one cmp
@@ -132,8 +143,9 @@ Exit 0 ok, 1 violations, 2 usage/config, 3 read failure.
    `src-x`, `src-youtube`, `src-newsletter`, plus `cmp-i3-preview`, and
    `src-unattributed` for the missing/unknown sources, with no tag added by
    anyone. Inspect Kit's stored `referrer_utm_parameters`. Run the read-only
-   report: expect `ok: true`, the counts above, `cmp-none` for the no-campaign
-   signups, and no email in the output. Note whether the unconfirmed signup
+   report: expect `ok: true`, the counts above, `cmp-anchor-1` for guide signups
+   without a listed campaign, and `cmp-none` for no-campaign signups at other
+   placements, with no email in the output. Note whether the unconfirmed signup
    already carries its tags (records the signup-vs-confirmation UNVERIFIED). If
    undeclared tags[] are ignored, follow the fallback setup above and repeat
    these checks with source-specific actions and only campaign tags[]; missing
@@ -156,3 +168,26 @@ confirmation, incentive email/download configuration, unsubscribe, real
 attribution persistence, and Umami Cloud collection need the manual checks above.
 Cloudflare Pages deployment and its actual security headers are not verified;
 no new server route, API handler or middleware is introduced by this preview.
+
+## Kit browser handoff and security checks (R1/R3)
+
+Every Kit form uses a normal top-level browser POST to app.kit.com in the current
+window. No fetch/XHR or site success screen intercepts the redirect. A live POST
+has returned a 302 to a Kit reCAPTCHA "security check" page: the signup was held
+there and did not become a subscriber until the check was completed. During
+R1/R3 the reviewer must complete any security check in the browser. A held signup
+with no completion is expected not to appear in Kit. Then confirm using the email
+link; unconfirmed signups must not receive the checklist. `signup_submitted`
+analytics records only the handoff, never a confirmed subscription or conversion.
+The exit popup remembers dismissal at handoff and shows no success message.
+
+In the Kit form settings, the operator should configure **redirect after subscribe**
+to the preview origin plus `/subscribe/next-steps` (on each source form if using
+the fallback). This is a separate setting from the incentive email's redirect to
+Download. The repository does not assume that either redirect is configured.
+The static noindex next-steps page tells readers to finish any security check and
+confirm by email, and inherits global disclosures from the site layout.
+
+CPO copy is due Sat 24 Oct 2026 12:00. See `docs/ANCHOR-1-DROP-IN.md` for the
+field contract. Keep the placeholder banner, `[Placeholder]` metadata title and
+noindex until the editorial publication decision.

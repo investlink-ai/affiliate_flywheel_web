@@ -5,7 +5,7 @@ import { assertValidGuide } from '@/lib/guides/validate';
 import { GuideTemplate } from '@/components/guide/GuideTemplate';
 
 export const metadata: Metadata = {
-  title: 'Preview: AI research checklist',
+  title: '[Placeholder] Preview: AI research checklist',
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
 };
 export const dynamicParams = false;

@@ -2,12 +2,13 @@
 
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
+import { KIT_SUBMIT_NOTICE, getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
 const defaultProvider = getEmailProvider();
 
-export function OptInForm({ provider = defaultProvider, onMockSubmit }: {
+export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCampaign }: {
   provider?: EmailProvider;
+  defaultCampaign?: string;
   onMockSubmit?: (email: string) => void;
 }) {
   const id = useId();
@@ -16,8 +17,8 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit }: {
   const [message, setMessage] = useState('');
   useEffect(() => {
     setAction(provider.actionForUrl?.(window.location.href) ?? provider.formAction);
-    setFields(provider.extraFields(window.location.href));
-  }, [provider]);
+    setFields(provider.extraFields(window.location.href, defaultCampaign));
+  }, [provider, defaultCampaign]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     const form = event.currentTarget;
@@ -49,7 +50,7 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit }: {
         <label htmlFor={`${id}-website`}>Leave this field empty</label>
         <input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
-      <p>We&apos;ll email you a link to confirm. You get the checklist after you confirm.</p>
+      <p>{provider.id === 'kit' ? KIT_SUBMIT_NOTICE : "We'll email you a link to confirm. You get the checklist after you confirm."}</p>
       <p>Read our <Link href="/privacy" className="underline">privacy policy</Link>.</p>
       <button type="submit" disabled={!fields} className="rounded bg-primary-600 px-4 py-3 text-white">Email me the checklist</button>
       <p role="status">{message}</p>
