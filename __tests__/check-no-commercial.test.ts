@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { resolve } from 'node:path';
-import { scan, scanText } from '../scripts/check-no-commercial.mjs';
+import { maskRoot, scan, scanText } from '../scripts/check-no-commercial.mjs';
 
 type Hit = { rule: string };
 const rules = (text: string) => (scanText(text) as Hit[]).map((h) => h.rule);
@@ -34,5 +34,13 @@ describe('check-no-commercial', () => {
     'https://twitter.com/investlink_ai',
   ])('allows %s', (text) => {
     expect(rules(text)).toEqual([]);
+  });
+
+  it('ignores the checkout path (CI clones into affiliate_flywheel_web) but not content', () => {
+    const root = '/home/runner/work/affiliate_flywheel_web/affiliate_flywheel_web';
+    const enc = encodeURIComponent(root);
+    expect(rules(maskRoot(`require("${root}/app/page.tsx")`, root))).toEqual([]);
+    expect(rules(maskRoot(`route-loader?filePath=${enc}%2Fapp%2Frobots.ts`, root))).toEqual([]);
+    expect(rules(maskRoot(`${root}/x Affiliate Disclosure`, root))).toContain('affiliate');
   });
 });

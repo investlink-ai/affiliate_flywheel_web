@@ -51,6 +51,21 @@ export function scanText(text) {
   return hits;
 }
 
+/**
+ * Next.js embeds the absolute checkout path in build output (e.g. route-loader
+ * filePath=...). The repo is named affiliate_flywheel_web, so CI checkouts
+ * (/home/runner/work/affiliate_flywheel_web/...) would trip the affiliate rule
+ * on a path, not on content. Mask the checkout path, raw and URL-encoded.
+ */
+export function maskRoot(text, root) {
+  if (!root) return text;
+  let out = text;
+  for (const form of new Set([root, encodeURIComponent(root), encodeURIComponent(root).toLowerCase()])) {
+    out = out.split(form).join('<root>');
+  }
+  return out;
+}
+
 export function scan(root, { build = false } = {}) {
   const findings = [];
   const files = [];
@@ -65,7 +80,7 @@ export function scan(root, { build = false } = {}) {
     if (files.length === before) throw new Error('no build output under .next; run `npm run build` first');
   }
   for (const f of files) {
-    for (const h of scanText(readFileSync(f, 'utf8'))) findings.push({ file: relative(root, f), ...h });
+    for (const h of scanText(maskRoot(readFileSync(f, 'utf8'), root))) findings.push({ file: relative(root, f), ...h });
   }
   return { files: files.length, findings };
 }
