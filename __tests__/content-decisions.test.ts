@@ -100,16 +100,15 @@ describe('CPO organisation identity', () => {
     }).author).toEqual(getAuthorSchema());
   });
 
-  it('renders organisation bylines and retains dates', () => {
+  it('renders organisation bylines with the updated date and no Verified badge', () => {
     for (const variant of ['inline', 'compact', 'card'] as const) {
       const html = renderToStaticMarkup(createElement(AuthorByline, {
-        variant, showSocial: true, dateUpdated: '2026-01-02', dateVerified: '2026-01-01',
+        variant, showSocial: true, dateUpdated: '2026-01-02',
       }));
       expect(html).toContain('Reviewed by InvestLink');
       expect(html).toContain('href="/about"');
       expect(html).toContain('2026-01-02');
-      expect(html).toContain('2026-01-01');
-      expect(html).not.toMatch(/Verified Expert|Hands-on tested|LinkedIn|Sam Xu/);
+      expect(html).not.toMatch(/Verified|Hands-on tested|LinkedIn|Sam Xu/);
       if (variant === 'card') {
         expect(html).toContain(description);
         expect(html).toContain('https://x.com/investlink_ai');

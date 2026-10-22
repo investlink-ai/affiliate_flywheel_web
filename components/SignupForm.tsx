@@ -17,7 +17,7 @@ interface SignupFormProps {
   description?: string;
   /** Custom CTA text */
   ctaText?: string;
-  /** Email provider (defaults to the Kit hosted form when configured, else an offline mock) */
+  /** Email provider (defaults to the Kit hosted form when configured; see lib/email/provider.ts) */
   provider?: EmailProvider;
   /** Additional class names */
   className?: string;
@@ -35,13 +35,14 @@ export const UNAVAILABLE_SIGNUP_MESSAGE = "Signup isn't available right now, so 
  *
  * The browser posts straight to the Kit hosted form (double opt-in), with a hidden
  * `referrer` field holding the full page URL so Kit can attribute UTM parameters.
- * The site never creates subscribers through an API route. Without public Kit
- * configuration the form is an offline mock that sends nothing.
+ * The site never creates subscribers through an API route. Without a Kit form ID,
+ * a production build renders nothing; dev/test builds use an offline mock that
+ * sends nothing.
  */
 export function SignupForm({
   location,
   variant = 'card',
-  headline = 'Get the Best AI Tool Recommendations',
+  headline = 'Get AI investment tool notes by email',
   description = 'Weekly insights on AI investment tools and market analysis. Confirm by email to subscribe.',
   ctaText = 'Subscribe Free',
   provider = defaultProvider,
@@ -112,6 +113,9 @@ export function SignupForm({
     'data-provider': provider.id,
   };
 
+  // Signup isn't configured on this production build: render nothing.
+  if (provider.id === 'off') return null;
+
   if (status === 'mock') {
     return (
       <div className={`rounded-xl bg-slate-100 p-6 text-center dark:bg-slate-800 ${className}`} role="status" aria-live="polite">
@@ -120,7 +124,8 @@ export function SignupForm({
     );
   }
 
-  // Honeypot field component (hidden from users, visible to bots)
+  // Honeypot field (hidden from users, visible to bots). It has no `name`, so it is
+  // never part of the form data posted to Kit; only its React state is checked.
   const honeypotField = (
     <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
       <label htmlFor={`website-${location}`}>
@@ -129,7 +134,6 @@ export function SignupForm({
       <input
         type="text"
         id={`website-${location}`}
-        name="website"
         value={honeypot}
         onChange={(e) => setHoneypot(e.target.value)}
         tabIndex={-1}

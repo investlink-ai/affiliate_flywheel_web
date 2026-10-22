@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Fails if referral, sponsored, Binance or affiliate content is present in the
- * site source or in the built output.
+ * Fails if referral, sponsored, Binance, Polymarket or affiliate content, or the
+ * old investlink.com domain, is present in the site source or in the built
+ * output. Lines are also checked after HTML-entity, JS-escape and URL decoding.
  *
  *   node scripts/check-no-commercial.mjs            # source only
  *   node scripts/check-no-commercial.mjs --build    # source + .next build output
@@ -15,18 +16,19 @@ import { fileURLToPath } from 'node:url';
 
 export const RULES = [
   { id: 'old-domain', re: /investlink\.com/i },
-  { id: 'referral-param', re: /[?&](ref|referral|aff|affid|aff_id|partner)=/i },
+  { id: 'referral-param', re: /[?&;](ref|referral|aff|affid|aff_id|partner|partner_id|via|tag|irclickid)=/i },
   { id: 'feynmanxu-ref', re: /ref=feynmanxu/i },
   { id: 'sponsored', re: /\bsponsored\b/i },
   { id: 'binance', re: /binance/i },
+  { id: 'polymarket', re: /polymarket/i },
   { id: 'affiliate', re: /affiliate(?!d)/i },
   { id: 'go-redirect', re: /["'`(]\/go\//i },
 ];
 
 const SOURCE_ROOTS = ['app', 'components', 'lib', 'public', 'middleware.ts', 'next.config.mjs', '.env.example'];
-const SOURCE_EXT = new Set(['.ts', '.tsx', '.js', '.mjs', '.jsx', '.json', '.svg', '.css', '.html', '.txt', '.xml', '.md', '.example', '']);
+const SOURCE_EXT = new Set(['.ts', '.tsx', '.js', '.mjs', '.jsx', '.json', '.svg', '.css', '.html', '.htm', '.webmanifest', '.txt', '.xml', '.md', '.example', '']);
 const BUILD_ROOTS = ['.next/server/app', '.next/static'];
-const BUILD_EXT = new Set(['.html', '.js', '.rsc', '.body', '.json', '.css', '.txt', '.xml']);
+const BUILD_EXT = new Set(['.html', '.htm', '.webmanifest', '.js', '.rsc', '.body', '.json', '.css', '.txt', '.xml']);
 
 function walk(path, out) {
   if (!existsSync(path)) return out;
@@ -39,12 +41,34 @@ function walk(path, out) {
   return out;
 }
 
+const NAMED_ENTITIES = { amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', sol: '/', quest: '?', equals: '=', period: '.', colon: ':' };
+
+/**
+ * Decode the encodings a link can hide behind in source or build output:
+ * HTML entities (&amp; &#38; &#x26;), JS/JSON escapes (\u0026, \x26) and URL
+ * percent-encoding (%3Fref%3D). Applied twice to catch double encoding.
+ */
+export function decodeLine(line) {
+  let out = line;
+  for (let pass = 0; pass < 2; pass++) {
+    out = out
+      .replace(/&#x([0-9a-f]+);?/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/&#(\d+);?/g, (_, d) => String.fromCodePoint(Number(d)))
+      .replace(/&([a-z]+);/gi, (m, n) => NAMED_ENTITIES[n.toLowerCase()] ?? m)
+      .replace(/\\u([0-9a-f]{4})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/\\x([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/%([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)));
+  }
+  return out;
+}
+
 export function scanText(text) {
   const hits = [];
   const lines = text.split('\n');
   lines.forEach((line, i) => {
+    const decoded = decodeLine(line);
     for (const rule of RULES) {
-      const m = line.match(rule.re);
+      const m = line.match(rule.re) ?? (decoded === line ? null : decoded.match(rule.re));
       if (m) hits.push({ rule: rule.id, line: i + 1, match: m[0] });
     }
   });

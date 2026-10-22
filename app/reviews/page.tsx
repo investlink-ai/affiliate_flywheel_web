@@ -9,10 +9,10 @@ import { getUserTypeFromParams } from '@/lib/user-type';
 export const metadata: Metadata = {
   title: 'AI Investment Tool Reviews',
   description:
-    'Comprehensive reviews of the best AI investment tools for traders and investors. Honest assessments based on real testing.',
+    'Reviews of AI investment tools for traders and investors.',
   openGraph: {
     title: 'AI Investment Tool Reviews | InvestLink',
-    description: 'Comprehensive reviews of the best AI investment tools for traders and investors.',
+    description: 'Reviews of AI investment tools for traders and investors.',
   },
 };
 
@@ -49,7 +49,7 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
             AI Investment Tool Reviews
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
-            Honest, in-depth reviews of the best AI investment tools for traders and investors.
+            Reviews of AI investment tools for traders and investors.
           </p>
         </div>
       </section>
@@ -79,10 +79,10 @@ export default async function ReviewsPage({ searchParams }: ReviewsPageProps) {
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-            Can&apos;t decide which tool is right for you?
+            Not sure which tool may suit you?
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-400">
-            Check out our side-by-side comparisons to find your perfect match.
+            Check our side-by-side comparisons.
           </p>
           <Link href="/comparisons" className="btn-primary mt-6 inline-flex">
             View Comparisons

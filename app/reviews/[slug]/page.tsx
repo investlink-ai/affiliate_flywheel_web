@@ -8,6 +8,7 @@ import { DisclosureNote } from '@/components/DisclosureNote';
 import { ToolCard } from '@/components/ToolCard';
 import { AuthorByline } from '@/components/AuthorByline';
 import { SignupForm } from '@/components/SignupForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { Breadcrumb, getReviewBreadcrumbs } from '@/components/Breadcrumb';
 import { ScreenshotGallery } from '@/components/ScreenshotGallery';
 import { VideoReviewSection } from '@/components/VideoEmbed';
@@ -47,8 +48,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const currentYear = new Date().getFullYear();
 
   // Review title and description
-  const title = `${tool.name} Review ${currentYear}: Honest Assessment by ${primaryAuthor.name}`;
-  const description = `${tool.name} review by InvestLink: ${tool.rating}/5. ${tool.tagline}. Pricing: ${tool.pricing}. Best for ${tool.bestFor}.`;
+  const title = `${tool.name} Review ${currentYear} by ${primaryAuthor.name}`;
+  const description = `${tool.name} review by InvestLink. ${tool.tagline}. Pricing: ${tool.pricing}. May suit ${tool.bestFor}`;
 
   return {
     title,
@@ -69,13 +70,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: `/og/reviews/${tool.slug}.png`,
           width: 1200,
           height: 630,
-          alt: `${tool.name} Review - ${tool.rating}/5 Stars`,
+          alt: `${tool.name} Review`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${tool.name} Review: ${tool.rating}/5 - ${authorByline}`,
+      title: `${tool.name} Review - ${authorByline}`,
       description: tool.tagline,
       creator: '@investlink_ai',
     },
@@ -129,7 +130,7 @@ export default async function ReviewPage({ params }: PageProps) {
       <article className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Author Byline - EEAT Signal */}
         <div className="mb-8 border-b border-slate-200 pb-6 dark:border-slate-700">
-          <AuthorByline dateUpdated={tool.lastUpdated} dateVerified={tool.lastVerified} />
+          <AuthorByline dateUpdated={tool.lastUpdated} />
         </div>
 
         <div className="grid gap-12 lg:grid-cols-3">
@@ -290,18 +291,20 @@ export default async function ReviewPage({ params }: PageProps) {
         </div>
       </article>
 
-      {/* Newsletter Signup */}
+      {/* Newsletter Signup (hidden when signup isn't configured on this build) */}
+      {isSignupAvailable() && (
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <SignupForm
             location={`review-${tool.slug}`}
             variant="banner"
             headline="Get More AI Investment Tool Insights"
-            description={`Enjoyed this ${tool.name} review? Get weekly recommendations, tips.`}
+            description={`Enjoyed this ${tool.name} review? Get a weekly email on investing tools.`}
             ctaText="Join Free"
           />
         </div>
       </section>
+      )}
 
       {/* Bottom padding for sticky CTA on mobile */}
       <div className="h-24 lg:hidden" aria-hidden="true" />

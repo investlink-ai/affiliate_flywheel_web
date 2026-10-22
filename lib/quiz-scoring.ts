@@ -44,11 +44,22 @@ export interface QuizResult {
  * commission and former partner status have no effect.
  * Higher values = stronger match for that tag.
  * 
- * Score meanings:
+ * Score meanings (NOTES_WORKFLOW_FIT is the one exception):
  * - 3: Excellent match
  * - 2: Good match  
  * - 1: Partial match
  */
+/**
+ * Fit weight for a direct match on the notes workflow answer. Picking "Notes,
+ * research logs and checklists" says the primary need is a notes tool, so that
+ * single fit tag must outweigh what the other tools collect incidentally from the
+ * other four answers (up to 23 points on a notes path; 3 for each tag plus the
+ * category bonus). 24 puts Notion strictly in the top 3 on every notes path; the
+ * margin is tested in __tests__/quiz-scoring.test.ts. It does not change any
+ * path without the notes answer, because no other option carries this tag.
+ */
+export const NOTES_WORKFLOW_FIT = 24;
+
 export const toolScoring: Record<string, Record<string, number>> = {
   quantconnect: {
     'Quantitative Platforms': 3,
@@ -75,9 +86,9 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'free-tier': 2,
   },
   // Research Workflow: selected only via the notes option. No research, AI,
-  // signals, execution or pricing weights.
+  // signals, execution or pricing weights, and no category bonus.
   notion: {
-    'notes-organisation': 3,
+    'notes-organisation': NOTES_WORKFLOW_FIT,
   },
   tradingview: {
     'AI Investment Signals': 3,

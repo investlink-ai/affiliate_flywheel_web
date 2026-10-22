@@ -7,11 +7,13 @@ import {
   getTopRecommendations,
   toolScoring,
   CATEGORY_MATCH_BONUS,
+  NOTES_WORKFLOW_FIT,
   type QuizQuestion,
 } from '@/lib/quiz-scoring';
 import { tools, type Tool } from '@/lib/data';
 
 import { quizQuestions as testQuestions } from '@/lib/quiz-questions';
+import nonNotesTop3 from './fixtures/quiz-top3-non-notes.json';
 
 // Helper to get a tool by slug
 function getToolBySlug(slug: string): Tool {
@@ -276,9 +278,13 @@ describe('Quiz Scoring Algorithm', () => {
       });
     });
 
-    it('should have weights between 1 and 3', () => {
-      Object.values(toolScoring).forEach((weights) => {
-        Object.values(weights!).forEach((weight) => {
+    it('should have weights between 1 and 3 (except the single notes workflow fit weight)', () => {
+      Object.entries(toolScoring).forEach(([slug, weights]) => {
+        Object.entries(weights!).forEach(([tag, weight]) => {
+          if (slug === 'notion' && tag === 'notes-organisation') {
+            expect(weight).toBe(NOTES_WORKFLOW_FIT);
+            return;
+          }
           expect(weight).toBeGreaterThanOrEqual(1);
           expect(weight).toBeLessThanOrEqual(3);
         });
@@ -745,7 +751,7 @@ describe('CPO quiz decisions', () => {
       ...testQuestions.flatMap((q) => q.options.flatMap((o) => o.tags)).filter((tag) => /signal/i.test(tag)),
     ];
     for (const tag of forbidden) expect(toolScoring.notion).not.toHaveProperty(tag);
-    expect(toolScoring.notion).toEqual({ 'notes-organisation': 3 });
+    expect(toolScoring.notion).toEqual({ 'notes-organisation': NOTES_WORKFLOW_FIT });
     expect(calculateToolScore(getToolBySlug('notion'), ['notes-organisation']).matchReasons)
       .toEqual(['Notes & research organisation']);
   });
@@ -761,5 +767,49 @@ describe('CPO quiz decisions', () => {
   it('has no prediction-markets option, tag or copy', () => {
     expect(JSON.stringify(testQuestions)).not.toMatch(/prediction[- ]markets?/i);
     expect(JSON.stringify(toolScoring)).not.toContain('prediction-markets');
+  });
+
+  describe('Notion on the notes paths (Reviewer P2-2)', () => {
+    function* allPaths(i = 0, acc: Record<string, string> = {}): Generator<Record<string, string>> {
+      if (i === testQuestions.length) { yield { ...acc }; return; }
+      const q = testQuestions[i]!;
+      for (const o of q.options) { acc[q.id] = o.id; yield* allPaths(i + 1, acc); }
+    }
+    const paths = [...allPaths()];
+    const isNotes = (a: Record<string, string>) => a['workflow-stage'] === 'notes-research';
+    const key = (a: Record<string, string>) => testQuestions.map((q) => a[q.id]).join('|');
+    const top3 = (a: Record<string, string>) =>
+      getTopRecommendations(calculateQuizResults(tools, a, testQuestions)).map((r) => r.tool.slug);
+
+    it('every one of the 54 notes paths has Notion in the top 3, strictly ahead of the 4th tool', () => {
+      const notes = paths.filter(isNotes);
+      expect(notes).toHaveLength(54);
+      for (const a of notes) {
+        const results = calculateQuizResults(tools, a, testQuestions);
+        expect(top3(a), key(a)).toContain('notion');
+        const notion = results.find((r) => r.tool.slug === 'notion')!;
+        const others = results.filter((r) => r.tool.slug !== 'notion').map((r) => r.score);
+        // Strictly beats the third-best other tool, so the result does not hang on sort order.
+        expect(notion.score, key(a)).toBeGreaterThan(others[2]!);
+      }
+    });
+
+    it('non-notes paths are unchanged: top 3 matches the snapshot taken before the fix, and never has Notion', () => {
+      const snapshot = nonNotesTop3 as Record<string, string>;
+      const nonNotes = paths.filter((a) => !isNotes(a));
+      expect(nonNotes).toHaveLength(Object.keys(snapshot).length);
+      for (const a of nonNotes) {
+        expect(top3(a).join(','), key(a)).toBe(snapshot[key(a)]);
+        expect(top3(a), key(a)).not.toContain('notion');
+      }
+    });
+
+    it('Notion is reached through its fit weight only (no category bonus, no other weights)', () => {
+      expect(Object.keys(toolScoring.notion!)).toEqual(['notes-organisation']);
+      expect(testQuestions.flatMap((q) => q.options).filter((o) => o.tags.includes('notes-organisation')).map((o) => o.id))
+        .toEqual(['notes-research']);
+      expect(calculateToolScore(getToolBySlug('notion'), ['notes-organisation', 'Research Workflow']).score)
+        .toBe(NOTES_WORKFLOW_FIT);
+    });
   });
 });

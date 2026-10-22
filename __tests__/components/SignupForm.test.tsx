@@ -75,6 +75,10 @@ describe('SignupForm', () => {
       // Exactly one src-* tag ID, set at subscribe time (no UTMs here -> src-unattributed).
       expect([...form.querySelectorAll('input[name="tags[]"]')].map((i) => (i as HTMLInputElement).value))
         .toEqual([TEST_TAG_IDS.sources['src-unattributed']]);
+      // The honeypot stays out of the data posted to Kit (Reviewer P3-6 on #24).
+      expect(document.getElementById('website-test-kit')).not.toBeNull();
+      expect(document.getElementById('website-test-kit')!.hasAttribute('name')).toBe(false);
+      expect([...new Set(new FormData(form).keys())].sort()).toEqual(['email_address', 'referrer', 'tags[]']);
 
       fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
       expect(fireEvent.submit(form)).toBe(true);
