@@ -13,3 +13,9 @@ updates:
       - "dependencies"
     commit-message:
       prefix: "chore(deps)"
+    ignore:
+      # Tailwind v4 moved the PostCSS plugin to @tailwindcss/postcss and broke
+      # every production build from d3d3d98 (6 Feb 2026). Major bumps need a
+      # planned migration, not an auto-merged PR.
+      - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
