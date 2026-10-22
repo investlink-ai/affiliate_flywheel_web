@@ -34,7 +34,7 @@ export interface ToolFilterOptions {
   /** Offset for pagination */
   offset?: number;
   /** Sort field */
-  sortBy?: 'rating' | 'name' | 'lastUpdated';
+  sortBy?: 'name' | 'lastUpdated';
   /** Sort direction */
   sortOrder?: 'asc' | 'desc';
 }
@@ -143,9 +143,6 @@ export class LocalToolRepository implements ToolRepository {
       result.sort((a, b) => {
         let comparison = 0;
         switch (options.sortBy) {
-          case 'rating':
-            comparison = a.rating - b.rating;
-            break;
           case 'name':
             comparison = a.name.localeCompare(b.name);
             break;
@@ -189,8 +186,8 @@ export class LocalToolRepository implements ToolRepository {
   }
 
   async getFeatured(count: number = 3): Promise<Tool[]> {
-    // Rank by rating, then name for ties.
-    const sorted = [...this.tools].sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name));
+    // Alphabetical: the site publishes no ratings or rankings.
+    const sorted = [...this.tools].sort((a, b) => a.name.localeCompare(b.name));
     return sorted.slice(0, count);
   }
 

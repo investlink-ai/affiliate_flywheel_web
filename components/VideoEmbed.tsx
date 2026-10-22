@@ -171,12 +171,12 @@ export function VideoReviewSection({
         {toolName} Video Review
       </h2>
       <p className="mt-2 text-slate-600 dark:text-slate-400">
-        Watch our hands-on walkthrough of {toolName}&apos;s features and interface.
+        A third-party video walkthrough of {toolName}&apos;s features and interface.
       </p>
       <div className="mt-6">
         <VideoEmbed
           videoUrl={videoUrl}
-          title={videoTitle || `${toolName} Review - Hands-on Walkthrough`}
+          title={videoTitle || `${toolName} video walkthrough`}
         />
       </div>
       <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">

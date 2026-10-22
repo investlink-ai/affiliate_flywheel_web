@@ -15,12 +15,12 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
-              Best AI Investment Tools{' '}
-              <span className="text-gradient">for Traders & Investors</span> 2026
+              AI Investment Tools{' '}
+              <span className="text-gradient">for Traders & Investors</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Honest, in-depth reviews of AI investment tools that actually work. For individual
-              investors, traders, and fintech professionals who want data-driven decisions.
+              Plain-English reviews of AI investment tools: what each does, who it may suit and where
+              it falls short. For individual investors, traders, and fintech professionals.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/reviews" className="btn-primary w-full sm:w-auto">
@@ -55,7 +55,7 @@ export default function HomePage() {
               Featured Investment Tools
             </h2>
             <p className="mt-2 text-slate-600 dark:text-slate-400">
-              Our top picks for trading, quantitative analysis, and portfolio management
+              Tools we review for trading, quantitative analysis, and research workflow
             </p>
           </div>
           <Link
@@ -90,7 +90,7 @@ export default function HomePage() {
             Explore by Category
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-center text-slate-600 dark:text-slate-400">
-            Find the perfect AI tool for your specific needs
+            Find AI tools that may suit your needs
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -71,10 +71,10 @@ function QuizSkeleton() {
 export const metadata: Metadata = {
   title: 'AI Investment Tool Comparisons',
   description:
-    'Side-by-side comparisons of the best AI investment tools. Compare robo-advisors, trading platforms, and quantitative tools for your investing needs.',
+    'Side-by-side comparisons of AI investment tools. Compare robo-advisors, trading platforms, and quantitative tools for your investing needs.',
   openGraph: {
-    title: 'AI Investment Tool Comparisons | Find Your Perfect Tool',
-    description: 'Side-by-side comparisons of the best AI investment tools for traders and investors.',
+    title: 'AI Investment Tool Comparisons | InvestLink',
+    description: 'Side-by-side comparisons of AI investment tools for traders and investors.',
   },
 };
 
@@ -145,8 +145,8 @@ export default function ComparisonsPage() {
             AI Investment Tool Comparisons
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
-            Side-by-side comparisons to help you choose the right tool. Every feature has been
-            verified through hands-on research.
+            Side-by-side comparisons to help you choose a tool. Features and pricing are taken
+            from each provider&apos;s official site; check it for current details.
           </p>
         </div>
       </section>
@@ -159,7 +159,7 @@ export default function ComparisonsPage() {
             <div className="sticky top-24">
               <QuizComponent
                 title="Not Sure Which Tool?"
-                description="Answer 5 quick questions for personalized recommendations."
+                description="Answer 5 quick questions for tool suggestions based on your answers."
               />
             </div>
           </div>
@@ -183,7 +183,6 @@ export default function ComparisonsPage() {
                   tools={portfolioTools}
                   features={portfolioToolFeatures}
                   featureMatrix={portfolioFeatureMatrix}
-                  winnerId="wealthfront"
                 />
               </div>
 
@@ -192,40 +191,6 @@ export default function ComparisonsPage() {
               </div>
             </div>
 
-            {/* Quick Recommendations */}
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 sm:p-8 dark:border-slate-700 dark:bg-slate-800">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Quick Recommendations</h2>
-              <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Passive Investing</h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Wealthfront</strong> — Automated, tax-optimized portfolios with high-yield cash
-                    and strong long-term focus.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Tax Efficiency</h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Betterment</strong> — Tax-loss harvesting and tax-coordinated IRAs help many
-                    users cover advisory fees through savings.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for Beginners</h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Robinhood</strong> — Commission-free stocks, options, and crypto with a
-                    user-friendly app. Good for learning.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Best for All-in-One</h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Robinhood</strong> — Stocks, options, crypto, and robo-advisory in one app.
-                    Fractional shares and Robinhood Gold available.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -234,14 +199,13 @@ export default function ComparisonsPage() {
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">How We Compare</h2>
           <div className="mt-4 prose prose-slate max-w-none dark:prose-invert">
             <p className="text-slate-600 dark:text-slate-400">
-              Every comparison is based on research from official sites, user reviews, and hands-on
-              evaluation. We verify features, pricing, and pros/cons from real user feedback—not
-              marketing materials. This is not financial advice; always conduct your own due diligence.
+              Comparisons are based on research from official sites and public user reviews. Check
+              each provider&apos;s site for current features and pricing. This is not financial advice;
+              always conduct your own due diligence.
             </p>
             <p className="mt-4 text-slate-600 dark:text-slate-400">
-              Winner badges indicate the tool that offers the best overall value for most users in
-              that category. Your needs may vary—consider your investment style, risk tolerance, and
-              workflow when making a decision.
+              Your needs may vary—consider your investment style, risk tolerance, and workflow when
+              making a decision.
             </p>
           </div>
         </div>

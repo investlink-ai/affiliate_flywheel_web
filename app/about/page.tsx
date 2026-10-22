@@ -53,9 +53,9 @@ export default function AboutPage() {
                 <span className="text-lg font-bold">2</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Honest Opinions</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Strengths and limits</h3>
                 <p className="mt-1 text-slate-600 dark:text-slate-400">
-                  We recommend tools based on their merits and explain their limitations.
+                  We describe what each tool does well and explain its limitations.
                 </p>
               </div>
             </div>

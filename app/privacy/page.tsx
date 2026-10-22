@@ -46,7 +46,7 @@ export default function PrivacyPage() {
                 <strong>Analytics (Google Analytics 4):</strong> We use Google Analytics 4 (GA4) to
                 understand how visitors use our site—for example, which pages are viewed, how long
                 visitors stay, and whether they click outbound links or sign up for our newsletter.
-                This helps us improve our content and recommendations. GA4 collects anonymized,
+                This helps us improve our content and suggestions. GA4 collects anonymized,
                 aggregated data; we do not collect or store your email or other personal identifiers
                 in our analytics.
               </li>

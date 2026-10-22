@@ -45,8 +45,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const currentYear = new Date().getFullYear();
 
   // Review title and description
-  const title = `${tool.name} Review ${currentYear}: Honest Assessment by ${primaryAuthor.name}`;
-  const description = `${tool.name} review by InvestLink: ${tool.rating}/5. ${tool.tagline}. Pricing: ${tool.pricing}. Best for ${tool.bestFor}.`;
+  const title = `${tool.name} Review ${currentYear} by ${primaryAuthor.name}`;
+  const description = `${tool.name} review by InvestLink. ${tool.tagline}. Pricing: ${tool.pricing}. May suit ${tool.bestFor}`;
 
   return {
     title,
@@ -67,13 +67,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: `/og/reviews/${tool.slug}.png`,
           width: 1200,
           height: 630,
-          alt: `${tool.name} Review - ${tool.rating}/5 Stars`,
+          alt: `${tool.name} Review`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${tool.name} Review: ${tool.rating}/5 - ${authorByline}`,
+      title: `${tool.name} Review - ${authorByline}`,
       description: tool.tagline,
       creator: '@investlink_ai',
     },
@@ -127,7 +127,7 @@ export default async function ReviewPage({ params }: PageProps) {
       <article className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Author Byline - EEAT Signal */}
         <div className="mb-8 border-b border-slate-200 pb-6 dark:border-slate-700">
-          <AuthorByline dateUpdated={tool.lastUpdated} dateVerified={tool.lastVerified} />
+          <AuthorByline dateUpdated={tool.lastUpdated} />
         </div>
 
         <div className="grid gap-12 lg:grid-cols-3">
@@ -296,7 +296,7 @@ export default async function ReviewPage({ params }: PageProps) {
             location={`review-${tool.slug}`}
             variant="banner"
             headline="Get More AI Investment Tool Insights"
-            description={`Enjoyed this ${tool.name} review? Get weekly recommendations, tips.`}
+            description={`Enjoyed this ${tool.name} review? Get a weekly email on investing tools.`}
             ctaText="Join Free"
           />
         </div>

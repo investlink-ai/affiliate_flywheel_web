@@ -19,7 +19,7 @@ const userTypeOptions: { value: UserType; label: string; description: string }[]
 /**
  * User type selector for personalization
  * 
- * Allows users to select their type to see personalized recommendations.
+ * Allows users to select their type to see tool suggestions that may suit them.
  */
 export function UserTypeSelector({ className = '', variant = 'pills' }: UserTypeSelectorProps) {
   const { userType, setUserType, isReady, clearUserType } = useUserType();
@@ -59,12 +59,12 @@ export function UserTypeSelector({ className = '', variant = 'pills' }: UserType
     <div className={className}>
       <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by user type">
         <span id="user-type-label" className="mr-1 text-sm font-medium text-slate-600 dark:text-slate-400">
-          Show recommendations for:
+          Show suggestions for:
         </span>
         <button
           onClick={clearUserType}
           aria-pressed={!userType}
-          aria-label="Show all recommendations"
+          aria-label="Show all suggestions"
           className={`rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
             !userType
               ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
@@ -79,7 +79,7 @@ export function UserTypeSelector({ className = '', variant = 'pills' }: UserType
             onClick={() => setUserType(option.value)}
             title={option.description}
             aria-pressed={userType === option.value}
-            aria-label={`Show recommendations for ${option.label.toLowerCase()}: ${option.description}`}
+            aria-label={`Show suggestions for ${option.label.toLowerCase()}: ${option.description}`}
             className={`rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
               userType === option.value
                 ? 'bg-primary-600 text-white shadow-sm'
@@ -92,7 +92,7 @@ export function UserTypeSelector({ className = '', variant = 'pills' }: UserType
       </div>
       {userType && (
         <p className="mt-2 text-xs text-slate-500 dark:text-slate-400" aria-live="polite">
-          Showing personalized recommendations for {userTypeLabels[userType].toLowerCase()}.{' '}
+          Showing suggestions that may suit {userTypeLabels[userType].toLowerCase()}.{' '}
           <button
             onClick={clearUserType}
             className="text-primary-600 hover:underline dark:text-primary-400"

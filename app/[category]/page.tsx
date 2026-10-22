@@ -35,14 +35,14 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'AI Investment Signals',
     slug: 'ai-investment-signals',
-    title: 'Best AI Investment Signal Tools 2026',
-    description: 'Discover top AI-powered investment signal platforms. Compare tools for trading signals, market analysis, and quantitative insights.',
+    title: 'AI Investment Signal Tools',
+    description: 'Explore AI-powered investment signal platforms. Compare tools for trading signals, market analysis, and quantitative insights.',
     longDescription: 'AI investment signal tools leverage machine learning and data analysis to surface actionable insights for traders and investors. From sentiment analysis to pattern recognition, these platforms help bridge information asymmetries and enhance decision efficiency.',
     benefits: [
       'Real-time market sentiment analysis',
       'Pattern recognition and signal generation',
       'Reduce information asymmetry',
-      'Data-backed trading insights',
+      'Data-driven trading insights',
       'Streamline research workflows',
     ],
     useCases: [
@@ -57,8 +57,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Quantitative Platforms',
     slug: 'quantitative-platforms',
-    title: 'Best Quantitative Analysis Platforms 2026',
-    description: 'Explore top quantitative platforms for backtesting, algorithmic trading, and data-driven investment strategies.',
+    title: 'Quantitative Analysis Platforms',
+    description: 'Explore quantitative platforms for backtesting, algorithmic trading, and data-driven investment strategies.',
     longDescription: 'Quantitative platforms empower investors and traders with robust backtesting, strategy development, and execution tools. These platforms combine historical data, statistical models, and automation for systematic investment approaches.',
     benefits: [
       'Backtest strategies with historical data',
@@ -79,8 +79,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Fintech Infrastructure',
     slug: 'fintech-infrastructure',
-    title: 'Best Fintech Infrastructure Tools 2026',
-    description: 'Find the top fintech infrastructure platforms for integrations, APIs, and financial data connectivity.',
+    title: 'Fintech Infrastructure Tools',
+    description: 'Explore fintech infrastructure platforms for integrations, APIs, and financial data connectivity.',
     longDescription: 'Fintech infrastructure tools provide the building blocks for financial applications—from account aggregation and payments to compliance and data connectivity. Essential for developers and financial professionals building or integrating financial services.',
     benefits: [
       'Seamless API integrations',
@@ -101,7 +101,7 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Crypto Tools',
     slug: 'crypto-tools',
-    title: 'Best Crypto Tools 2026',
+    title: 'Crypto Tools',
     description: 'Compare crypto tools for digital assets, market data and portfolio tracking.',
     longDescription: 'Crypto tools cover digital assets and decentralized finance. This category includes tools for crypto market research, portfolio tracking and exchange access.',
     benefits: [
@@ -123,8 +123,8 @@ const categoryConfigs: CategoryConfig[] = [
   {
     name: 'Portfolio Management',
     slug: 'portfolio-management',
-    title: 'Best Portfolio Management Tools 2026',
-    description: 'Discover top portfolio management and robo-advisor platforms. Compare tools for automated investing and wealth management.',
+    title: 'Portfolio Management Tools',
+    description: 'Explore portfolio management and robo-advisor platforms. Compare tools for automated investing and wealth management.',
     longDescription: 'Portfolio management tools help investors build, monitor, and optimize portfolios. From robo-advisors to advanced analytics, these platforms support both individual investors and financial advisors in delivering data-driven wealth management.',
     benefits: [
       'Automated portfolio rebalancing',
@@ -208,8 +208,8 @@ export default async function CategoryPage({ params }: PageProps) {
   // Get tools in this category
   const categoryTools = tools.filter((t) => t.category === config.name);
   
-  // Rank by rating, then name for ties.
-  const sortedTools = [...categoryTools].sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name));
+  // Alphabetical: the site publishes no ratings or rankings.
+  const sortedTools = [...categoryTools].sort((a, b) => a.name.localeCompare(b.name));
 
   const featuredTool = sortedTools[0];
   const otherTools = sortedTools.slice(1);
@@ -232,11 +232,6 @@ export default async function CategoryPage({ params }: PageProps) {
           name: tool.name,
           description: tool.tagline,
           url: `${SITE_URL}/reviews/${tool.slug}`,
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: tool.rating,
-            ratingCount: tool.ratingCount,
-          },
         },
       })),
     },
@@ -297,11 +292,8 @@ export default async function CategoryPage({ params }: PageProps) {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Editor&apos;s Choice
+              Featured
             </h2>
-            <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
-              Top Rated
-            </span>
           </div>
           
           <div className="mt-6 rounded-2xl border-2 border-primary-200 bg-gradient-to-br from-primary-50 to-white p-6 shadow-sm dark:border-primary-800 dark:from-primary-900/20 dark:to-slate-800 sm:p-8">
@@ -346,21 +338,13 @@ export default async function CategoryPage({ params }: PageProps) {
               </div>
               
               <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-700/50">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-                    {featuredTool.rating.toFixed(1)}
-                  </div>
-                  <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    out of 5 ({featuredTool.ratingCount.toLocaleString()} reviews)
-                  </div>
-                </div>
-                <div className="mt-4 space-y-2 text-sm">
+                <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Pricing</span>
                     <span className="font-medium text-slate-900 dark:text-white">{featuredTool.pricing}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Best for</span>
+                    <span className="text-slate-500 dark:text-slate-400">May suit</span>
                     <span className="font-medium text-slate-900 dark:text-white">{featuredTool.bestFor}</span>
                   </div>
                 </div>
@@ -438,7 +422,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   Need help choosing?
                 </h3>
                 <p className="mt-2 text-slate-600 dark:text-slate-400">
-                  Take our quick quiz to find the perfect {config.name.toLowerCase()} tool for your needs.
+                  Take our quick quiz for {config.name.toLowerCase()} tool suggestions based on your answers.
                 </p>
                 <Link href="/comparisons" className="btn-secondary mt-4 inline-flex">
                   Take the Quiz

@@ -1,7 +1,6 @@
 'use client';
 
 import { OutboundCTAButton } from './OutboundLink';
-import { StarRating } from './StarRating';
 import { DisclosureNote } from './DisclosureNote';
 import type { Tool } from '@/lib/data';
 
@@ -33,17 +32,6 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
             </h1>
 
             <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">{tool.tagline}</p>
-
-            {/* Rating */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <StarRating rating={tool.rating} size="lg" />
-              <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                {tool.rating.toFixed(1)}
-              </span>
-              <span className="text-slate-500 dark:text-slate-400">
-                ({tool.ratingCount.toLocaleString()} reviews)
-              </span>
-            </div>
 
             {/* CTA - Hidden on mobile (shown in sticky bar instead) */}
             <div className="mt-8 hidden flex-wrap items-center gap-4 sm:flex">
@@ -79,7 +67,7 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
               </h2>
               <dl className="mt-4 space-y-4">
                 <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Best For</dt>
+                  <dt className="text-slate-600 dark:text-slate-400">May suit</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.bestFor}</dd>
                 </div>
                 <div className="flex justify-between gap-8">
@@ -89,12 +77,6 @@ export function ReviewHeroContent({ tool }: ReviewHeroContentProps) {
                 <div className="flex justify-between gap-8">
                   <dt className="text-slate-600 dark:text-slate-400">Category</dt>
                   <dd className="font-medium text-slate-900 dark:text-white">{tool.category}</dd>
-                </div>
-                <div className="flex justify-between gap-8">
-                  <dt className="text-slate-600 dark:text-slate-400">Our Rating</dt>
-                  <dd className="font-medium text-slate-900 dark:text-white">
-                    {tool.rating.toFixed(1)}/5
-                  </dd>
                 </div>
               </dl>
 

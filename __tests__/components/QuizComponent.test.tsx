@@ -7,7 +7,7 @@ describe('QuizComponent', () => {
   it('renders title and first question', () => {
     render(<QuizComponent />);
 
-    expect(screen.getByRole('heading', { name: /find your perfect investment tool/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /find investment tools that may suit you/i })).toBeInTheDocument();
     expect(screen.getByText(/answer 5 quick questions/i)).toBeInTheDocument();
     expect(screen.getAllByText(/question 1 of 5/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole('radiogroup', { name: /what best describes your investment style/i })).toBeInTheDocument();
@@ -80,11 +80,11 @@ describe('QuizComponent', () => {
     await user.click(screen.getByRole('radio', { name: /portfolio & risk management/i }));
 
     expect(screen.getByRole('region', { name: /quiz results/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /your top recommendation/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /suggested based on your answers/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /take the quiz again/i })).toBeInTheDocument();
   });
 
-  it('displays top recommendation with tool name and match reasons', async () => {
+  it('displays the suggested tool with name and match reasons', async () => {
     const user = userEvent.setup();
     render(<QuizComponent />);
 
@@ -95,7 +95,7 @@ describe('QuizComponent', () => {
     await user.click(screen.getByRole('radio', { name: /portfolio & risk management/i }));
 
     const resultsRegion = screen.getByRole('region', { name: /quiz results/i });
-    expect(within(resultsRegion).getByText(/best match/i)).toBeInTheDocument();
+    expect(within(resultsRegion).getByText(/^suggested$/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /read full review/i })).toBeInTheDocument();
   });
 

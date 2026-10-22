@@ -41,7 +41,7 @@ export const MOCK_SIGNUP_MESSAGE = "Email signup isn't connected on this build, 
 export function SignupForm({
   location,
   variant = 'card',
-  headline = 'Get the Best AI Tool Recommendations',
+  headline = 'Get AI investment tool notes by email',
   description = 'Weekly insights on AI investment tools and market analysis. Confirm by email to subscribe.',
   ctaText = 'Subscribe Free',
   provider = defaultProvider,

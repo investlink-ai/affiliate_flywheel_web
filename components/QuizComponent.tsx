@@ -19,8 +19,8 @@ interface QuizComponentProps {
 }
 
 export function QuizComponent({
-  title = 'Find Your Perfect Investment Tool',
-  description = 'Answer 5 quick questions to get personalized recommendations.',
+  title = 'Find Investment Tools That May Suit You',
+  description = 'Answer 5 quick questions for tool suggestions based on your answers.',
   onComplete,
   className = '',
 }: QuizComponentProps) {
@@ -86,7 +86,7 @@ export function QuizComponent({
       >
         {/* Screen reader announcement for results */}
         <div className="sr-only" aria-live="assertive" aria-atomic="true">
-          Quiz complete! Your top recommendation is {topResult.tool.name}, rated {topResult.tool.rating} out of 5.
+          Quiz complete! Suggested tool based on your answers: {topResult.tool.name}.
           {topResult.matchReasons.length > 0 && ` Match reasons: ${topResult.matchReasons.join(', ')}.`}
         </div>
         
@@ -97,7 +97,7 @@ export function QuizComponent({
             </svg>
           </div>
           <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
-            Your Top Recommendation
+            Suggested Based on Your Answers
           </h3>
         </div>
 
@@ -110,7 +110,7 @@ export function QuizComponent({
                   {topResult.tool.name}
                 </h4>
                 <span className="rounded-full bg-primary-600 px-2 py-0.5 text-xs font-medium text-white">
-                  Best Match
+                  Suggested
                 </span>
               </div>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
@@ -119,12 +119,6 @@ export function QuizComponent({
               <p className="mt-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                 {topResult.tool.pricing}
               </p>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                {topResult.tool.rating.toFixed(1)}
-              </div>
-              <div className="text-xs text-slate-500">rating</div>
             </div>
           </div>
 

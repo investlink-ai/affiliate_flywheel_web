@@ -46,7 +46,7 @@ export const organizationSchema = {
   name: 'InvestLink',
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
-  description: 'AI Investment Tool Reviews - Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
+  description: 'AI Investment Tool Reviews - Reviews of AI investment tools, fintech platforms, and quantitative strategies, with tool suggestions based on your answers.',
   sameAs: [
     'https://x.com/investlink_ai',
   ],
@@ -94,9 +94,6 @@ export function generateReviewSchema(tool: Tool) {
   const reviewUrl = `${siteUrl}/reviews/${tool.slug}`;
   const authorSchema = getAuthorSchema();
 
-  // Extract numeric price for schema
-  const priceMatch = tool.pricing.match(/\d+/);
-  const price = priceMatch ? priceMatch[0] : '0';
 
   return {
     '@context': 'https://schema.org',
@@ -107,7 +104,7 @@ export function generateReviewSchema(tool: Tool) {
         '@id': `${reviewUrl}#webpage`,
         url: reviewUrl,
         name: `${tool.name} Review 2026 by ${primaryAuthor.name}`,
-        description: `${tool.name} review by ${primaryAuthor.name}: ${tool.rating}/5. ${tool.tagline}. Pricing: ${tool.pricing}. Best for ${tool.bestFor}.`,
+        description: `${tool.name} review by ${primaryAuthor.name}. ${tool.tagline}. Pricing: ${tool.pricing}. May suit ${tool.bestFor}`,
         isPartOf: {
           '@type': 'WebSite',
           '@id': `${siteUrl}#website`,
@@ -135,25 +132,6 @@ export function generateReviewSchema(tool: Tool) {
         operatingSystem: 'Web, iOS, Android',
         url: tool.websiteUrl,
         image: tool.logoUrl.startsWith('http') ? tool.logoUrl : `${siteUrl}${tool.logoUrl}`,
-        offers: {
-          '@type': 'Offer',
-          price: price,
-          priceCurrency: 'USD',
-          priceValidUntil: getNextYear(),
-          availability: 'https://schema.org/InStock',
-          seller: {
-            '@type': 'Organization',
-            name: tool.name.replace(' AI', '').replace('.ai', ''),
-          },
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: tool.rating,
-          bestRating: 5,
-          worstRating: 1,
-          ratingCount: tool.ratingCount,
-          reviewCount: tool.ratingCount,
-        },
         featureList: tool.features.join(', '),
       },
 
@@ -169,12 +147,6 @@ export function generateReviewSchema(tool: Tool) {
         dateModified: tool.lastUpdated,
         author: authorSchema,
         publisher: organizationSchema,
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: tool.rating,
-          bestRating: 5,
-          worstRating: 1,
-        },
         itemReviewed: {
           '@id': `${reviewUrl}#product`,
         },
@@ -278,8 +250,8 @@ function generateFAQSchema(tool: Tool) {
       answer: tool.verdict,
     },
     {
-      question: `What is ${tool.name} best for?`,
-      answer: `${tool.name} is best for ${tool.bestFor}. Key features include: ${tool.features.slice(0, 3).join(', ')}.`,
+      question: `Who may ${tool.name} suit?`,
+      answer: `${tool.name} may suit ${tool.bestFor} Key features include: ${tool.features.slice(0, 3).join(', ')}.`,
     },
     {
       question: `What are the pros and cons of ${tool.name}?`,
@@ -330,25 +302,6 @@ function getCategoryType(category: string): string {
 }
 
 /**
- * Gets the date one year from now in ISO format
- * 
- * Used for Schema.org Offer priceValidUntil field to indicate
- * how long the pricing information is expected to be valid.
- * 
- * @returns {string} ISO date string for one year from now (YYYY-MM-DD format)
- * 
- * @example
- * ```typescript
- * getNextYear(); // Returns '2027-01-30' (if today is 2026-01-30)
- * ```
- */
-function getNextYear(): string {
-  const date = new Date();
-  date.setFullYear(date.getFullYear() + 1);
-  return date.toISOString().split('T')[0] ?? '';
-}
-
-/**
  * Article schema parameters
  */
 interface ArticleSchemaParams {
@@ -385,7 +338,7 @@ interface ArticleSchemaParams {
  * @example
  * ```typescript
  * const articleSchema = generateArticleSchema({
- *   title: 'Best AI Writing Tools for 2026',
+ *   title: 'Research Workflow Tools',
  *   description: 'A comprehensive guide to the top AI investment tools...',
  *   url: 'https://www.investlink.ai/blog/best-ai-investment-tools',
  *   image: 'https://www.investlink.ai/images/blog/ai-investment-guide.jpg',

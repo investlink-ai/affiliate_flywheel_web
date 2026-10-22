@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { OutboundLink } from './OutboundLink';
-import { StarRating } from './StarRating';
 import { PersonalizationBadge } from './PersonalizationBadge';
 import type { Tool, UserType } from '@/lib/data';
 
@@ -88,21 +87,10 @@ export function ToolCard({
         </div>
       </div>
 
-      {/* Rating */}
-      <div className="mt-4 flex items-center gap-2">
-        <StarRating rating={tool.rating} />
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-          {tool.rating.toFixed(1)}
-        </span>
-        <span className="text-sm text-slate-500 dark:text-slate-400">
-          ({tool.ratingCount.toLocaleString()} reviews)
-        </span>
-      </div>
-
       {/* Tagline */}
       <p className="mt-3 flex-1 text-sm text-slate-600 dark:text-slate-400">{tool.tagline}</p>
 
-      {/* Best For - only shown if matches user type */}
+      {/* May suit - only shown if matches user type */}
       {userType && personalizationBadge && (
         <p className="mt-2 text-xs font-medium text-primary-600 dark:text-primary-400">
           {tool.bestFor}

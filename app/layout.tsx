@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: '%s | InvestLink',
   },
   description:
-    'Honest, in-depth reviews of the best AI investment tools for traders and investors. Data-driven comparisons of quantitative platforms, robo-advisors, and fintech tools.',
+    'Reviews of AI investment tools for traders and investors, with comparisons of quantitative platforms, robo-advisors, and fintech tools.',
   keywords: [
     'AI investment tools',
     'quantitative platforms',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: 'InvestLink',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
     description:
-      'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
+      'Reviews of AI investment tools for traders and investors.',
     images: [
       {
         url: '/og-image.png',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
-    description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
+    description: 'Reviews of AI investment tools for traders and investors.',
     creator: '@investlink_ai',
     images: ['/og-image.png'],
   },

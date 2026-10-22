@@ -6,7 +6,6 @@ interface AuthorBylineProps {
   variant?: 'inline' | 'card' | 'compact';
   showSocial?: boolean;
   dateUpdated?: string;
-  dateVerified?: string;
 }
 
 export function AuthorByline({
@@ -14,7 +13,6 @@ export function AuthorByline({
   variant = 'inline',
   showSocial = false,
   dateUpdated,
-  dateVerified,
 }: AuthorBylineProps) {
   return (
     <div className={variant === 'card'
@@ -38,11 +36,6 @@ export function AuthorByline({
       {dateUpdated && (
         <p className="text-xs text-slate-500 dark:text-slate-400">
           Updated <time dateTime={dateUpdated}>{formatDate(dateUpdated)}</time>
-        </p>
-      )}
-      {dateVerified && (
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          Verified <time dateTime={dateVerified}>{formatDate(dateVerified)}</time>
         </p>
       )}
     </div>
