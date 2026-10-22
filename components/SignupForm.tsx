@@ -1,7 +1,10 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { trackNewsletterSignup } from '@/lib/analytics';
+import { getEmailProvider, type EmailProvider } from '@/lib/email/provider';
+
+const defaultProvider = getEmailProvider();
 
 interface SignupFormProps {
   /** Location identifier for analytics */
@@ -12,148 +15,107 @@ interface SignupFormProps {
   headline?: string;
   /** Custom description */
   description?: string;
-  /** Show tool recommendations checkbox */
-  showToolPreference?: boolean;
   /** Custom CTA text */
   ctaText?: string;
-  /** Custom success message */
-  successMessage?: string;
-  /** Form action URL (optional; defaults to /api/newsletter which uses Kit) */
-  formAction?: string;
+  /** Email provider (defaults to the Kit hosted form when configured, else an offline mock) */
+  provider?: EmailProvider;
   /** Additional class names */
   className?: string;
-  /** Callback on successful submission */
+  /** Called when a submission is handed to the provider */
   onSuccess?: () => void;
 }
 
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+type FormStatus = 'idle' | 'error' | 'success' | 'mock';
+
+export const MOCK_SIGNUP_MESSAGE = "Email signup isn't connected on this build, so nothing was sent.";
 
 /**
- * Email signup form component
- * Posts to /api/newsletter (Kit/ConvertKit) or custom formAction
+ * Email signup form.
+ *
+ * The browser posts straight to the Kit hosted form (double opt-in), with a hidden
+ * `referrer` field holding the full page URL so Kit can attribute UTM parameters.
+ * The site never creates subscribers through an API route. Without public Kit
+ * configuration the form is an offline mock that sends nothing.
  */
 export function SignupForm({
   location,
   variant = 'card',
   headline = 'Get the Best AI Tool Recommendations',
-  description = 'Join 5,000+ investors and traders receiving weekly insights on the best AI investment tools and market analysis.',
-  showToolPreference = false,
+  description = 'Weekly insights on AI investment tools and market analysis. Confirm by email to subscribe.',
   ctaText = 'Subscribe Free',
-  successMessage = "You're in! Check your email to confirm your subscription.",
-  formAction,
+  provider = defaultProvider,
   className = '',
   onSuccess,
 }: SignupFormProps) {
   const [email, setEmail] = useState('');
-  const [toolPreference, setToolPreference] = useState<string>('all');
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [extraFields, setExtraFields] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setExtraFields(provider.extraFields(window.location.href));
+  }, [provider]);
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      
-      // Honeypot check - if filled, silently reject (bots fill hidden fields)
+    (e: React.FormEvent<HTMLFormElement>) => {
+      // Honeypot filled: likely a bot. Pretend success, send nothing.
       if (honeypot) {
-        // Fake success to not alert bots
+        e.preventDefault();
         setStatus('success');
         return;
       }
-      
+
       if (!email || !email.includes('@')) {
+        e.preventDefault();
         setErrorMessage('Please enter a valid email address');
         setStatus('error');
         return;
       }
 
-      setStatus('loading');
-      setErrorMessage('');
-
-      try {
-        // If custom form action is provided (e.g., Mailchimp), use that
-        if (formAction) {
-          const formData = new FormData();
-          formData.append('EMAIL', email);
-          if (showToolPreference) {
-            formData.append('TOOL_PREFERENCE', toolPreference);
-          }
-          formData.append('SOURCE', location);
-
-          await fetch(formAction, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors', // For Mailchimp - no-cors means we can't read the response
-          });
-        } else {
-          // Use our API endpoint (rate limited to 5 requests/IP/hour)
-          const response = await fetch('/api/newsletter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email,
-              toolPreference: showToolPreference ? toolPreference : undefined,
-              honeypot,
-            }),
-          });
-
-          const data = await response.json();
-
-          // Handle rate limiting
-          if (response.status === 429) {
-            const retryAfter = response.headers.get('Retry-After');
-            const minutes = retryAfter ? Math.ceil(parseInt(retryAfter, 10) / 60) : 60;
-            throw new Error(`Too many requests. Please try again in ${minutes} minutes.`);
-          }
-
-          if (!response.ok || !data.success) {
-            throw new Error(data.error || 'Failed to subscribe');
-          }
-        }
-
-        // Track signup
-        trackNewsletterSignup({ location });
-
-        setStatus('success');
-        setEmail('');
-        
-        // Call success callback if provided
-        onSuccess?.();
-      } catch (error) {
-        console.error('Signup error:', error);
-        setErrorMessage(
-          error instanceof Error ? error.message : 'Something went wrong. Please try again.'
-        );
-        setStatus('error');
+      if (provider.id === 'mock') {
+        e.preventDefault();
+        setStatus('mock');
+        return;
       }
+
+      // Kit: let the browser submit the form to the hosted endpoint.
+      setErrorMessage('');
+      trackNewsletterSignup({ location });
+      onSuccess?.();
     },
-    [email, honeypot, toolPreference, formAction, location, showToolPreference, onSuccess]
+    [email, honeypot, provider, location, onSuccess]
   );
 
-  // Success state
+  const hiddenFields = Object.entries(extraFields).map(([name, value]) => (
+    <input key={name} type="hidden" name={name} value={value} />
+  ));
+
+  const formProps = {
+    method: 'post' as const,
+    action: provider.formAction,
+    onSubmit: handleSubmit,
+    'data-provider': provider.id,
+  };
+
+  if (status === 'mock') {
+    return (
+      <div className={`rounded-xl bg-slate-100 p-6 text-center dark:bg-slate-800 ${className}`} role="status" aria-live="polite">
+        <p className="text-sm text-slate-700 dark:text-slate-300">{MOCK_SIGNUP_MESSAGE}</p>
+      </div>
+    );
+  }
+
+  // Success state (honeypot only; real submissions navigate to Kit)
   if (status === 'success') {
     return (
-      <div 
+      <div
         className={`rounded-xl bg-green-50 p-6 text-center dark:bg-green-900/20 ${className}`}
         role="status"
         aria-live="polite"
       >
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-          <svg
-            className="h-6 w-6 text-green-600 dark:text-green-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-        </div>
-        <h3 className="mt-4 text-lg font-semibold text-green-800 dark:text-green-300">
-          Welcome aboard!
-        </h3>
-        <p className="mt-2 text-sm text-green-700 dark:text-green-400">{successMessage}</p>
+        <h3 className="mt-4 text-lg font-semibold text-green-800 dark:text-green-300">Thanks!</h3>
+        <p className="mt-2 text-sm text-green-700 dark:text-green-400">Check your email to confirm your subscription.</p>
       </div>
     );
   }
@@ -179,8 +141,9 @@ export function SignupForm({
   // Inline variant
   if (variant === 'inline') {
     return (
-      <form onSubmit={handleSubmit} className={`relative flex flex-col gap-3 sm:flex-row ${className}`}>
+      <form {...formProps} className={`relative flex flex-col gap-3 sm:flex-row ${className}`}>
         {honeypotField}
+        {hiddenFields}
         <div className="flex-1">
           <label htmlFor={`email-${location}`} className="sr-only">
             Email address
@@ -188,7 +151,7 @@ export function SignupForm({
           <input
             type="email"
             id={`email-${location}`}
-            name="email"
+            name={provider.emailField}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
@@ -198,21 +161,9 @@ export function SignupForm({
         </div>
         <button
           type="submit"
-          disabled={status === 'loading'}
           className="btn-primary whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {status === 'loading' ? (
-            <>
-              <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              <span>Subscribing...</span>
-              <span className="sr-only">Please wait while we process your subscription</span>
-            </>
-          ) : (
-            ctaText
-          )}
+          {ctaText}
         </button>
         {status === 'error' && (
           <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
@@ -230,10 +181,13 @@ export function SignupForm({
             <h3 className="text-xl font-bold text-white sm:text-2xl">{headline}</h3>
             <p className="mt-2 text-primary-100">{description}</p>
           </div>
-          <form onSubmit={handleSubmit} className="relative flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+          <form {...formProps} className="relative flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
             {honeypotField}
+            {hiddenFields}
             <input
               type="email"
+              name={provider.emailField}
+              aria-label="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
@@ -242,10 +196,9 @@ export function SignupForm({
             />
             <button
               type="submit"
-              disabled={status === 'loading'}
               className="whitespace-nowrap rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 shadow-sm transition-all hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 disabled:opacity-50"
             >
-              {status === 'loading' ? 'Subscribing...' : ctaText}
+              {ctaText}
             </button>
           </form>
         </div>
@@ -283,8 +236,9 @@ export function SignupForm({
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{description}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="relative mt-6 space-y-4">
+      <form {...formProps} className="relative mt-6 space-y-4">
         {honeypotField}
+        {hiddenFields}
         <div>
           <label htmlFor={`email-card-${location}`} className="sr-only">
             Email address
@@ -292,7 +246,7 @@ export function SignupForm({
           <input
             type="email"
             id={`email-card-${location}`}
-            name="email"
+            name={provider.emailField}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
@@ -301,52 +255,16 @@ export function SignupForm({
           />
         </div>
 
-        {showToolPreference && (
-          <div>
-            <label
-              htmlFor={`preference-${location}`}
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              What tools are you most interested in?
-            </label>
-            <select
-              id={`preference-${location}`}
-              value={toolPreference}
-              onChange={(e) => setToolPreference(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
-            >
-              <option value="all">All Investment Tools</option>
-              <option value="signals">AI Investment Signals</option>
-              <option value="quant">Quantitative Platforms</option>
-              <option value="fintech">Fintech Infrastructure</option>
-              <option value="crypto">Crypto Tools</option>
-              <option value="portfolio">Portfolio Management</option>
-            </select>
-          </div>
-        )}
-
         <button
           type="submit"
-          disabled={status === 'loading'}
           className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {status === 'loading' ? (
-            <>
-              <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              <span>Subscribing...</span>
-              <span className="sr-only">Please wait while we process your subscription</span>
-            </>
-          ) : (
-            <>
-              {ctaText}
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
+          <>
+            {ctaText}
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </>
-          )}
         </button>
 
         {status === 'error' && (

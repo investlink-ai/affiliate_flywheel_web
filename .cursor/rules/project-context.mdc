@@ -35,7 +35,7 @@ app/                      # Next.js App Router
 ├── [category]/           # Dynamic category pages (ai-investment-signals, quantitative-platforms, etc.)
 ├── reviews/[slug]/       # Dynamic review pages with ISR (24h)
 ├── comparisons/          # Tool comparison with quiz
-├── api/newsletter/       # Newsletter API with rate limiting
+├── api/newsletter/       # Retired (410 Gone); forms post to Kit hosted form
 └── sitemap.ts            # Dynamic sitemap generation
 
 components/               # Shared UI (29 exports via index.ts)

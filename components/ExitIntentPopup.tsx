@@ -163,7 +163,6 @@ export function ExitIntentPopup({
             variant="card"
             headline={headline}
             description={subheadline}
-            showToolPreference={true}
             ctaText="Get Free AI Insights"
             onSuccess={handleSuccess}
             className="border-0 p-0 shadow-none"

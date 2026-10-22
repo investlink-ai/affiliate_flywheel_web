@@ -10,7 +10,7 @@ Next.js App Router route handlers in `app/api/`. Use `NextRequest`/`NextResponse
 ## Structure
 ```
 app/api/
-  newsletter/route.ts   → POST /api/newsletter
+  newsletter/route.ts   → retired (410 Gone); signups post to the Kit hosted form
   [resource]/route.ts   → /api/:resource
 ```
 

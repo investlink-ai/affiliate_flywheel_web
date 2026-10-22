@@ -257,11 +257,11 @@ trackNewsletterSignup({
 
 ## Newsletter Integration
 
-**Kit (ConvertKit)** is used for email collection. Set `KIT_API_KEY` and `KIT_FORM_ID` in your environment (see `.env.example`). Without these, signups are logged only.
+**Kit** is used for email collection through its hosted form (double opt-in). Set `NEXT_PUBLIC_EMAIL_PROVIDER=kit` and `NEXT_PUBLIC_KIT_FORM_ID` at build time (see `.env.example`). Without them the forms are an offline mock that sends nothing. The site holds no Kit API key, and `/api/newsletter` is retired (410 Gone).
 
 ### SignupForm Component
 
-The `SignupForm` component posts to `/api/newsletter`, which subscribes users to your Kit form when configured.
+The `SignupForm` component is a plain HTML form that the browser posts to `https://app.kit.com/forms/<id>/subscriptions`, with a hidden `referrer` field set to the full page URL so Kit can record UTM parameters (unverified until the R3 preview test).
 
 ```tsx
 <SignupForm

@@ -244,7 +244,6 @@ export default function HomePage() {
               variant="card"
               headline="Get Weekly AI Tool Insights"
               description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, market insights."
-              showToolPreference={true}
               ctaText="Subscribe Free"
             />
           </div>
