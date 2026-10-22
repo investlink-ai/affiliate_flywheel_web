@@ -1,4 +1,4 @@
-import { kitTagFields } from '@/lib/attribution/source-tags.mjs';
+import { attributionMode, kitCampaignFields, kitSourceFormAction, kitTagFields, TAG_LIST } from '@/lib/attribution/source-tags.mjs';
 
 /** Hidden form fields as [name, value] pairs (names may repeat, e.g. tags[]). */
 export type HiddenFields = Array<[string, string]>;
@@ -7,6 +7,7 @@ export interface EmailProvider {
   id: 'kit' | 'mock';
   formAction: string;
   emailField: string;
+  actionForUrl?(pageUrl: string): string | null;
   /**
    * Hidden fields for a signup from pageUrl, or null when the signup must not be
    * submitted (a Kit tag ID it needs is not configured in lib/attribution/tag-list.mjs).
@@ -14,12 +15,21 @@ export interface EmailProvider {
   extraFields(pageUrl: string): HiddenFields | null;
 }
 
-type ProviderEnv = { NEXT_PUBLIC_EMAIL_PROVIDER?: string; NEXT_PUBLIC_KIT_FORM_ID?: string };
+type ProviderEnv = { NEXT_PUBLIC_EMAIL_PROVIDER?: string; NEXT_PUBLIC_KIT_FORM_ID?: string; NEXT_PUBLIC_KIT_ATTRIBUTION?: string };
 
 export function getEmailProvider(env: ProviderEnv = {
   NEXT_PUBLIC_EMAIL_PROVIDER: process.env.NEXT_PUBLIC_EMAIL_PROVIDER,
   NEXT_PUBLIC_KIT_FORM_ID: process.env.NEXT_PUBLIC_KIT_FORM_ID,
-}, tagFields: (pageUrl: string) => HiddenFields | null = kitTagFields): EmailProvider {
+  NEXT_PUBLIC_KIT_ATTRIBUTION: process.env.NEXT_PUBLIC_KIT_ATTRIBUTION,
+}, tagFields: (pageUrl: string) => HiddenFields | null = kitTagFields, list: typeof TAG_LIST = TAG_LIST): EmailProvider {
+  const mode = attributionMode(env.NEXT_PUBLIC_KIT_ATTRIBUTION);
+  if (env.NEXT_PUBLIC_EMAIL_PROVIDER === 'kit' && mode !== 'hidden-tags') {
+    const actionForUrl = (url: string) => mode === 'form-per-source' ? kitSourceFormAction(url, list) : null;
+    return {
+      id: 'kit', formAction: '#kit-unavailable', emailField: 'email_address', actionForUrl,
+      extraFields: (url) => actionForUrl(url) ? [['referrer', url], ...kitCampaignFields(url, list)] : null,
+    };
+  }
   const id = env.NEXT_PUBLIC_KIT_FORM_ID;
   if (env.NEXT_PUBLIC_EMAIL_PROVIDER === 'kit' && id && /^[1-9]\d*$/.test(id)) {
     return {

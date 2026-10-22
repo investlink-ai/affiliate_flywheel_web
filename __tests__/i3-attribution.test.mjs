@@ -5,6 +5,7 @@ import { tagReport } from '../lib/attribution/tag-report.mjs';
 import {
   TAG_LIST, TAG_NAME_RE, NO_CAMPAIGN, UNATTRIBUTED_SOURCE, SOURCE_TAGS, CAMPAIGN_TAGS,
   sourceTagFor, campaignTagFor, signupTagsForUrl, kitTagFields, tagListProblems,
+  attributionMode, sourceFormProblems, attributionProblems,
 } from '../lib/attribution/source-tags.mjs';
 
 const GUIDE = 'https://investlink.ai/guides/preview-ai-research-checklist';
@@ -164,5 +165,58 @@ describe('Kit HTTP client is read-only', () => {
     for (const p of ['lib/attribution/kit-client.mjs', 'lib/attribution/tag-report.mjs', 'scripts/kit-tag-report.mjs']) {
       expect(readFileSync(p, 'utf8')).not.toMatch(/'POST'|"POST"|method:\s*'(PUT|PATCH|DELETE)'|tagSubscriber|createTag/);
     }
+  });
+});
+
+const sourceForms = Object.fromEntries(SOURCE_TAGS.map((name, i) => [name, String(300 + i)]));
+
+describe('attribution configuration and offline checks', () => {
+  it('defaults only when unset and rejects unknown modes', () => {
+    expect(attributionMode(undefined)).toBe('hidden-tags');
+    expect(attributionMode('hidden-tags')).toBe('hidden-tags');
+    expect(attributionMode('form-per-source')).toBe('form-per-source');
+    for (const mode of ['', 'invalid', 'FORM-PER-SOURCE']) expect(attributionMode(mode)).toBeNull();
+  });
+  it('requires complete, numeric, distinct forms matching the source keys', () => {
+    const list = { ...LIST_WITH_IDS, sourceForms };
+    expect(sourceFormProblems(list, { requireIds: true })).toEqual([]);
+    for (const value of [null, undefined, '01', 'bad', sourceForms['src-youtube']]) {
+      expect(sourceFormProblems({ ...list, sourceForms: { ...sourceForms, 'src-x': value } }, { requireIds: true })).not.toEqual([]);
+    }
+    expect(sourceFormProblems({ ...list, sourceForms: { ...sourceForms, 'src-extra': '999' } })).not.toEqual([]);
+    expect(Object.keys(TAG_LIST.sourceForms)).toEqual(SOURCE_TAGS);
+    expect(Object.isFrozen(TAG_LIST.sourceForms)).toBe(true);
+  });
+  it.each(['hidden-tags', 'form-per-source', 'invalid'])('check:tags enforces Kit configuration offline (%s)', mode => {
+    const env = { NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_ATTRIBUTION: mode };
+    expect(attributionProblems({ ...env, NEXT_PUBLIC_EMAIL_PROVIDER: 'mock' })).toEqual([]);
+    const list = { ...LIST_WITH_IDS, sourceForms };
+    expect(attributionProblems(env, list)).toEqual(mode === 'invalid' ? ['invalid NEXT_PUBLIC_KIT_ATTRIBUTION'] : []);
+    if (mode === 'form-per-source') expect(attributionProblems(env, { ...TAG_LIST, sourceForms })).toEqual([]);
+    const missingForms = { ...list, sourceForms: { ...sourceForms, 'src-x': null } };
+    expect(attributionProblems(env, missingForms).some(p => p.includes('Kit form ID required'))).toBe(mode === 'form-per-source');
+    expect(attributionProblems(env).length).toBeGreaterThan(0);
+  });
+});
+
+describe('form-per-source report', () => {
+  it('reads every form and page, uses form membership even without UTMs, and warns for missing campaigns', async () => {
+    const formPages = Object.fromEntries(Object.values(sourceForms).map(id => [id, [page([])]]));
+    formPages[sourceForms['src-x']] = [page([subscriber(21, { campaign: 'i3-preview' })], 'next'), page([subscriber(22, {}, { state: 'inactive' })])];
+    formPages[sourceForms['src-youtube']] = [page([subscriber(23, { source: 'x' })])];
+    const api = createMockKitApi({ formPages, subscriberTags: { 21: [tag('src-x')], 23: [tag('src-youtube')] } });
+    const report = await tagReport({ api, mode: 'form-per-source', sourceForms });
+    expect(report).toMatchObject({ ok: true, confirmed: 2, unconfirmedSkipped: 1, violations: [] });
+    expect(report.warnings).toEqual([{ subscriber: '21', rule: expect.stringContaining('missing campaign tag') }]);
+    expect(report.byCampaign['cmp-none']).toBe(2);
+    expect(api.calls.filter(c => c.method === 'listFormSubscribers')).toHaveLength(SOURCE_TAGS.length + 1);
+    expect(new Set(api.calls.filter(c => c.method === 'listFormSubscribers').map(c => c.formId))).toEqual(new Set(Object.values(sourceForms)));
+    expect(JSON.stringify(report)).not.toContain('@');
+  });
+  it.each([[], [tag('src-youtube')], [tag('src-x'), tag('src-youtube')]].map(tags => [tags]))('rejects incorrect source tags %j even without UTMs', async tags => {
+    const api = createMockKitApi({ formPages: Object.fromEntries(Object.values(sourceForms).map(id => [id, [page(id === sourceForms['src-x'] ? [subscriber(24, undefined)] : [])]])), subscriberTags: { 24: tags } });
+    const report = await tagReport({ api, mode: 'form-per-source', sourceForms });
+    expect(report.ok).toBe(false);
+    expect(report.violations.length).toBeGreaterThan(0);
   });
 });

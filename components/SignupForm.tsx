@@ -49,6 +49,7 @@ export function SignupForm({
   onSuccess,
 }: SignupFormProps) {
   const [email, setEmail] = useState('');
+  const [action, setAction] = useState(provider.formAction);
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -57,6 +58,7 @@ export function SignupForm({
   const [extraFields, setExtraFields] = useState<HiddenFields | null | undefined>(undefined);
 
   useEffect(() => {
+    setAction(provider.actionForUrl?.(window.location.href) ?? provider.formAction);
     setExtraFields(provider.extraFields(window.location.href));
   }, [provider]);
 
@@ -100,11 +102,11 @@ export function SignupForm({
   const hiddenFields = (extraFields ?? []).map(([name, value], i) => (
     <input key={`${name}-${i}`} type="hidden" name={name} value={value} />
   ));
-  const submitDisabled = extraFields === undefined;
+  const submitDisabled = !extraFields;
 
   const formProps = {
     method: 'post' as const,
-    action: provider.formAction,
+    action: action,
     onSubmit: handleSubmit,
     'data-provider': provider.id,
   };

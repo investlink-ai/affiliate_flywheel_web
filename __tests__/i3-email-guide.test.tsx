@@ -8,6 +8,7 @@ const TEST_TAG_IDS = {
   sources: Object.fromEntries(SOURCE_TAGS.map((t, i) => [t, String(100 + i)])),
   campaigns: Object.fromEntries(CAMPAIGN_TAGS.map((t, i) => [t, String(200 + i)])),
 };
+import { SignupForm } from '@/components/SignupForm';
 import { OptInForm } from '@/components/OptInForm';
 import { Footer } from '@/components/Footer';
 import { GuideTemplate, formatAud } from '@/components/guide/GuideTemplate';
@@ -85,6 +86,57 @@ describe('email providers and native opt-in', () => {
     fireEvent.change(container.querySelector('[name="website"]')!, { target: { value: 'bot' } });
     fireEvent.click(screen.getByRole('button'));
     expect(onMockSubmit).not.toHaveBeenCalled();
+  });
+});
+
+const FORM_IDS = Object.fromEntries(SOURCE_TAGS.map((name, i) => [name, String(300 + i)]));
+const fallbackEnv = { NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_ATTRIBUTION: 'form-per-source', NEXT_PUBLIC_KIT_FORM_ID: '999' };
+const fallbackList = { ...TEST_TAG_IDS, sourceForms: FORM_IDS };
+
+describe('form-per-source signup placements', () => {
+  it.each([
+    ['?utm_source=x', 'src-x'], ['?utm_source=youtube', 'src-youtube'],
+    ['?utm_source=newsletter', 'src-newsletter'], ['', 'src-unattributed'],
+    ['?utm_source=unknown', 'src-unattributed'],
+  ])('resolves the source action and only campaign tags for %s', (query, source) => {
+    window.history.replaceState({}, '', `/guides/preview-ai-research-checklist${query}${query ? '&' : '?'}utm_campaign=i3-preview`);
+    const provider = getEmailProvider(fallbackEnv, undefined, fallbackList);
+    const { container } = render(<OptInForm provider={provider} />);
+    expect(container.querySelector('form')).toHaveAttribute('action', `https://app.kit.com/forms/${FORM_IDS[source]}/subscriptions`);
+    expect(container.querySelector('[name="referrer"]')).toHaveValue(window.location.href);
+    expect([...container.querySelectorAll('input[name="tags[]"]')].map(i => (i as HTMLInputElement).value))
+      .toEqual([TEST_TAG_IDS.campaigns['cmp-i3-preview']]);
+    expect(screen.getByRole('button')).toBeEnabled();
+    expect(renderToStaticMarkup(<OptInForm provider={provider} />)).toMatch(/<button[^>]*disabled/);
+  });
+  it.each(['inline', 'card', 'banner'] as const)('supports shared %s signup placements', variant => {
+    window.history.replaceState({}, '', '/?utm_source=youtube');
+    const provider = getEmailProvider(fallbackEnv, undefined, fallbackList);
+    const { container } = render(<SignupForm location="fallback" variant={variant} provider={provider} />);
+    const form = container.querySelector('form')!;
+    expect(form).toHaveAttribute('action', `https://app.kit.com/forms/${FORM_IDS['src-youtube']}/subscriptions`);
+    expect(form.querySelector('[name="tags[]"]')).toBeNull();
+    fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'reader@example.com' } });
+    expect(fireEvent.submit(form)).toBe(true);
+    expect(renderToStaticMarkup(<SignupForm location="server" variant={variant} provider={provider} />)).toMatch(/<button[^>]*disabled/);
+  });
+  it.each(['missing form', 'invalid mode'])('refuses %s for both form components', problem => {
+    const provider = getEmailProvider({ ...fallbackEnv, ...(problem === 'invalid mode' ? { NEXT_PUBLIC_KIT_ATTRIBUTION: 'bad' } : {}) });
+    expect(provider.id).toBe('kit');
+    expect(provider.extraFields(window.location.href)).toBeNull();
+    for (const form of [<OptInForm key="guide" provider={provider} />, <SignupForm key="signup" location="blocked" provider={provider} />]) {
+      const { container, unmount } = render(form);
+      expect(screen.getByRole('button')).toBeDisabled();
+      expect(fireEvent.submit(container.querySelector('form')!)).toBe(false);
+      unmount();
+    }
+  });
+  it('ignores the single-form ID and permits a missing best-effort campaign ID', () => {
+    const provider = getEmailProvider({ ...fallbackEnv, NEXT_PUBLIC_KIT_FORM_ID: undefined }, undefined,
+      { ...fallbackList, campaigns: { 'cmp-i3-preview': null } });
+    const url = 'https://example.com/?utm_source=x&utm_campaign=i3-preview';
+    expect(provider.actionForUrl?.(url)).toContain(`/forms/${FORM_IDS['src-x']}/`);
+    expect(provider.extraFields(url)).toEqual([['referrer', url]]);
   });
 });
 
