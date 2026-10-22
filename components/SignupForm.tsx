@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { trackNewsletterSignup } from '@/lib/analytics';
-import { getEmailProvider, type EmailProvider } from '@/lib/email/provider';
+import { getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
 const defaultProvider = getEmailProvider();
 
@@ -28,6 +28,7 @@ interface SignupFormProps {
 type FormStatus = 'idle' | 'error' | 'success' | 'mock';
 
 export const MOCK_SIGNUP_MESSAGE = "Email signup isn't connected on this build, so nothing was sent.";
+export const UNAVAILABLE_SIGNUP_MESSAGE = "Signup isn't available right now, so nothing was sent. Please try again later.";
 
 /**
  * Email signup form.
@@ -51,7 +52,9 @@ export function SignupForm({
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [extraFields, setExtraFields] = useState<Record<string, string>>({});
+  // undefined until hydrated (submit stays disabled so no signup leaves without its tags);
+  // null when the provider says this signup must not be sent.
+  const [extraFields, setExtraFields] = useState<HiddenFields | null | undefined>(undefined);
 
   useEffect(() => {
     setExtraFields(provider.extraFields(window.location.href));
@@ -79,17 +82,25 @@ export function SignupForm({
         return;
       }
 
+      if (!extraFields) {
+        e.preventDefault();
+        setErrorMessage(UNAVAILABLE_SIGNUP_MESSAGE);
+        setStatus('error');
+        return;
+      }
+
       // Kit: let the browser submit the form to the hosted endpoint.
       setErrorMessage('');
       trackNewsletterSignup({ location });
       onSuccess?.();
     },
-    [email, honeypot, provider, location, onSuccess]
+    [email, honeypot, provider, extraFields, location, onSuccess]
   );
 
-  const hiddenFields = Object.entries(extraFields).map(([name, value]) => (
-    <input key={name} type="hidden" name={name} value={value} />
+  const hiddenFields = (extraFields ?? []).map(([name, value], i) => (
+    <input key={`${name}-${i}`} type="hidden" name={name} value={value} />
   ));
+  const submitDisabled = extraFields === undefined;
 
   const formProps = {
     method: 'post' as const,
@@ -161,6 +172,7 @@ export function SignupForm({
         </div>
         <button
           type="submit"
+          disabled={submitDisabled}
           className="btn-primary whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-50"
         >
           {ctaText}
@@ -196,6 +208,7 @@ export function SignupForm({
             />
             <button
               type="submit"
+              disabled={submitDisabled}
               className="whitespace-nowrap rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 shadow-sm transition-all hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 disabled:opacity-50"
             >
               {ctaText}
@@ -257,6 +270,7 @@ export function SignupForm({
 
         <button
           type="submit"
+          disabled={submitDisabled}
           className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
         >
           <>

@@ -2,6 +2,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getEmailProvider } from '@/lib/email/provider';
+import { kitTagFields, SOURCE_TAGS, CAMPAIGN_TAGS } from '@/lib/attribution/source-tags.mjs';
+
+const TEST_TAG_IDS = {
+  sources: Object.fromEntries(SOURCE_TAGS.map((t, i) => [t, String(100 + i)])),
+  campaigns: Object.fromEntries(CAMPAIGN_TAGS.map((t, i) => [t, String(200 + i)])),
+};
 import { OptInForm } from '@/components/OptInForm';
 import { Footer } from '@/components/Footer';
 import { GuideTemplate, formatAud } from '@/components/guide/GuideTemplate';
@@ -17,22 +23,40 @@ describe('email providers and native opt-in', () => {
   it('defaults to a local mock without credentials', () => {
     expect(getEmailProvider({}).id).toBe('mock');
     expect(getEmailProvider({ NEXT_PUBLIC_KIT_FORM_ID: '12' }).id).toBe('mock');
-    expect(getEmailProvider({}).extraFields('https://example.com')).toEqual({});
+    expect(getEmailProvider({}).extraFields('https://example.com')).toEqual([]);
   });
   it.each(['', '0', '-1', '1.5', 'x', ' 12', '12 ', '1e3', '01', '12/path'])('rejects invalid form ID %s', id => {
     expect(getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: id }).id).toBe('mock');
   });
-  it('renders the direct Kit form and the complete referrer URL', () => {
-    window.history.replaceState({}, '', '/guides/preview-ai-research-checklist?utm_source=x&utm_campaign=preview');
-    const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' });
+  it('renders the direct Kit form, the complete referrer URL and subscribe-time tags', () => {
+    window.history.replaceState({}, '', '/guides/preview-ai-research-checklist?utm_source=x&utm_campaign=i3-preview');
+    const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' },
+      (url) => kitTagFields(url, TEST_TAG_IDS));
     const { container } = render(<OptInForm provider={provider} />);
     expect(container.querySelector('form')).toHaveAttribute('action', 'https://app.kit.com/forms/123/subscriptions');
     expect(container.querySelector('form')).toHaveAttribute('method', 'post');
     expect(container.querySelector('[name="referrer"]')).toHaveValue(window.location.href);
+    expect([...container.querySelectorAll('input[name="tags[]"]')].map((i) => (i as HTMLInputElement).value))
+      .toEqual([TEST_TAG_IDS.sources['src-x'], TEST_TAG_IDS.campaigns['cmp-i3-preview']]);
+    expect(screen.getByRole('button')).toBeEnabled();
     expect(screen.getByLabelText('Email address')).toHaveAttribute('name', 'email_address');
     expect(container.querySelector('[name="website"]')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'privacy policy' })).toHaveAttribute('href', '/privacy');
     expect(screen.getByText(/You get the checklist after you confirm/)).toBeInTheDocument();
+  });
+  it('kit mode without committed tag IDs refuses to submit (no untagged signup)', () => {
+    window.history.replaceState({}, '', '/guides/preview-ai-research-checklist?utm_source=x');
+    const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' });
+    const { container } = render(<OptInForm provider={provider} />);
+    expect(container.querySelector('input[name="tags[]"]')).toBeNull();
+    fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'reader@example.com' } });
+    expect(fireEvent.submit(container.querySelector('form')!)).toBe(false); // default prevented: nothing posted
+    expect(screen.getByRole('status')).toHaveTextContent(/isn't available/);
+  });
+  it('submit is disabled in server-rendered HTML until hidden fields are ready', () => {
+    const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' },
+      (url) => kitTagFields(url, TEST_TAG_IDS));
+    expect(renderToStaticMarkup(<OptInForm provider={provider} />)).toMatch(/<button[^>]*disabled/);
   });
   it('mock submit only reports a confirmation and never fetches', () => {
     const fetchMock = vi.fn();

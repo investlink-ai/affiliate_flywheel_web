@@ -4,9 +4,13 @@ import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/react';
 import { SignupForm, MOCK_SIGNUP_MESSAGE } from '@/components/SignupForm';
 import { getEmailProvider } from '@/lib/email/provider';
+import { kitTagFields, SOURCE_TAGS } from '@/lib/attribution/source-tags.mjs';
 
 const mockProvider = getEmailProvider({});
-const kitProvider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' });
+const TEST_TAG_IDS = { sources: Object.fromEntries(SOURCE_TAGS.map((t, i) => [t, String(100 + i)])), campaigns: {} };
+const kitEnv = { NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' };
+const kitProvider = getEmailProvider(kitEnv, (url) => kitTagFields(url, TEST_TAG_IDS));
+const kitProviderNoIds = getEmailProvider(kitEnv);
 
 const mockTrackNewsletterSignup = vi.fn();
 
@@ -68,6 +72,9 @@ describe('SignupForm', () => {
       expect(form.querySelector('input[name="email_address"]')).not.toBeNull();
       expect((form.querySelector('input[name="referrer"]') as HTMLInputElement).value).toBe(window.location.href);
       expect(form.outerHTML).not.toContain('/api/newsletter');
+      // Exactly one src-* tag ID, set at subscribe time (no UTMs here -> src-unattributed).
+      expect([...form.querySelectorAll('input[name="tags[]"]')].map((i) => (i as HTMLInputElement).value))
+        .toEqual([TEST_TAG_IDS.sources['src-unattributed']]);
 
       fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
       const submit = new Event('submit', { bubbles: true, cancelable: true });
@@ -75,6 +82,15 @@ describe('SignupForm', () => {
       expect(submit.defaultPrevented).toBe(false);
       expect(global.fetch).not.toHaveBeenCalled();
       expect(mockTrackNewsletterSignup).toHaveBeenCalledWith({ location: 'test-kit' });
+    });
+
+    it('kit provider without committed tag IDs blocks the submit instead of sending an untagged signup', () => {
+      render(<SignupForm location="test-noids" provider={kitProviderNoIds} />);
+      const form = screen.getByRole('button', { name: /subscribe free/i }).closest('form')!;
+      fireEvent.change(screen.getByPlaceholderText(/enter your email/i), { target: { value: 'user@example.com' } });
+      expect(fireEvent.submit(form)).toBe(false); // default prevented: nothing posted
+      expect(screen.getByText(/isn't available right now/i)).toBeInTheDocument();
+      expect(mockTrackNewsletterSignup).not.toHaveBeenCalled();
     });
 
     it('does not track or submit when honeypot is filled (bot trap)', async () => {

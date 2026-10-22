@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/check-tag-list.mjs && next build",
+    "check:tags": "node scripts/check-tag-list.mjs",
+    "report:tags": "node scripts/kit-tag-report.mjs",
     "start": "next start",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
