@@ -152,7 +152,7 @@ Edit disclosure text in:
 
 1. **Import** your GitHub repo at [vercel.com/new](https://vercel.com/new).
 2. **Environment variables** (Settings → Environment Variables):
-   - `NEXT_PUBLIC_SITE_URL` — your production URL (e.g. `https://investlink.com`)
+   - `NEXT_PUBLIC_SITE_URL` — your production URL (`https://www.investlink.ai`; a missing, malformed or retired-domain value falls back to it)
    - `NEXT_PUBLIC_GA_MEASUREMENT_ID` — your GA4 Measurement ID (`G-...`)
 3. **Deploy** — Vercel runs `npm run build`; first deploy runs after you add env vars and save.
 
