@@ -44,7 +44,9 @@ describe('email providers and native opt-in', () => {
       .toEqual([TEST_TAG_IDS.sources['src-x'], TEST_TAG_IDS.campaigns['cmp-i3-preview']]);
     expect(screen.getByRole('button')).toBeEnabled();
     expect(screen.getByLabelText('Email address')).toHaveAttribute('name', 'email_address');
-    expect(container.querySelector('[name="website"]')).toBeInTheDocument();
+    // Honeypot is present but nameless, so it is never posted to Kit.
+    expect(container.querySelector('input[id$="-website"]')).toBeInTheDocument();
+    expect(container.querySelector('[name="website"]')).toBeNull();
     expect(screen.getByRole('link', { name: 'privacy policy' })).toHaveAttribute('href', '/privacy');
     expect(screen.getByText(KIT_SUBMIT_NOTICE)).toBeInTheDocument();
   });
@@ -86,7 +88,7 @@ describe('email providers and native opt-in', () => {
     expect(email).toBeInvalid();
     expect(onMockSubmit).not.toHaveBeenCalled();
     fireEvent.change(email, { target: { value: 'reader@example.com' } });
-    fireEvent.change(container.querySelector('[name="website"]')!, { target: { value: 'bot' } });
+    fireEvent.change(container.querySelector('input[id$="-website"]')!, { target: { value: 'bot' } });
     fireEvent.click(screen.getByRole('button'));
     expect(onMockSubmit).not.toHaveBeenCalled();
   });

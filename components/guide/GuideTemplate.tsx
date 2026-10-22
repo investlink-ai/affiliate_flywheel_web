@@ -1,5 +1,6 @@
 import type { Guide, LinkRef } from '@/lib/guides/types';
 import { OptInForm } from '@/components/OptInForm';
+import { isSignupAvailable } from '@/lib/email/provider';
 import { DemoDisclaimer } from './DemoDisclaimer';
 import { Paragraphs, RichText } from './RichText';
 
@@ -60,11 +61,14 @@ export function GuideTemplate({ guide }: { guide: Guide }) {
 
       <section data-block="needs-a-human"><h2 className={h2}>5. What still needs a human</h2><Paragraphs items={guide.needsAHuman} /></section>
 
+      {/* Hidden when signup isn't configured on this production build. */}
+      {isSignupAvailable() && (
       <section data-block="opt-in"><h2 className={`${h2} mb-4`}>{guide.optIn.heading}</h2>
         <Paragraphs items={guide.optIn.body} />
         <p>{guide.optIn.consent}</p>
         <OptInForm defaultCampaign={guide.defaultCampaign} />
       </section>
+      )}
 
       <section data-block="sources"><h2 className={h2}>7. Sources</h2>
         <ul className="list-disc space-y-1 pl-6">{guide.sources.map(s => <li key={s.link.url}>{s.title}: <a href={s.link.url} className="underline" rel="noopener noreferrer">{s.link.label}</a>.</li>)}</ul>

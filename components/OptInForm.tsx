@@ -15,6 +15,7 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
   const [action, setAction] = useState(provider.formAction);
   const [fields, setFields] = useState<HiddenFields | null | undefined>(undefined);
   const [message, setMessage] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   useEffect(() => {
     setAction(provider.actionForUrl?.(window.location.href) ?? provider.formAction);
     setFields(provider.extraFields(window.location.href, defaultCampaign));
@@ -23,7 +24,7 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
   function submit(event: FormEvent<HTMLFormElement>) {
     const form = event.currentTarget;
     const data = new FormData(form);
-    if (data.get('website')) {
+    if (honeypot) {
       event.preventDefault();
       return;
     }
@@ -41,6 +42,9 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
     }
   }
 
+  // Signup isn't configured on this production build: render nothing.
+  if (provider.id === 'off') return null;
+
   return (
     <form method="post" action={action} onSubmit={submit} className="space-y-4">
       <label htmlFor={`${id}-email`} className="block font-medium">Email address</label>
@@ -48,7 +52,8 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
       {(fields ?? []).map(([name, value], i) => <input key={`${name}-${i}`} type="hidden" name={name} value={value} />)}
       <div hidden aria-hidden="true">
         <label htmlFor={`${id}-website`}>Leave this field empty</label>
-        <input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
+        {/* No `name`: the honeypot is never posted to Kit; only its state is checked. */}
+        <input id={`${id}-website`} type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
       </div>
       <p>{provider.id === 'kit' ? KIT_SUBMIT_NOTICE : "We'll email you a link to confirm. You get the checklist after you confirm."}</p>
       <p>Read our <Link href="/privacy" className="underline">privacy policy</Link>.</p>
