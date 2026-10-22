@@ -17,7 +17,6 @@ export { StarRating } from './StarRating';
 // Review page components
 export { ReviewHero } from './ReviewHero';
 export { ReviewHeroWithABTest } from './ReviewHeroClient';
-export { ProsCons } from './ProsCons';
 export { UserTestimonials, placeholderTestimonials } from './UserTestimonials';
 export type { UserTestimonial } from './UserTestimonials';
 export { ComparisonTable } from './ComparisonTable';

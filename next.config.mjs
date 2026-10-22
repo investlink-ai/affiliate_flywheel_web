@@ -78,11 +78,11 @@ const withPWA = withPWAInit({
 // Defines allowed sources for scripts, styles, images, etc.
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cloud.umami.is;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: blob: https://img.youtube.com https://i.ytimg.com https://*.githubusercontent.com https://images.unsplash.com;
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com;
+  connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api-gateway.umami.dev https://cloud.umami.is;
   frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com;
   object-src 'none';
   base-uri 'self';
@@ -129,11 +129,15 @@ const securityHeaders = [
 
 /**
  * Build-time env for the client bundle. Only the numeric Kit form ID is exposed
- * (it is public: it is in the form's action URL). The Kit API key is never read here.
+ * (it is public: it is in the form's action URL) plus the Vercel environment name,
+ * so the signup test flag can be ignored on Vercel production. The Kit API key is
+ * never read here. These are fixed at build time: changing KIT_FORM_ID needs a redeploy.
  */
 const kitFormIdEnv = (process.env.KIT_FORM_ID ?? '').trim();
+const vercelEnv = process.env.VERCEL_ENV ?? process.env.NEXT_PUBLIC_VERCEL_ENV ?? '';
 export const publicBuildEnv = {
   KIT_FORM_ID: /^[1-9]\d*$/.test(kitFormIdEnv) ? kitFormIdEnv : '',
+  VERCEL_ENV: ['production', 'preview', 'development'].includes(vercelEnv) ? vercelEnv : '',
 };
 
 const nextConfig = {

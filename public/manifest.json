@@ -1,7 +1,7 @@
 {
   "name": "InvestLink",
   "short_name": "InvestLink",
-  "description": "AI Investment Tool Reviews - Honest, in-depth reviews of the best AI investment tools",
+  "description": "Reviews of AI investment tools for traders and investors",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

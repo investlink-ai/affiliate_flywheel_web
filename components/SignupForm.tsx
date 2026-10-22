@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { trackNewsletterSignup } from '@/lib/analytics';
-import { getEmailProvider, type EmailProvider } from '@/lib/email/provider';
+import { trackSignupSubmitted } from '@/lib/analytics';
+import { KIT_SUBMIT_NOTICE, getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
 const defaultProvider = getEmailProvider();
 
@@ -22,12 +22,13 @@ interface SignupFormProps {
   /** Additional class names */
   className?: string;
   /** Called when a submission is handed to the provider */
-  onSuccess?: () => void;
+  onSubmitStarted?: () => void;
 }
 
-type FormStatus = 'idle' | 'error' | 'success' | 'mock';
+type FormStatus = 'idle' | 'error' | 'mock';
 
 export const MOCK_SIGNUP_MESSAGE = "Email signup isn't connected on this build, so nothing was sent.";
+export const UNAVAILABLE_SIGNUP_MESSAGE = "Signup isn't available right now, so nothing was sent. Please try again later.";
 
 /**
  * Email signup form.
@@ -46,24 +47,29 @@ export function SignupForm({
   ctaText = 'Subscribe Free',
   provider = defaultProvider,
   className = '',
-  onSuccess,
+  onSubmitStarted,
 }: SignupFormProps) {
   const [email, setEmail] = useState('');
+  const [action, setAction] = useState(provider.formAction);
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [extraFields, setExtraFields] = useState<Record<string, string>>({});
+  // undefined until hydrated (submit stays disabled so no signup leaves without its tags);
+  // null when the provider says this signup must not be sent.
+  const [extraFields, setExtraFields] = useState<HiddenFields | null | undefined>(undefined);
 
   useEffect(() => {
+    setAction(provider.actionForUrl?.(window.location.href) ?? provider.formAction);
     setExtraFields(provider.extraFields(window.location.href));
   }, [provider]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
-      // Honeypot filled: likely a bot. Pretend success, send nothing.
+      // Honeypot filled: send nothing.
       if (honeypot) {
         e.preventDefault();
-        setStatus('success');
+        setStatus('error');
+        setErrorMessage(UNAVAILABLE_SIGNUP_MESSAGE);
         return;
       }
 
@@ -80,21 +86,29 @@ export function SignupForm({
         return;
       }
 
+      if (!extraFields) {
+        e.preventDefault();
+        setErrorMessage(UNAVAILABLE_SIGNUP_MESSAGE);
+        setStatus('error');
+        return;
+      }
+
       // Kit: let the browser submit the form to the hosted endpoint.
       setErrorMessage('');
-      trackNewsletterSignup({ location });
-      onSuccess?.();
+      trackSignupSubmitted({ location });
+      onSubmitStarted?.();
     },
-    [email, honeypot, provider, location, onSuccess]
+    [email, honeypot, provider, extraFields, location, onSubmitStarted]
   );
 
-  const hiddenFields = Object.entries(extraFields).map(([name, value]) => (
-    <input key={name} type="hidden" name={name} value={value} />
+  const hiddenFields = (extraFields ?? []).map(([name, value], i) => (
+    <input key={`${name}-${i}`} type="hidden" name={name} value={value} />
   ));
+  const submitDisabled = !extraFields;
 
   const formProps = {
     method: 'post' as const,
-    action: provider.formAction,
+    action: action,
     onSubmit: handleSubmit,
     'data-provider': provider.id,
   };
@@ -106,20 +120,6 @@ export function SignupForm({
     return (
       <div className={`rounded-xl bg-slate-100 p-6 text-center dark:bg-slate-800 ${className}`} role="status" aria-live="polite">
         <p className="text-sm text-slate-700 dark:text-slate-300">{MOCK_SIGNUP_MESSAGE}</p>
-      </div>
-    );
-  }
-
-  // Success state (honeypot only; real submissions navigate to Kit)
-  if (status === 'success') {
-    return (
-      <div
-        className={`rounded-xl bg-green-50 p-6 text-center dark:bg-green-900/20 ${className}`}
-        role="status"
-        aria-live="polite"
-      >
-        <h3 className="mt-4 text-lg font-semibold text-green-800 dark:text-green-300">Thanks!</h3>
-        <p className="mt-2 text-sm text-green-700 dark:text-green-400">Check your email to confirm your subscription.</p>
       </div>
     );
   }
@@ -145,9 +145,10 @@ export function SignupForm({
   // Inline variant
   if (variant === 'inline') {
     return (
-      <form {...formProps} className={`relative flex flex-col gap-3 sm:flex-row ${className}`}>
+      <form {...formProps} className={`relative flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
         {honeypotField}
         {hiddenFields}
+        {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
         <div className="flex-1">
           <label htmlFor={`email-${location}`} className="sr-only">
             Email address
@@ -165,6 +166,7 @@ export function SignupForm({
         </div>
         <button
           type="submit"
+          disabled={submitDisabled}
           className="btn-primary whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-50"
         >
           {ctaText}
@@ -188,6 +190,7 @@ export function SignupForm({
           <form {...formProps} className="relative flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
             {honeypotField}
             {hiddenFields}
+        {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
             <input
               type="email"
               name={provider.emailField}
@@ -200,6 +203,7 @@ export function SignupForm({
             />
             <button
               type="submit"
+              disabled={submitDisabled}
               className="whitespace-nowrap rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 shadow-sm transition-all hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 disabled:opacity-50"
             >
               {ctaText}
@@ -243,6 +247,7 @@ export function SignupForm({
       <form {...formProps} className="relative mt-6 space-y-4">
         {honeypotField}
         {hiddenFields}
+        {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
         <div>
           <label htmlFor={`email-card-${location}`} className="sr-only">
             Email address
@@ -261,6 +266,7 @@ export function SignupForm({
 
         <button
           type="submit"
+          disabled={submitDisabled}
           className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
         >
           <>

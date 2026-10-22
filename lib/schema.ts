@@ -150,22 +150,7 @@ export function generateReviewSchema(tool: Tool) {
         itemReviewed: {
           '@id': `${reviewUrl}#product`,
         },
-        positiveNotes: {
-          '@type': 'ItemList',
-          itemListElement: tool.pros.map((pro, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            name: pro,
-          })),
-        },
-        negativeNotes: {
-          '@type': 'ItemList',
-          itemListElement: tool.cons.map((con, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            name: con,
-          })),
-        },
+        // No positiveNotes/negativeNotes, Rating or AggregateRating (CPO ruling, 22 Oct).
       },
 
       // BreadcrumbList schema
@@ -213,8 +198,7 @@ export function generateReviewSchema(tool: Tool) {
  * Generated questions include:
  * - Pricing information
  * - Value assessment (is it worth it?)
- * - Best use cases
- * - Pros and cons summary
+ * - Who it may suit
  * 
  * @param {Tool} tool - The tool to generate FAQs for
  * @returns {object[]} Array of Question schema objects with acceptedAnswer
@@ -252,10 +236,6 @@ function generateFAQSchema(tool: Tool) {
     {
       question: `Who may ${tool.name} suit?`,
       answer: `${tool.name} may suit ${tool.bestFor} Key features include: ${tool.features.slice(0, 3).join(', ')}.`,
-    },
-    {
-      question: `What are the pros and cons of ${tool.name}?`,
-      answer: `Pros: ${tool.pros.slice(0, 2).join(', ')}. Cons: ${tool.cons.slice(0, 2).join(', ')}.`,
     },
   ];
 

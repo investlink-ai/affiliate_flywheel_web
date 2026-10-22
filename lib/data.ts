@@ -16,8 +16,6 @@ export interface Tool {
   pricingDetails: string;
   websiteUrl: string;
   features: string[];
-  pros: string[];
-  cons: string[];
   verdict: string;
   /** Who the tool may suit (rendered as "May suit"; no ranking claims) */
   bestFor: string;
@@ -65,8 +63,6 @@ export const tools: Tool[] = [
     pricingDetails: "See official website for current pricing.",
     websiteUrl: "https://www.quantconnect.com",
     features: ["Cloud-based research terminals with financial, fundamental, and alternative data, preformatted and linked to securities via FIGI, CUSIP, and ISIN.","Backtesting with point-in-time adjustments for fees, slippage, and spreads, supporting multi-asset portfolios with margin modeling.","Parameter sensitivity testing that runs many full backtests on cloud compute, visualized through heatmaps for strategy robustness.","Live trading through brokerage integrations.","Agentic AI assistant Mia that enables natural-language strategies, auto backtesting, and smart code edits for streamlined workflows.","Multi-asset portfolio modeling including US stocks, ETFs, options, indexes, futures, forex, CFDs, and crypto with tick-to-daily resolutions.","Alternative data from multiple vendors, processed with uniform timestamps and available for research or live trading.","Open-source LEAN engine for algorithmic trading, supporting local development, cloud backtesting, and custom modifications."],
-    pros: ["Solid product if you're not doing HFT","Extremely stable and the tools very easy to learn and use","Very easy tool to use for creating, backtesting, optimizing and going live with a trading strategy","Improves the efficiency and reduces the time between idea and feasibility testing","Platform provides its users many tools that improve the efficiency"],
-    cons: ["Full of problems, holes, and bugs","Clients end up hating it within days","Not recommend it for day-trading type","Daunting and the documentation may seem cumbersome at first","Engine is slower as the data points increases","Uses <7M data for just 3 months"],
     verdict: "QuantConnect stands out as a robust open-source platform for algorithmic trading, particularly suited for quantitative research and backtesting with extensive data access. While it excels in stability and tool efficiency for non-HFT strategies, users should be aware of potential bugs and performance issues with large datasets. This is not financial advice; always conduct thorough due diligence.",
     bestFor: "Quantitative research teams and professional quants seeking an open-source platform for building, testing, and deploying algorithmic trading strategies with AI assistance, multi-asset support, and a community for sharing research.",
     lastUpdated: "2026-02-04",
@@ -84,8 +80,6 @@ export const tools: Tool[] = [
     pricingDetails: "Flat fee per trade for US, UK & EU stocks (no matter how many shares); no commission on ETFs tracking S&P 500, Nasdaq & more; fixed fee on cryptoasset positions; additional costs may apply for other asset types (see eToro's fees page for current fees).",
     websiteUrl: "https://www.etoro.com",
     features: ["Invest in stocks, crypto and ETFs in one app.","Flat fee per trade for US, UK & EU stocks, no matter how many shares.","No commission on ETFs that track the S&P 500, Nasdaq & more.","Trade cryptoassets with fixed fees.","Copy other investors' moves using CopyTrader™.","Access free investing courses, podcasts, and webinars via eToro Academy.","Manage holdings in GBP and USD accounts for local and global trading."],
-    pros: ["Easy-to-use platform","High visibility into other investors' trades and social network capabilities","Educational materials","Copy trading service available","A variety of cryptocurrencies to choose from"],
-    cons: ["No IRAs","No bonds, futures or forex","High fees","Slow customer support","Withdrawal fee","Can only trade and invest in USD"],
     verdict: "eToro stands out for its social trading features like CopyTrader and a user-friendly platform suitable for beginners, with a wide range of assets including stocks and crypto. However, it has limitations such as higher fees, lack of certain account types like IRAs, and occasional support issues. This is not financial advice; users should conduct their own due diligence and consider personal financial situations.",
     bestFor: "Beginners and social traders interested in copying experienced investors across stocks, crypto, and ETFs.",
     lastUpdated: "2026-02-05",
@@ -103,8 +97,6 @@ export const tools: Tool[] = [
     pricingDetails: "See official website for current pricing.",
     websiteUrl: "https://www.notion.so",
     features: ["Notion Agent: Assign tasks and the AI agent performs the work.","Enterprise Search: One search across everything.","AI Meeting Notes: Generates meeting notes automatically.","Flexible workflows: Manages any project, big or small.","Automate repetitive tasks: AI handles busywork.","AI writing tools."],
-    pros: ["Flexibility and ease of use, allowing them to customize their workflows","Keep all their information organized in one place","Tracks many projects at once"],
-    cons: ["Per seat pricing is getting expensive","Confusing UI for some users","Setup can be time-consuming","Low learnability, unintuitive design","Requires a lot of time and effort to become productive with","Feels extremely slow"],
     verdict: "Notion excels as an all-in-one AI workspace for productivity and knowledge management, with user praise for flexibility. However, pricing and learnability issues may deter some. This is not financial advice; evaluate for your needs.",
     bestFor: "Teams seeking an AI everything app for productivity, knowledge management, and automation in a single platform.",
     lastUpdated: "2026-02-04",
@@ -122,8 +114,6 @@ export const tools: Tool[] = [
     pricingDetails: "See official website for current pricing.",
     websiteUrl: "https://www.tradingview.com",
     features: ["Indicators and drawing tools","Real-time data across stocks, forex, crypto, and more","Social community and idea sharing","Custom alerts and screening","Multi-timeframe analysis"],
-    pros: ["Powerful charting tools and customization options","Suitable for both beginners and experienced traders","Intuitive platform","Charting tool with a wide selection of features"],
-    cons: ["Slow and failing to close positions","Taking forever to enter positions","Lately it has been slow","Overly complicated and doesn't work offline","Occasional platform instability and crashes","Connection keeps dropping"],
     verdict: "TradingView is known for its charting and community features for market analysis. However, some users report performance issues. This is not financial advice; test for your use case.",
     bestFor: "See verdict for details.",
     lastUpdated: "2026-02-04",
