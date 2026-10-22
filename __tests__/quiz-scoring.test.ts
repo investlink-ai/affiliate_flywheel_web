@@ -182,10 +182,10 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include execution trading reason', () => {
-      const scoring = toolScoring['polymarket']!;
+      const scoring = toolScoring['quantconnect']!;
       const tags = ['execution-trading'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Crypto Tools');
+      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
       
       expect(reasons).toContain('Strong execution & trading');
     });
@@ -260,23 +260,9 @@ describe('Quiz Scoring Algorithm', () => {
       const results = calculateQuizResults(tools, answers, testQuestions);
       const topSlugs = results.slice(0, 3).map((r) => r.tool.slug);
       
-      expect(['quantconnect', 'etoro', 'polymarket']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
+      expect(['quantconnect', 'etoro']).toEqual(expect.arrayContaining(topSlugs.slice(0, 2)));
     });
 
-    it('should recommend Polymarket for prediction market focus', () => {
-      const answers = {
-        'investment-style': 'active',
-        'risk-tolerance': 'aggressive',
-        'asset-focus': 'prediction-markets',
-        'budget': 'free',
-        'workflow-stage': 'execution',
-      };
-      
-      const results = calculateQuizResults(tools, answers, testQuestions);
-      const topResult = results[0]!;
-      
-      expect(['polymarket']).toContain(topResult.tool.slug);
-    });
 
     it('should include match reasons in results', () => {
       const answers = {
@@ -316,9 +302,9 @@ describe('Quiz Scoring Algorithm', () => {
       const answers = { 'investment-style': 'active' };
       const results = calculateQuizResults(tools, answers, testQuestions);
       
-      const top5 = getTopRecommendations(results, 5);
+      const top3 = getTopRecommendations(results, 3);
       
-      expect(top5).toHaveLength(5);
+      expect(top3).toHaveLength(3);
     });
 
     it('should handle count larger than results', () => {
@@ -333,7 +319,7 @@ describe('Quiz Scoring Algorithm', () => {
 
   describe('toolScoring weights', () => {
     it('should have scoring weights for reviewed tools', () => {
-      const expectedTools = ['quantconnect', 'etoro', 'polymarket', 'notion'];
+      const expectedTools = ['quantconnect', 'etoro', 'notion', 'tradingview'];
       
       expectedTools.forEach((slug) => {
         expect(toolScoring[slug]).toBeDefined();
@@ -360,14 +346,28 @@ describe('Quiz Scoring Algorithm', () => {
       });
     });
 
-    it('should give Polymarket high scores for prediction/execution tags', () => {
-      const tags = ['prediction-markets', 'execution-trading'];
-      
-      tags.forEach((tag) => {
-        if (toolScoring['polymarket']![tag]) {
-          expect(toolScoring['polymarket']![tag]).toBeGreaterThanOrEqual(2);
-        }
+    it('has no scoring entry for removed tools (Polymarket, Binance)', () => {
+      expect(toolScoring['polymarket']).toBeUndefined();
+      expect(toolScoring['binance']).toBeUndefined();
+      expect(tools.map((t) => t.slug)).not.toContain('polymarket');
+    });
+
+    it('scores by fit only: no tool is weighted on another category\'s tag', () => {
+      const categories = new Set(tools.map((t) => t.category));
+      ['Quantitative Platforms', 'AI Investment Signals', 'Crypto Tools', 'Fintech Infrastructure', 'Portfolio Management'].forEach((c) => categories.add(c));
+      tools.forEach((tool) => {
+        const weights = toolScoring[tool.slug] ?? {};
+        Object.keys(weights)
+          .filter((tag) => categories.has(tag))
+          .forEach((tag) => expect(`${tool.slug}:${tag}`).toBe(`${tool.slug}:${tool.category}`));
       });
+    });
+
+    it('ignores commercial fields entirely when scoring', () => {
+      const base = getToolBySlug('etoro');
+      const tags = ['Quantitative Platforms', 'budget-friendly', 'free-tier'];
+      const withCommercial = { ...base, commissionRate: '50%', hasExclusiveDeal: true, cookieDuration: 90 } as typeof base;
+      expect(calculateToolScore(withCommercial, tags)).toEqual(calculateToolScore(base, tags));
     });
   });
 
@@ -523,10 +523,10 @@ describe('Quiz Scoring Algorithm', () => {
     });
 
     it('should include execution trading reason when applicable', () => {
-      const scoring = toolScoring['polymarket']!;
+      const scoring = toolScoring['quantconnect']!;
       const tags = ['execution-trading'];
       
-      const reasons = generateMatchReasons(scoring, tags, 'Crypto Tools');
+      const reasons = generateMatchReasons(scoring, tags, 'Quantitative Platforms');
       
       expect(reasons).toContain('Strong execution & trading');
     });
@@ -679,21 +679,6 @@ describe('Quiz Scoring Algorithm', () => {
       expect(notionResult!.score).toBeGreaterThan(0);
     });
 
-    it('should recommend crypto tools for crypto asset focus', () => {
-      const answers = {
-        'investment-style': 'active',
-        'risk-tolerance': 'aggressive',
-        'asset-focus': 'crypto',
-        'budget': 'free',
-        'workflow-stage': 'execution',
-      };
-      
-      const results = calculateQuizResults(tools, answers, testQuestions);
-      const topSlugs = results.slice(0, 4).map((r) => r.tool.slug);
-      const cryptoTools = ['polymarket', 'robinhood'];
-      const hasCryptoTool = topSlugs.some((slug) => cryptoTools.includes(slug));
-      expect(hasCryptoTool).toBe(true);
-    });
   });
 
   describe('scoring accuracy', () => {

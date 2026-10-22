@@ -132,10 +132,9 @@ export default function AboutPage() {
                 <span className="text-lg font-bold">1</span>
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Hands-On Testing</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Plain-English explanations</h3>
                 <p className="mt-1 text-slate-600 dark:text-slate-400">
-                  I pay for subscriptions and use tools in real projects. Every review reflects
-                  independent testing and extended usage.
+                  {"What each tool does, who it suits and where it falls short, without jargon or marketing claims."}
                 </p>
               </div>
             </div>
@@ -198,7 +197,7 @@ export default function AboutPage() {
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
-                  Follow @FeynmanXu
+                  Follow @investlink_ai
                 </a>
               )}
               {primaryAuthor.socialProfiles.linkedin && (

@@ -11,7 +11,6 @@ import { SignupForm } from '@/components/SignupForm';
 import { Breadcrumb, getReviewBreadcrumbs } from '@/components/Breadcrumb';
 import { ScreenshotGallery } from '@/components/ScreenshotGallery';
 import { VideoReviewSection } from '@/components/VideoEmbed';
-import { SocialProof } from '@/components/SocialProof';
 import { ReviewPageCTAs, ReviewSidebarCTA } from '@/components/ReviewPageClient';
 import { getToolBySlug, getAllToolSlugs, tools } from '@/lib/data';
 import { generateReviewSchema } from '@/lib/schema';
@@ -81,7 +80,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title: `${tool.name} Review: ${tool.rating}/5 - ${authorByline}`,
       description: tool.tagline,
-      creator: '@FeynmanXu',
+      creator: '@investlink_ai',
     },
     alternates: {
       canonical: `/reviews/${tool.slug}`,
@@ -199,11 +198,6 @@ export default async function ReviewPage({ params }: PageProps) {
               <div className="mt-6">
                 <ProsCons pros={tool.pros} cons={tool.cons} />
               </div>
-            </section>
-
-            {/* Social Proof - User quotes from public reviews (research-driven, FTC-safe) */}
-            <section className="mt-12">
-              <SocialProof tool={tool} headline={`What Users Say About ${tool.name}`} />
             </section>
 
             {/* Pricing */}

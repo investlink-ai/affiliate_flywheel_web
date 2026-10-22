@@ -12,10 +12,9 @@ export interface UserTestimonial {
 }
 
 /**
- * Placeholder testimonials — for development only.
- * FTC: Do NOT use fake/placeholder testimonials in production.
- * Use UserTestimonials only when you have real data from outreach with permission.
- * For social proof, prefer SocialProof component (tool.socialProof) — research-driven, FTC-safe.
+ * Placeholder testimonials, for local development only.
+ * InvestLink shows no testimonials. UserTestimonials refuses to render these in a production
+ * build (see isPlaceholder below and __tests__/user-testimonials.test.tsx).
  */
 export const placeholderTestimonials: UserTestimonial[] = [
   {
@@ -53,7 +52,7 @@ export const placeholderTestimonials: UserTestimonial[] = [
 ];
 
 interface UserTestimonialsProps {
-  /** Testimonials to display; defaults to placeholder data */
+  /** Testimonials to display (default: none). Placeholders never render in production. */
   testimonials?: UserTestimonial[];
   /** Maximum number to show (default: all) */
   limit?: number;
@@ -65,14 +64,23 @@ interface UserTestimonialsProps {
   className?: string;
 }
 
+/** True when an item is one of the development placeholders (identity or same quote). */
+export function isPlaceholder(item: UserTestimonial): boolean {
+  return placeholderTestimonials.some((p) => p === item || p.quote === item.quote);
+}
+
 export function UserTestimonials({
-  testimonials = placeholderTestimonials,
+  testimonials = [],
   limit,
   headline = 'What Investors Are Saying',
   description = 'Real feedback from traders and investors who use these tools daily.',
   className = '',
 }: UserTestimonialsProps) {
-  const items = limit ? testimonials.slice(0, limit) : testimonials;
+  const allowed =
+    process.env.NODE_ENV === 'production'
+      ? testimonials.filter((t) => !isPlaceholder(t))
+      : testimonials;
+  const items = limit ? allowed.slice(0, limit) : allowed;
 
   if (items.length === 0) return null;
 

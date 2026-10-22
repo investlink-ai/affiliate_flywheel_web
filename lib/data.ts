@@ -34,7 +34,6 @@ export interface Tool {
   /** YouTube video review URL */
   videoReviewUrl?: string;
   /** User quotes from reviews (G2, Reddit, etc.); format: "quote – attribution". Research-driven, FTC-safe. */
-  socialProof?: string[];
   /** Optional per-tool metrics (e.g., user-reported efficiency gains); flexible, not uniform across tools */
   optionalMetrics?: string[];
 }
@@ -81,7 +80,6 @@ export const tools: Tool[] = [
     lastVerified: "2026-02-04",
     recommendations: {"quantitative_analyst":"Best for backtesting strategies","trader":"Top for algorithmic trading"},
     videoReviewUrl: "https://www.youtube.com/watch?v=T1XCZpozvLE",
-    socialProof: ["'Overall great platform.' – User, Trustpilot, Nov 8, 2025","'Very easy tool to use for creating, backtesting, optimizing and going live with a trading strategy. I went from concept to live trading in less than a month' – User, Trustpilot","'I've traded on quantconnect.com for the better part of a year now and find the platform extremely stable and the tools very easy to learn and use.' – Reddit user","'I use quantconnect sporadically. I find it to be the best platform for developing trading strategies' – Reddit user","'The full QuantConnect platform provides its users many tools that improve the efficiency and most importantly reduce the time between idea and feasibility testing.' – Trustpilot user","'Overall great platform.' – User, Trustpilot"],
     optionalMetrics: ["Complete a 10-year equity backtest in just 33 seconds","Processing $45B in notional volume monthly","Over 15,000 parallel backtests daily","Over 375,000 strategies deployed since 2012"],
   },
   {
@@ -105,30 +103,6 @@ export const tools: Tool[] = [
     lastVerified: "2026-02-05",
     recommendations: {"trader":"Best for social and copy trading","individual_investor":"Top for beginner-friendly platform"},
     videoReviewUrl: "https://www.youtube.com/watch?v=d9x662EaBuE",
-    socialProof: ["'Great app for investment' – User, Capterra","'Very available app for trading. Simple to use and for non expert people.' – User, Capterra","'Good service but the fees could be smaller.' – User, Capterra","'Best by far has the most volume and realistic odds and most outcomes to bet on.' – Reddit user","'Platform is simple, the markets move fast, and the prices shift entirely based on what traders believe.' – Reddit user","'Go-to platform for crypto-savvy users who want a fast, flexible, and global way to trade predictions.' – Reddit user"],
-  },
-  {
-    slug: "polymarket",
-    name: "Polymarket",
-    tagline: "The World's Largest Prediction Market™",
-    description: "Polymarket is a prediction market platform where users trade on the outcomes of real-world events using cryptocurrency. It features markets on topics like sports, politics, finance, and crypto price movements, with live betting options such as BTC 15-minute up or down. The platform operates globally through separate legal entities, with Polymarket US regulated by the CFTC as a Designated Contract Market.",
-    logoUrl: "/images/tools/polymarket-logo.svg",
-    rating: 1.3,
-    ratingCount: 0,
-    category: "Crypto Tools",
-    pricing: "See website",
-    pricingDetails: "See official website for current pricing.",
-    websiteUrl: "https://polymarket.com",
-    features: ["Markets on sports outcomes (e.g., Seahawks vs. Patriots NFL game with 69% chance for Seahawks).","Crypto-related predictions (e.g., Bitcoin price targets like ↑90,000 with 20% chance or ↓70,000 with 51% chance).","Political and geopolitical events (e.g., US strikes Iran by February 13 with 9% yes chance or Russia-Ukraine ceasefire by end of 2026 with 46% chance).","Financial markets (e.g., Fed decision in March with 91% chance of no change or S&P 500 opens up or down on February 4 with 57% up).","Entertainment and awards (e.g., Oscars 2026 Best Picture winner like 'One Battle After Another' with 70% chance).","Live trading with volume indicators (e.g., $10m volume on NFL game or $13m on Bitcoin February price).","Binary yes/no outcomes (e.g., Will anyone be jailed over Epstein disclosures with 15% yes chance).","Multi-outcome markets (e.g., Where will Giannis be traded with options like Not Traded at 49% or Minnesota Timberwolves at 27%).","Event timing markets (e.g., Kevin Warsh confirmed as Fed Chair by May 1 with 58% chance).","Global election predictions (e.g., Thailand Legislative Election Winner with People’s Party at 66%)."],
-    pros: ["Good website for those interested in this type of betting","Best by far has the most volume and realistic odds and most outcomes to bet on","Platform is simple, the markets move fast, and the prices shift entirely based on what traders believe","Go-to platform for crypto-savvy users who want a fast, flexible, and global way to trade predictions","Best betting platform at the moment. Really good prices. Fast/instant pay outs on crypto","Very good app!!! I like the breakdown of the individual categories and the graphs are a very nice touch !!!"],
-    cons: ["Huge waste of time, mainly because of the terrible customer support","Easy for scammers to cheat you","Super slow to execute orders","Delay in submitting orders","Platform is subject to manipulation, with outcomes influenced by individuals holding substantial amounts of tokens","Rigged or arbitrary resolutions"],
-    verdict: "Polymarket offers a unique decentralized platform for prediction markets with high liquidity in popular events, but faces criticism for potential manipulation and poor customer support. It may suit crypto users comfortable with blockchain risks, but caution is advised. This is not financial advice.",
-    bestFor: "Crypto users to trade on prediction markets involving Bitcoin prices, financial decisions, and geopolitical events using cryptocurrency.",
-    lastUpdated: "2026-02-04",
-    lastVerified: "2026-02-04",
-    recommendations: {"trader":"Best for prediction markets","individual_investor":"Top for crypto-focused betting"},
-    socialProof: ["'A good website for those interested in this type of betting' – User, Trustpilot","'Best betting platform at the moment. Really good prices. Fast/instant pay outs on crypto.' – User, Trustpilot","'Very good app!!! I like the breakdown of the individual categories and the graphs are a very nice touch !!!' – User, Trustpilot","'Polymarket is the best by far has the most volume and realistic odds and most outcomes to bet on.' – Reddit user","'Polymarket is insider traders taking free money from other donators until it's more tightly regulated.' – Reddit user (negative, but real)","'I've been using Polymarket recently, and it clicked with me right away.' – PokerNews review"],
-    optionalMetrics: ["Generated more than $2 billion in total volume across major events this year","Some single questions now attract more than $10–20 million in wagers","Trading volume on major platforms surpassed $3 billion in Q3 2025","Hit approximately $474–510 million in November 2024"],
   },
   {
     slug: "notion",
@@ -151,7 +125,6 @@ export const tools: Tool[] = [
     lastVerified: "2026-02-04",
     recommendations: {"fintech_professional":"Best for AI-powered tools","financial_advisor":"Top for portfolio management","quantitative_analyst":"Great for automation"},
     videoReviewUrl: "https://www.youtube.com/watch?v=SiJpasKwEHs",
-    socialProof: ["'My overall experience with Notion has been a very positive one. This software helps me stay organize and track many projects at once' – User, Capterra","'Notion is ease to use' – User, Capterra","'Great visualization and some data analysis available' – User, Capterra","'We like using Notion for our company docs. Its easy to use' – User, Trustpilot","'Great AI tool for our resources within our organization' – User, Gartner","'I use Notion for everything, and it makes me incredibly productive' – Reddit user"],
     optionalMetrics: ["79% of reviewers have rated Notion 5 stars on G2","Consistently ranks as the G2 industry leader","I've noticed my productivity with my own projects has exploded since I started using it","Done more projects since I started using Notion in the last two years than probably the previous 10 years"],
   },
   {
@@ -175,7 +148,6 @@ export const tools: Tool[] = [
     lastVerified: "2026-02-04",
     recommendations: {"individual_investor":"Best for charting","trader":"Top for market analysis"},
     videoReviewUrl: "https://www.youtube.com/watch?v=ktuEYvVEm5I",
-    socialProof: ["'TradingView shows clean and responsive charts. It makes technical analysis easy even for novices.' – G2 user","'Tradingview is a much more efficient, smoother, and intuitive platform, especially for more technical traders.' – Reddit user","'Users consistently praise TradingView for its powerful charting tools and customization options' – G2","'Powerful charting tool with a massive selection of features, such as over 400 indicators and over 110 drawing tools.' – StockBrokers review","'I used to like tradingview but lately it has been slow' – Reddit user (mixed)","'Argubly delivers the best charting experience available today' – StockBrokers"],
   },
 ];
 

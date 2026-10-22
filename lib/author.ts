@@ -41,9 +41,8 @@ export const primaryAuthor: Author = {
     'Researched 100+ investment tools',
   ],
   socialProfiles: {
-    twitter: 'https://twitter.com/FeynmanXu',
+    twitter: 'https://x.com/investlink_ai',
     linkedin: 'https://www.linkedin.com/in/xiaobin-xu-0a7065b4/',
-    github: 'https://github.com/feynmanxu',
     website: 'https://investlink.com/about',
   },
   image: '/images/authors/sam-xu.jpg',

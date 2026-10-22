@@ -143,14 +143,9 @@ export default function PrivacyPage() {
           <section className="mt-12">
             <h2>Contact</h2>
             <p>
-              If you have any questions about these policies, please contact me at{' '}
-              <a href="mailto:hello@investlink.com">hello@investlink.com</a> or via{' '}
-              <a
-                href="https://twitter.com/FeynmanXu"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter @FeynmanXu
+              If you have any questions about these policies, please contact InvestLink on X at{' '}
+              <a href="https://x.com/investlink_ai" target="_blank" rel="noopener noreferrer">
+                @investlink_ai
               </a>
               .
             </p>

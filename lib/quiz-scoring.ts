@@ -49,7 +49,6 @@ export interface QuizResult {
 export const toolScoring: Record<string, Record<string, number>> = {
   quantconnect: {
     'Quantitative Platforms': 3,
-    'AI Investment Signals': 2,
     'idea-generation-research': 3,
     'data-fundamentals': 3,
     'technical-quantitative': 3,
@@ -72,18 +71,8 @@ export const toolScoring: Record<string, Record<string, number>> = {
     'budget-friendly': 3,
     'free-tier': 2,
   },
-  polymarket: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    'prediction-markets': 3,
-    active: 3,
-    aggressive: 2,
-    'budget-friendly': 2,
-    'free-tier': 2,
-  },
   notion: {
     'AI Investment Signals': 3,
-    'Fintech Infrastructure': 2,
     'ai-powered-tools': 3,
     'idea-generation-research': 2,
     'budget-friendly': 2,

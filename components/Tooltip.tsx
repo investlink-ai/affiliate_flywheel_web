@@ -164,7 +164,7 @@ export function DisclosureTooltip({ children }: { children: React.ReactNode }) {
     <Tooltip
       content={
         <span className="block">
-          InvestLink does not use referral links and is not paid by the products it reviews. Content is general information only, not personal financial advice.
+          {"InvestLink isn't paid by any product it mentions and uses no referral links. Everything here is general information, not financial advice."}
         </span>
       }
       position="top"

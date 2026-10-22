@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'InvestLink | AI Investment Tool Reviews 2026',
     description: 'Honest, in-depth reviews of the best AI investment tools for traders and investors.',
-    creator: '@FeynmanXu',
+    creator: '@investlink_ai',
     images: ['/og-image.png'],
   },
   robots: {

@@ -190,11 +190,13 @@ const quizQuestions: QuizQuestion[] = [
   },
 ];
 
-/** Tag-based scoring: workflow stages + reviewed tools (QuantConnect, TradeStation, Polymarket, Notion) */
+/**
+ * Tag-based scoring by fit only. A tool may carry a weight for its own category tag but never for
+ * another category's tag; nothing here depends on any commercial relationship.
+ */
 const toolScoring: Record<string, Record<string, number>> = {
   quantconnect: {
     'Quantitative Platforms': 3,
-    'AI Investment Signals': 2,
     'idea-generation-research': 3,
     'data-fundamentals': 3,
     'technical-quantitative': 3,
@@ -218,18 +220,8 @@ const toolScoring: Record<string, Record<string, number>> = {
     premium: 3,
     'pro-features': 3,
   },
-  polymarket: {
-    'Crypto Tools': 3,
-    'execution-trading': 3,
-    'prediction-markets': 3,
-    'active': 3,
-    'aggressive': 2,
-    'budget-friendly': 2,
-    'free-tier': 2,
-  },
   notion: {
     'AI Investment Signals': 3,
-    'Fintech Infrastructure': 2,
     'ai-powered-tools': 3,
     'idea-generation-research': 2,
     'budget-friendly': 2,

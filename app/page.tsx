@@ -186,8 +186,8 @@ export default function HomePage() {
         <div className="mt-12 grid gap-8 sm:grid-cols-3">
           {[
             {
-              title: 'Hands-On Testing',
-              description: 'Every review is based on real-world usage, not press releases or marketing claims.',
+              title: 'Plain-English explanations',
+              description: 'What each tool does, who it suits and where it falls short, without jargon or marketing claims.',
               icon: (
                 <path
                   strokeLinecap="round"
@@ -199,7 +199,7 @@ export default function HomePage() {
             {
               title: 'Independent Reviews',
               description:
-                'InvestLink is not paid by the products it reviews. Reviews reflect independent testing.',
+                "InvestLink isn't paid by any product it mentions and uses no referral links. Everything here is general information, not financial advice.",
               icon: (
                 <path
                   strokeLinecap="round"
@@ -233,8 +233,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* UserTestimonials: Add when we have real curated testimonials (outreach, permission). Use SocialProof on review pages for research-driven quotes. */}
-
       {/* Newsletter Signup Section */}
       <section className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -243,7 +241,7 @@ export default function HomePage() {
               location="homepage"
               variant="card"
               headline="Get Weekly AI Tool Insights"
-              description="Join 5,000+ investors and traders receiving our weekly newsletter with the best AI investment tool recommendations, market insights."
+              description="Get one practical lesson a week on investing tools. Free, confirm by email, unsubscribe anytime."
               ctaText="Subscribe Free"
             />
           </div>

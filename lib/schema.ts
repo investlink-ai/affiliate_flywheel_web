@@ -48,8 +48,7 @@ export const organizationSchema = {
   logo: 'https://investlink.com/icon.svg',
   description: 'AI Investment Tool Reviews - Data-backed, in-depth reviews of AI investment tools, fintech platforms, and quantitative strategies. Empowering investors and traders with personalized recommendations.',
   sameAs: [
-    'https://twitter.com/FeynmanXu',
-    'https://github.com/feynmanxu',
+    'https://x.com/investlink_ai',
   ],
   founder: getAuthorSchema(),
 };

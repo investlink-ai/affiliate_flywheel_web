@@ -18,7 +18,6 @@ export { StarRating } from './StarRating';
 export { ReviewHero } from './ReviewHero';
 export { ReviewHeroWithABTest } from './ReviewHeroClient';
 export { ProsCons } from './ProsCons';
-export { SocialProof } from './SocialProof';
 export { UserTestimonials, placeholderTestimonials } from './UserTestimonials';
 export type { UserTestimonial } from './UserTestimonials';
 export { ComparisonTable } from './ComparisonTable';
