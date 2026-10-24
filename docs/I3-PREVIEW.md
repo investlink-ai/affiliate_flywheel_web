@@ -37,8 +37,8 @@ The default stays **`hidden-tags`** when `NEXT_PUBLIC_KIT_ATTRIBUTION` is unset.
 The public live form ID is **9042473**: set `NEXT_PUBLIC_EMAIL_PROVIDER=kit` and
 `NEXT_PUBLIC_KIT_FORM_ID=9042473`. It is configuration, not hardcoded in the site.
 All public source/campaign tag IDs are committed in `lib/attribution/tag-list.mjs`.
-In this mode all placements post to the configured form, sending the full page
-URL as `referrer` and one `tags[]` ID per source/campaign tag. Whether Kit applies
+In this mode all placements post to the configured form, sending the page
+URL (origin + path + utm_* only) as `referrer` and one `tags[]` ID per source/campaign tag. Whether Kit applies
 `tags[]` is verified in the R1/R3 live test; `form-per-source` remains the
 switchable fallback, with its source form IDs deliberately null until configured.
 
@@ -65,7 +65,7 @@ UTM-source automation trigger. If R3 shows undeclared IDs are ignored, use the
 5. Repeat R3 and R11 on all source forms. The action must be
    `https://app.kit.com/forms/<sourceForms[src]>/subscriptions`, with
    `src-unattributed` selected for missing/unknown sources. Inspect `referrer`
-   for the full URL. There must be **no source `tags[]` field**. A listed campaign
+   for origin + path + utm_* params (no other query params, no fragment). There must be **no source `tags[]` field**. A listed campaign
    ID is still sent via `tags[]`, best-effort, alongside Kit's own utm_campaign
    attribution. A missing campaign tag is a report warning in this mode.
 
@@ -129,7 +129,8 @@ Exit 0 ok, 1 violations, 2 usage/config, 3 read failure.
    trying hidden-tags first (leave NEXT_PUBLIC_KIT_ATTRIBUTION unset).
    Configure Kit double opt-in and the R11 incentive settings above. Use only
    reviewer-owned test addresses. Inspect the form action and hidden `referrer`:
-   it must include the full page URL, including UTM query parameters. Submit by
+   it must be the page origin + path with the UTM query parameters only
+   (other query params and the fragment are dropped). Submit by
    browser POST, with no site API call or API-created subscriber.
 3. R3: also test guide URLs with `utm_source=x`, `youtube`, and `newsletter`
    without a campaign: expect the corresponding source plus `cmp-anchor-1`.

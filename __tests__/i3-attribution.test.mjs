@@ -238,7 +238,11 @@ describe('report guide campaign evidence', () => {
       [GUIDE, 'unlisted', [tag('src-x'), tag('cmp-anchor-1')], false, false],
       [GUIDE, 'i3-preview', [tag('src-x'), tag('cmp-i3-preview')], false, false],
       [GUIDE, 'anchor-1', [tag('src-x'), tag('cmp-anchor-1')], false, false],
-      [GUIDE, undefined, [tag('src-x')], mode === 'hidden-tags', mode === 'form-per-source'],
+      // Site-wide placement (exit popup) on the guide page: no guide default campaign. Valid (#25 r1 P2-2).
+      [GUIDE, undefined, [tag('src-x')], false, false],
+      [GUIDE, 'unlisted', [tag('src-x')], false, false],
+      // A listed utm_campaign is still required whichever placement was used.
+      [GUIDE, 'i3-preview', [tag('src-x')], mode === 'hidden-tags', mode === 'form-per-source'],
       [undefined, undefined, [tag('src-x'), tag('cmp-anchor-1')], false, true],
       ['https://investlink.ai/', undefined, [tag('src-x')], false, false],
       ['https://investlink.ai/', undefined, [tag('src-x'), tag('cmp-anchor-1')], true, false],
@@ -251,5 +255,40 @@ describe('report guide campaign evidence', () => {
       expect(report.violations.length > 0).toBe(violation);
       expect(report.warnings.length > 0).toBe(warning);
     }
+  });
+});
+
+describe('#25 r1 P2-2: exit popup signup on a guide page', () => {
+  it.each(['hidden-tags', 'form-per-source'])('%s: utm_source visitor, no campaign tag, report stays ok (report:tags exit 0)', async mode => {
+    // A guide-page visitor from ?utm_source=x subscribes through the site-wide exit popup,
+    // which sends the src tag only (no guide default campaign).
+    const row = subscriber(91, { source: 'x' }, { referrer: `${GUIDE}?utm_source=x` });
+    const api = createMockKitApi({ pages: [page([row])],
+      formPages: Object.fromEntries(Object.values(sourceForms).map(id => [id, [page(id === sourceForms['src-x'] ? [row] : [])]])),
+      subscriberTags: { 91: [tag('src-x')] } });
+    const report = await tagReport({ api, mode, formId: '123', sourceForms });
+    expect(report).toMatchObject({ ok: true, violations: [], warnings: [] });
+    expect(report.bySource['src-x']).toBe(1);
+    expect(report.byCampaign[NO_CAMPAIGN]).toBe(1);
+  });
+});
+
+describe('#25 r1 P3-4: the report never prints a raw unlisted tag name', () => {
+  it('reports unlisted and late unlisted tags without their names', async () => {
+    const raw = 'cmp-Secret_Name';
+    const api = createMockKitApi({ subscribers: [subscriber(92, { source: 'x' })],
+      subscriberTags: { 92: [tag('src-x'), { id: 9, name: raw, tagged_at: '2026-10-25T00:00:00Z' }] } });
+    const report = await tagReport({ api, formId: '123' });
+    expect(report.ok).toBe(false);
+    expect(report.violations.map(v => v.rule)).toEqual(expect.arrayContaining([
+      expect.stringMatching(/unlisted tag/), expect.stringMatching(/^an unlisted tag applied more than 24h after signup$/),
+    ]));
+    expect(JSON.stringify(report)).not.toMatch(/Secret|cmp-S/i);
+  });
+  it('still names listed tags applied late', async () => {
+    const api = createMockKitApi({ subscribers: [subscriber(93, { source: 'x' })],
+      subscriberTags: { 93: [tag('src-x', '2026-10-25T00:00:00Z')] } });
+    const report = await tagReport({ api, formId: '123' });
+    expect(report.violations.map(v => v.rule)).toContain('src-x applied more than 24h after signup');
   });
 });

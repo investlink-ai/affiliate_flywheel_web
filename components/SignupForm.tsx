@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import Link from 'next/link';
 import { trackSignupSubmitted } from '@/lib/analytics';
 import { KIT_SUBMIT_NOTICE, getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
@@ -34,7 +35,7 @@ export const UNAVAILABLE_SIGNUP_MESSAGE = "Signup isn't available right now, so 
  * Email signup form.
  *
  * The browser posts straight to the Kit hosted form (double opt-in), with a hidden
- * `referrer` field holding the full page URL so Kit can attribute UTM parameters.
+ * `referrer` field holding the page URL (origin + path + utm_* only) so Kit can attribute UTM parameters.
  * The site never creates subscribers through an API route. Without a Kit form ID,
  * a production build renders nothing; dev/test builds use an offline mock that
  * sends nothing.
@@ -142,6 +143,12 @@ export function SignupForm({
     </div>
   );
 
+  const privacyNotice = (tone: string) => (
+    <p className={`basis-full text-xs ${tone}`}>
+      See our <Link href="/privacy#email-and-analytics" className="underline">privacy policy</Link> for how your email is used.
+    </p>
+  );
+
   // Inline variant
   if (variant === 'inline') {
     return (
@@ -149,6 +156,7 @@ export function SignupForm({
         {honeypotField}
         {hiddenFields}
         {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
+        {privacyNotice('text-slate-600 dark:text-slate-400')}
         <div className="flex-1">
           <label htmlFor={`email-${location}`} className="sr-only">
             Email address
@@ -191,6 +199,7 @@ export function SignupForm({
             {honeypotField}
             {hiddenFields}
         {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
+            {privacyNotice('text-primary-100')}
             <input
               type="email"
               name={provider.emailField}
@@ -248,6 +257,7 @@ export function SignupForm({
         {honeypotField}
         {hiddenFields}
         {provider.id === 'kit' && <p className="basis-full text-sm">{KIT_SUBMIT_NOTICE}</p>}
+        {privacyNotice('text-center text-slate-600 dark:text-slate-400')}
         <div>
           <label htmlFor={`email-card-${location}`} className="sr-only">
             Email address

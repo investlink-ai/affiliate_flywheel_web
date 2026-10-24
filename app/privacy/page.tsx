@@ -35,9 +35,31 @@ export default function PrivacyPage() {
 
           <section className="mt-12" id="email-and-analytics">
             <h2>Email and analytics</h2>
-            <p>Kit stores your email after you confirm (double opt-in). Before confirmation,
-              Kit processes the address to send your confirmation link. Every email has an
-              unsubscribe link. Umami Cloud counts visits without cookies.</p>
+            <p>
+              Email signups go to our email provider, Kit. When you submit a signup form, Kit
+              stores your email address straight away, before you confirm, and uses it to send
+              your confirmation link (double opt-in). You are only subscribed after you click
+              that link. If you never confirm, Kit may still keep the unconfirmed address on our
+              account until it is deleted.
+            </p>
+            <p>
+              With your email, the form also sends Kit the page you signed up from: the page
+              address (path) plus any utm_ campaign parameters in the link, without other
+              query parameters. Kit also gets source and campaign tags (for example, which
+              channel or campaign brought you). These tags are for attribution only: we use them
+              to count which channels and guides lead to signups, not to profile you.
+            </p>
+            <p>
+              Once you confirm, we use your email to send the guide or checklist you asked for
+              and our ongoing emails (practical lessons on AI investing tools, general
+              information only). Every email has an unsubscribe link. To unsubscribe, use that
+              link. To ask us to delete your email and tags from Kit, contact us (see Contact
+              below).
+            </p>
+            <p>
+              Umami Cloud counts visits without cookies. It is set not to record query strings
+              or URL fragments. We do not send your email to analytics.
+            </p>
           </section>
 
           {/* Privacy Policy */}
@@ -108,8 +130,9 @@ export default function PrivacyPage() {
             <h3>Your Rights</h3>
             <p>
               You have the right to access, correct, or delete any personal data we may have about
-              you. Since we don&apos;t directly collect personal information, you should contact the
-              relevant third-party services directly for any data requests.
+              you. For your email signup (stored in Kit), contact us (see Contact below) and we will
+              delete your address and its tags. For other third-party services, you can also
+              contact them directly.
             </p>
           </section>
 

@@ -35,6 +35,23 @@ type ProviderEnv = {
 
 const FORM_ID = /^[1-9]\d*$/;
 
+/**
+ * The page URL as sent to Kit in the hidden `referrer` field: origin + path plus
+ * utm_* query params only. Other query params and the fragment are dropped so
+ * nothing unrelated (or user-typed) in the URL reaches Kit. Kit still gets a full
+ * absolute URL, so it can read the UTMs and the report can read the guide path.
+ * Returns '' for an unparseable or non-http(s) URL.
+ */
+export function kitReferrer(pageUrl: string): string {
+  let url: URL;
+  try { url = new URL(pageUrl); } catch { return ''; }
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+  const utm = new URLSearchParams();
+  for (const [key, value] of url.searchParams) if (key.toLowerCase().startsWith('utm_')) utm.append(key, value);
+  const query = utm.toString();
+  return `${url.origin}${url.pathname}${query ? `?${query}` : ''}`;
+}
+
 /** The Kit form ID to post to, from NEXT_PUBLIC_KIT_FORM_ID or KIT_FORM_ID, or null if neither is a valid ID. */
 export function kitFormId(env: ProviderEnv): string | null {
   // Strict: no whitespace or other characters (next.config.mjs trims KIT_FORM_ID before inlining it).
@@ -73,7 +90,7 @@ export function getEmailProvider(env: ProviderEnv = {
     const actionForUrl = (url: string) => mode === 'form-per-source' ? kitSourceFormAction(url, list) : null;
     return {
       id: 'kit', formAction: '#kit-unavailable', emailField: 'email_address', actionForUrl,
-      extraFields: (url, defaultCampaign) => actionForUrl(url) ? [['referrer', url], ...kitCampaignFields(url, list, defaultCampaign)] : null,
+      extraFields: (url, defaultCampaign) => actionForUrl(url) ? [['referrer', kitReferrer(url)], ...kitCampaignFields(url, list, defaultCampaign)] : null,
     };
   }
   const id = kitFormId(env);
@@ -82,14 +99,15 @@ export function getEmailProvider(env: ProviderEnv = {
       id: 'kit',
       formAction: `https://app.kit.com/forms/${id}/subscriptions`,
       emailField: 'email_address',
-      // referrer: explicit full page URL so Kit can record UTMs (the HTTP Referer
-      // loses the query string under strict-origin-when-cross-origin).
+      // referrer: explicit page URL (origin + path + utm_* only, see kitReferrer) so Kit
+      // can record UTMs (the HTTP Referer loses the query string under
+      // strict-origin-when-cross-origin).
       // tags[]: Kit tag IDs for exactly one src-* and at most one cmp-* tag, applied
       // by the hosted form at subscribe time.
       // Both are UNVERIFIED against live Kit until the R1/R3 preview test.
       extraFields: (pageUrl, defaultCampaign) => {
         const tags = tagFields ? tagFields(pageUrl, defaultCampaign) : kitTagFields(pageUrl, list, defaultCampaign);
-        return tags ? [['referrer', pageUrl], ...tags] : null;
+        return tags ? [['referrer', kitReferrer(pageUrl)], ...tags] : null;
       },
     };
   }
