@@ -6,6 +6,8 @@ import { ConsentBanner } from '@/components/ConsentBanner';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { isSignupAvailable } from '@/lib/email/provider';
 import { SITE_URL } from '@/lib/site';
+import { UmamiAnalytics } from '@/components/UmamiAnalytics';
+import { EngagedTracker } from '@/components/EngagedTracker';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -106,6 +108,8 @@ export default function RootLayout({
         
         {/* Google Analytics 4 */}
         <GoogleAnalytics />
+        <UmamiAnalytics />
+        <EngagedTracker />
         
         <Header />
         <main id="main-content" className="flex-1">{children}</main>

@@ -21,7 +21,7 @@ function files(dir: string, out: string[] = []): string[] {
 }
 
 const SOURCES = [...files(join(ROOT, 'app')), ...files(join(ROOT, 'components')),
-  join(ROOT, 'lib/data.ts'), join(ROOT, 'lib/schema.ts')]
+  join(ROOT, 'lib/data.ts'), join(ROOT, 'lib/schema.ts'), join(ROOT, 'public/manifest.json')]
   .filter((f) => !SKIP.has(relative(ROOT, f)));
 
 const BANNED: Array<[string, RegExp]> = [
@@ -60,5 +60,30 @@ describe('no unverifiable claims in rendered sources (CPO 22 Oct)', () => {
     for (const t of tools) {
       for (const badge of Object.values(t.recommendations ?? {})) expect(badge, t.slug).toMatch(/^May suit /);
     }
+  });
+
+  // CPO ruling (22 Oct, P3-4 on #24): no unattributed user quotes or pros/cons presented as ours.
+  it('tools carry no pros/cons or quote fields', async () => {
+    const { tools } = await import('@/lib/data');
+    for (const t of tools) {
+      for (const field of ['pros', 'cons', 'optionalMetrics', 'testimonials', 'quotes']) {
+        expect(t, `${t.slug}.${field}`).not.toHaveProperty(field);
+      }
+    }
+  });
+
+  it('review JSON-LD has no Review notes, Rating or AggregateRating, and the FAQ has no pros/cons', async () => {
+    const { tools } = await import('@/lib/data');
+    const { generateReviewSchema } = await import('@/lib/schema');
+    for (const t of tools) {
+      const json = JSON.stringify(generateReviewSchema(t));
+      expect(json, t.slug).not.toMatch(/positiveNotes|negativeNotes|"Rating"|AggregateRating|reviewRating|ratingValue/);
+      expect(json, t.slug).not.toMatch(/pros and cons|"Pros:/i);
+    }
+  });
+
+  it('review pages render no Pros & Cons section', () => {
+    const page = readFileSync(join(ROOT, 'app/reviews/[slug]/page.tsx'), 'utf8');
+    expect(page).not.toMatch(/ProsCons|tool\.pros|tool\.cons|>Pros & Cons</);
   });
 });

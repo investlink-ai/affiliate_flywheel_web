@@ -39,6 +39,8 @@ In the Vercel project **Settings → Environment Variables**, add:
 
 *Required for signup. Without a valid `KIT_FORM_ID`, production builds hide every signup form.
 
+**`KIT_FORM_ID` is read at build time** (`next.config.mjs` inlines it into the bundle), so changing it in Vercel takes effect only after a **redeploy**. The same applies to `VERCEL_ENV`-dependent behaviour and every `NEXT_PUBLIC_*` value. `NEXT_PUBLIC_SITE_URL` must not point at the retired .com domain: the build fails if it does.
+
 - Apply to **Production** (and Preview if you want GA in preview deployments).
 - Get **GA4 Measurement ID**: [Google Analytics](https://analytics.google.com/) → Admin → Data Streams → your Web stream → Measurement ID (`G-...`).
 

@@ -154,6 +154,11 @@ function getCategoryBySlug(slug: string): CategoryConfig | undefined {
 /**
  * Get all category slugs for static generation
  */
+// Only the known categories exist. Any other top-level path is a real 404 at routing
+// time; rendering on demand and calling notFound() inside the loading.tsx Suspense
+// boundary streamed the not-found UI with HTTP 200 (soft 404).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return categoryConfigs.map((config) => ({
     category: config.slug,

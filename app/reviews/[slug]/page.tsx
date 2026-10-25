@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ReviewHero } from '@/components/ReviewHero';
-import { ProsCons } from '@/components/ProsCons';
 import { OutboundCTAButton } from '@/components/OutboundLink';
 import { DisclosureNote } from '@/components/DisclosureNote';
 import { ToolCard } from '@/components/ToolCard';
@@ -23,6 +22,9 @@ export const revalidate = 86400;
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Unknown review slugs are a real 404 at routing time (no soft 404 through loading.tsx).
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = getAllToolSlugs();
@@ -187,13 +189,8 @@ export default async function ReviewPage({ params }: PageProps) {
               />
             )}
 
-            {/* Pros and Cons */}
-            <section className="mt-12">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Pros & Cons</h2>
-              <div className="mt-6">
-                <ProsCons pros={tool.pros} cons={tool.cons} />
-              </div>
-            </section>
+            {/* No pros & cons section: the old lists were unattributed user-review quotes
+                presented as editorial (CPO ruling, 22 Oct). */}
 
             {/* Pricing */}
             <section className="mt-12">

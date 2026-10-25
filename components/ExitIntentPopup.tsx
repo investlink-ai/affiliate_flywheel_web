@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { SignupForm } from './SignupForm';
+import type { EmailProvider } from '@/lib/email/provider';
 
 interface ExitIntentPopupProps {
+  provider?: EmailProvider;
   /** Delay before enabling exit detection (ms) */
   delay?: number;
   /** LocalStorage key for dismissal state */
@@ -22,6 +24,7 @@ interface ExitIntentPopupProps {
  * Stores dismissal in localStorage to prevent repeat showing
  */
 export function ExitIntentPopup({
+  provider,
   delay = 5000,
   storageKey = 'exit-popup-dismissed',
   dismissDays = 7,
@@ -58,13 +61,9 @@ export function ExitIntentPopup({
     setDismissed();
   }, [setDismissed]);
 
-  // Handle successful signup
-  const handleSuccess = useCallback(() => {
-    // Keep popup visible briefly to show success message
-    setTimeout(() => {
-      setIsVisible(false);
-      setDismissed();
-    }, 2000);
+  // Remember the handoff without claiming subscription or removing the native form.
+  const handleSubmitStarted = useCallback(() => {
+    setDismissed();
   }, [setDismissed]);
 
   // Enable popup after delay
@@ -159,12 +158,13 @@ export function ExitIntentPopup({
         {/* Signup Form - Card variant with full presentation */}
         <div>
           <SignupForm
+            provider={provider}
             location="exit-intent-popup"
             variant="card"
             headline={headline}
             description={subheadline}
             ctaText="Get Free AI Insights"
-            onSuccess={handleSuccess}
+            onSubmitStarted={handleSubmitStarted}
             className="border-0 p-0 shadow-none"
           />
         </div>

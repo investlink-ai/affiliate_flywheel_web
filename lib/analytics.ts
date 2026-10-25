@@ -160,43 +160,17 @@ interface NewsletterSignupParams {
   email?: string;
 }
 
-/**
- * Tracks newsletter signup conversions
- * 
- * Tracks when a user signs up for the newsletter, including where
- * on the site the signup occurred. This is marked as a conversion
- * event for lead generation tracking.
- * 
- * Note: The email parameter is for validation purposes only and
- * is NOT sent to Google Analytics for privacy compliance.
- * 
- * @param {NewsletterSignupParams} params - The signup parameters
- * @param {string} params.location - Where the signup occurred (e.g., 'homepage', 'review-footer', 'popup')
- * @param {string} [params.email] - Email for validation only (not sent to GA)
- * @returns {void}
- * 
- * @example
- * ```typescript
- * trackNewsletterSignup({
- *   location: 'exit-intent-popup',
- * });
- * ```
- */
-export function trackNewsletterSignup(params: NewsletterSignupParams): void {
+/** Records a form handoff to Kit, without claiming a confirmed subscription. */
+export function trackSignupSubmitted(params: NewsletterSignupParams): void {
   if (!isGAAvailable()) return;
 
-  window.gtag('event', 'newsletter_signup', {
+  window.gtag('event', 'signup_submitted', {
     event_category: 'Engagement',
     event_label: params.location,
     signup_location: params.location,
   });
 
-  // Track as conversion
-  window.gtag('event', 'conversion', {
-    send_to: `${GA_MEASUREMENT_ID}/newsletter`,
-    event_category: 'Lead',
-    event_label: 'Newsletter Signup',
-  });
+
 }
 
 /**
@@ -252,7 +226,7 @@ interface ABTestConversionParams {
   testId: string;
   /** Identifier for the variant that converted */
   variantId: string;
-  /** Type of conversion (e.g., 'outbound_click', 'newsletter_signup') */
+  /** Type of conversion (e.g., 'outbound_click', 'signup_submitted') */
   conversionType: string;
 }
 
@@ -265,7 +239,7 @@ interface ABTestConversionParams {
  * @param {ABTestConversionParams} params - The A/B test conversion parameters
  * @param {string} params.testId - Unique identifier for the test
  * @param {string} params.variantId - Identifier for the variant that converted
- * @param {string} params.conversionType - Type of conversion (e.g., 'outbound_click', 'newsletter_signup')
+ * @param {string} params.conversionType - Type of conversion (e.g., 'outbound_click', 'signup_submitted')
  * @returns {void}
  * 
  * @example

@@ -48,12 +48,21 @@ const NAMED_ENTITIES = { amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', sol: 
  * HTML entities (&amp; &#38; &#x26;), JS/JSON escapes (\u0026, \x26) and URL
  * percent-encoding (%3Fref%3D). Applied twice to catch double encoding.
  */
+/**
+ * A numeric character reference as a string, or the reference unchanged when the
+ * code point is outside Unicode (> 0x10FFFF), so a malformed entity such as
+ * &#x110000; can't crash the scan with a RangeError (Reviewer P3-3 on #24).
+ */
+function fromCodePointSafe(ref, cp) {
+  return Number.isInteger(cp) && cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : ref;
+}
+
 export function decodeLine(line) {
   let out = line;
   for (let pass = 0; pass < 2; pass++) {
     out = out
-      .replace(/&#x([0-9a-f]+);?/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-      .replace(/&#(\d+);?/g, (_, d) => String.fromCodePoint(Number(d)))
+      .replace(/&#x([0-9a-f]+);?/gi, (m, h) => fromCodePointSafe(m, parseInt(h, 16)))
+      .replace(/&#(\d+);?/g, (m, d) => fromCodePointSafe(m, Number(d)))
       .replace(/&([a-z]+);/gi, (m, n) => NAMED_ENTITIES[n.toLowerCase()] ?? m)
       .replace(/\\u([0-9a-f]{4})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
       .replace(/\\x([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
