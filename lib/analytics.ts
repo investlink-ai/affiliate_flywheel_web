@@ -173,6 +173,29 @@ export function trackSignupSubmitted(params: NewsletterSignupParams): void {
 
 }
 
+/** Parameters for tracking a click on the checklist opt-in button. */
+interface ChecklistClickParams {
+  /** Where the button sits (e.g., 'guide-opt-in'). */
+  location: string;
+  /** Page path the click happened on (e.g., '/guides/check-ai-company-summary'). */
+  pagePath: string;
+}
+
+/**
+ * Records a click on the "Email me the checklist" button (I6 qualified-visit key event).
+ * Sends no email or form data; GA4 Consent Mode still governs storage.
+ */
+export function trackChecklistClick(params: ChecklistClickParams): void {
+  if (!isGAAvailable()) return;
+
+  window.gtag('event', 'checklist_click', {
+    event_category: 'Engagement',
+    event_label: params.location,
+    checklist_location: params.location,
+    page_path: params.pagePath,
+  });
+}
+
 /**
  * Parameters for tracking A/B test variant assignments
  */

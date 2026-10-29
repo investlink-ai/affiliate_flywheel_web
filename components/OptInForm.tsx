@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import Link from 'next/link';
+import { trackChecklistClick } from '@/lib/analytics';
 import { KIT_SUBMIT_NOTICE, getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
 const defaultProvider = getEmailProvider();
@@ -57,7 +58,7 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
       </div>
       <p>{provider.id === 'kit' ? KIT_SUBMIT_NOTICE : "We'll email you a link to confirm. You get the checklist after you confirm."}</p>
       <p>Read our <Link href="/privacy" className="underline">privacy policy</Link>.</p>
-      <button type="submit" disabled={!fields} className="rounded bg-primary-600 px-4 py-3 text-white">Email me the checklist</button>
+      <button type="submit" disabled={!fields} onClick={() => trackChecklistClick({ location: 'guide-opt-in', pagePath: window.location.pathname })} className="rounded bg-primary-600 px-4 py-3 text-white">Email me the checklist</button>
       <p role="status">{message}</p>
     </form>
   );
