@@ -103,6 +103,16 @@ export function trackEvent(
   });
 }
 
+/** Introduction exposure only; visitor-day counting belongs to export processing. */
+export function trackWorkedCheckView(): void {
+  trackEvent('worked_check_view', 'Engagement');
+}
+
+/** First user edit only; no form data or subscription outcome is sent. */
+export function trackWaitlistFormEdit(): void {
+  trackEvent('waitlist_form_edit', 'Engagement');
+}
+
 /**
  * Parameters for tracking outbound link clicks
  */
@@ -182,7 +192,7 @@ interface ChecklistClickParams {
 }
 
 /**
- * Records a click on the "Email me the checklist" button (I6 qualified-visit key event).
+ * Records an attempt on the "Email me the checklist" button, not U or J.
  * Sends no email or form data; GA4 Consent Mode still governs storage.
  */
 export function trackChecklistClick(params: ChecklistClickParams): void {
