@@ -82,12 +82,14 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock IntersectionObserver (for lazy loading, scroll detection)
-const intersectionObserverMock = vi.fn(() => ({
-  disconnect: vi.fn(),
-  observe: vi.fn(),
-  takeRecords: vi.fn(),
-  unobserve: vi.fn(),
-}));
+const intersectionObserverMock = vi.fn(function () {
+  return {
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    takeRecords: vi.fn(),
+    unobserve: vi.fn(),
+  };
+});
 vi.stubGlobal('IntersectionObserver', intersectionObserverMock);
 
 // Mock ResizeObserver

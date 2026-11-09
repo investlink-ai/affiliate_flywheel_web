@@ -135,5 +135,17 @@ it('excludes focus, clicks, hidden fields, honeypot, submit and untrusted input'
   expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'waitlist_form_edit')).toHaveLength(0);
   expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'checklist_click')).toHaveLength(1);
 });
-// Positive trusted-edit coverage is blocked in jsdom: native isTrusted is non-configurable.
-// See the executor artifact istrusted-block-reason.txt; no positive execution is claimed here.
+// Needs a real-browser trusted click and keyboard input (Playwright).
+// Script-dispatched events are never trusted, even in a real browser; the
+// fireEvent steps below must be replaced with browser actions when porting this
+// scenario. Keep it skipped in jsdom and preserve OptInForm's isTrusted gate.
+it.skip('emits waitlist_form_edit once for trusted edits to the visible email field', () => {
+  const provider = { id: 'mock' as const, formAction: '#mock', emailField: 'email_address', extraFields: () => [] };
+  render(<OptInForm provider={provider} />);
+  const email = screen.getByLabelText('Email address');
+  fireEvent.click(email);
+  fireEvent.input(email, { target: { value: 'fixture@example.com' } });
+  expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'waitlist_form_edit')).toHaveLength(1);
+  fireEvent.input(email, { target: { value: 'edited@example.com' } });
+  expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'waitlist_form_edit')).toHaveLength(1);
+});
