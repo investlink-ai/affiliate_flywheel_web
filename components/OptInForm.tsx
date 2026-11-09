@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useId, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { trackChecklistClick } from '@/lib/analytics';
+import { trackChecklistClick, trackWaitlistFormEdit } from '@/lib/analytics';
 import { KIT_SUBMIT_NOTICE, getEmailProvider, type EmailProvider, type HiddenFields } from '@/lib/email/provider';
 
 const defaultProvider = getEmailProvider();
@@ -13,6 +13,7 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
   onMockSubmit?: (email: string) => void;
 }) {
   const id = useId();
+  const edited = useRef(false);
   const [action, setAction] = useState(provider.formAction);
   const [fields, setFields] = useState<HiddenFields | null | undefined>(undefined);
   const [message, setMessage] = useState('');
@@ -49,7 +50,12 @@ export function OptInForm({ provider = defaultProvider, onMockSubmit, defaultCam
   return (
     <form method="post" action={action} onSubmit={submit} className="space-y-4">
       <label htmlFor={`${id}-email`} className="block font-medium">Email address</label>
-      <input id={`${id}-email`} name={provider.emailField} type="email" required autoComplete="email" className="rounded border border-slate-400 p-3 text-slate-900" />
+      <input id={`${id}-email`} name={provider.emailField} type="email" required autoComplete="email" className="rounded border border-slate-400 p-3 text-slate-900"
+        onInput={(event) => {
+          if (edited.current || !event.nativeEvent.isTrusted) return;
+          edited.current = true;
+          trackWaitlistFormEdit();
+        }} />
       {(fields ?? []).map(([name, value], i) => <input key={`${name}-${i}`} type="hidden" name={name} value={value} />)}
       <div hidden aria-hidden="true">
         <label htmlFor={`${id}-website`}>Leave this field empty</label>
