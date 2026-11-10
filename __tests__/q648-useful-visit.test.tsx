@@ -124,7 +124,7 @@ it('sends only fixed event identities/category and tolerates absent GA', () => {
 });
 it('excludes focus, clicks, hidden fields, honeypot, submit and untrusted input', () => {
   const provider = { id: 'mock' as const, formAction: '#mock', emailField: 'email_address', extraFields: () => [['source', 'fixed']] as Array<[string, string]> };
-  const view = render(<OptInForm provider={provider} />);
+  const view = render(<OptInForm location="guide-opt-in" provider={provider} />);
   const email = screen.getByLabelText('Email address');
   fireEvent.focus(email); fireEvent.click(email);
   fireEvent.input(email, { target: { value: 'fixture@example.com' } });
@@ -133,7 +133,8 @@ it('excludes focus, clicks, hidden fields, honeypot, submit and untrusted input'
   fireEvent.click(screen.getByRole('button', { name: 'Email me the checklist' }));
   fireEvent.submit(view.container.querySelector('form')!);
   expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'waitlist_form_edit')).toHaveLength(0);
-  expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'checklist_click')).toHaveLength(1);
+  // Q-273: a filled honeypot is a spam-trap click and must not send checklist_click.
+  expect(vi.mocked(window.gtag).mock.calls.filter(call => call[1] === 'checklist_click')).toHaveLength(0);
 });
 // Needs a real-browser trusted click and keyboard input (Playwright).
 // Script-dispatched events are never trusted, even in a real browser; the
@@ -141,7 +142,7 @@ it('excludes focus, clicks, hidden fields, honeypot, submit and untrusted input'
 // scenario. Keep it skipped in jsdom and preserve OptInForm's isTrusted gate.
 it.skip('emits waitlist_form_edit once for trusted edits to the visible email field', () => {
   const provider = { id: 'mock' as const, formAction: '#mock', emailField: 'email_address', extraFields: () => [] };
-  render(<OptInForm provider={provider} />);
+  render(<OptInForm location="guide-opt-in" provider={provider} />);
   const email = screen.getByLabelText('Email address');
   fireEvent.click(email);
   fireEvent.input(email, { target: { value: 'fixture@example.com' } });
