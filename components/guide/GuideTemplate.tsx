@@ -66,7 +66,7 @@ export function GuideTemplate({ guide }: { guide: Guide }) {
       <section data-block="opt-in"><h2 className={`${h2} mb-4`}>{guide.optIn.heading}</h2>
         <Paragraphs items={guide.optIn.body} />
         <p>{guide.optIn.consent}</p>
-        <OptInForm defaultCampaign={guide.defaultCampaign} />
+        <OptInForm location="guide-opt-in" defaultCampaign={guide.defaultCampaign} />
       </section>
       )}
 

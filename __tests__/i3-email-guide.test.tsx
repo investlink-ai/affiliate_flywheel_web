@@ -36,7 +36,7 @@ describe('email providers and native opt-in', () => {
     window.history.replaceState({}, '', '/guides/check-ai-company-summary?utm_source=x&utm_campaign=i3-preview');
     const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' },
       (url) => kitTagFields(url, TEST_TAG_IDS));
-    const { container } = render(<OptInForm provider={provider} />);
+    const { container } = render(<OptInForm location="guide-opt-in" provider={provider} />);
     expect(container.querySelector('form')).toHaveAttribute('action', 'https://app.kit.com/forms/123/subscriptions');
     expect(container.querySelector('form')).toHaveAttribute('method', 'post');
     expect(container.querySelector('[name="referrer"]')).toHaveValue(window.location.href);
@@ -53,7 +53,7 @@ describe('email providers and native opt-in', () => {
   it('kit mode without committed tag IDs refuses to submit (no untagged signup)', () => {
     window.history.replaceState({}, '', '/guides/check-ai-company-summary?utm_source=x');
     const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' }, undefined, { sources: { 'src-x': null }, campaigns: {} });
-    const { container } = render(<OptInForm provider={provider} />);
+    const { container } = render(<OptInForm location="guide-opt-in" provider={provider} />);
     expect(container.querySelector('input[name="tags[]"]')).toBeNull();
     fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'reader@example.com' } });
     expect(fireEvent.submit(container.querySelector('form')!)).toBe(false); // default prevented: nothing posted
@@ -62,13 +62,13 @@ describe('email providers and native opt-in', () => {
   it('submit is disabled in server-rendered HTML until hidden fields are ready', () => {
     const provider = getEmailProvider({ NEXT_PUBLIC_EMAIL_PROVIDER: 'kit', NEXT_PUBLIC_KIT_FORM_ID: '123' },
       (url) => kitTagFields(url, TEST_TAG_IDS));
-    expect(renderToStaticMarkup(<OptInForm provider={provider} />)).toMatch(/<button[^>]*disabled/);
+    expect(renderToStaticMarkup(<OptInForm location="guide-opt-in" provider={provider} />)).toMatch(/<button[^>]*disabled/);
   });
   it('mock submit only reports a confirmation and never fetches', () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
     const onMockSubmit = vi.fn();
-    render(<OptInForm provider={getEmailProvider({})} onMockSubmit={onMockSubmit} />);
+    render(<OptInForm location="guide-opt-in" provider={getEmailProvider({})} onMockSubmit={onMockSubmit} />);
     fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'reader@example.com' } });
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('status')).toHaveTextContent('Mock: confirmation email would be sent to reader@example.com');
@@ -77,7 +77,7 @@ describe('email providers and native opt-in', () => {
   });
   it('uses native required/email validation and rejects honeypots', () => {
     const onMockSubmit = vi.fn();
-    const { container } = render(<OptInForm provider={getEmailProvider({})} onMockSubmit={onMockSubmit} />);
+    const { container } = render(<OptInForm location="guide-opt-in" provider={getEmailProvider({})} onMockSubmit={onMockSubmit} />);
     const email = screen.getByLabelText('Email address');
     expect(email).toBeRequired();
     expect(email).toHaveAttribute('type', 'email');
@@ -106,13 +106,13 @@ describe('form-per-source signup placements', () => {
   ])('resolves the source action and only campaign tags for %s', (query, source) => {
     window.history.replaceState({}, '', `/guides/check-ai-company-summary${query}${query ? '&' : '?'}utm_campaign=i3-preview`);
     const provider = getEmailProvider(fallbackEnv, undefined, fallbackList);
-    const { container } = render(<OptInForm provider={provider} />);
+    const { container } = render(<OptInForm location="guide-opt-in" provider={provider} />);
     expect(container.querySelector('form')).toHaveAttribute('action', `https://app.kit.com/forms/${FORM_IDS[source]}/subscriptions`);
     expect(container.querySelector('[name="referrer"]')).toHaveValue(window.location.href);
     expect([...container.querySelectorAll('input[name="tags[]"]')].map(i => (i as HTMLInputElement).value))
       .toEqual([TEST_TAG_IDS.campaigns['cmp-i3-preview']]);
     expect(screen.getByRole('button')).toBeEnabled();
-    expect(renderToStaticMarkup(<OptInForm provider={provider} />)).toMatch(/<button[^>]*disabled/);
+    expect(renderToStaticMarkup(<OptInForm location="guide-opt-in" provider={provider} />)).toMatch(/<button[^>]*disabled/);
   });
   it.each(['inline', 'card', 'banner'] as const)('supports shared %s signup placements', variant => {
     window.history.replaceState({}, '', '/?utm_source=youtube');
@@ -129,7 +129,7 @@ describe('form-per-source signup placements', () => {
     const provider = getEmailProvider({ ...fallbackEnv, ...(problem === 'invalid mode' ? { NEXT_PUBLIC_KIT_ATTRIBUTION: 'bad' } : {}) });
     expect(provider.id).toBe('kit');
     expect(provider.extraFields(window.location.href)).toBeNull();
-    for (const form of [<OptInForm key="guide" provider={provider} />, <SignupForm key="signup" location="blocked" provider={provider} />]) {
+    for (const form of [<OptInForm location="guide-opt-in" key="guide" provider={provider} />, <SignupForm key="signup" location="blocked" provider={provider} />]) {
       const { container, unmount } = render(form);
       expect(screen.getByRole('button')).toBeDisabled();
       expect(fireEvent.submit(container.querySelector('form')!)).toBe(false);
@@ -276,7 +276,7 @@ describe('guide default campaign at the form boundary', () => {
     ])(`${mode}: %s / %s resolves one campaign %s`, (source, campaign, expected) => {
       window.history.replaceState({}, '', `/guides/${guide.slug}?utm_source=${source}&utm_campaign=${campaign}`);
       const provider = getEmailProvider({ ...fallbackEnv, NEXT_PUBLIC_KIT_ATTRIBUTION: mode }, undefined, fallbackList);
-      const { container } = render(<OptInForm provider={provider} defaultCampaign={guide.defaultCampaign} />);
+      const { container } = render(<OptInForm location="guide-opt-in" provider={provider} defaultCampaign={guide.defaultCampaign} />);
       const ids = [...container.querySelectorAll('input[name="tags[]"]')].map(i => (i as HTMLInputElement).value);
       expect(ids).toEqual([...(mode === 'hidden-tags' ? [TEST_TAG_IDS.sources[`src-${source}`]] : []), TEST_TAG_IDS.campaigns[expected]]);
       expect(provider.extraFields(window.location.href)?.filter(([name]) => name === 'tags[]'))
@@ -297,7 +297,7 @@ describe('Kit security-check handoff never claims success', () => {
       const onSubmitStarted = vi.fn();
       if (placement === 'popup') vi.useFakeTimers();
       const { container } = render(placement === 'guide'
-        ? <OptInForm provider={provider} />
+        ? <OptInForm location="guide-opt-in" provider={provider} />
         : placement === 'popup' ? <ExitIntentPopup provider={provider} delay={0} />
           : <SignupForm location="redirect-test" variant={placement} provider={provider} onSubmitStarted={onSubmitStarted} />);
       if (placement === 'popup') {
